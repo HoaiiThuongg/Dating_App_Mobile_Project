@@ -2,11 +2,22 @@ package com.example.atry.ui.screens.functionalScreens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,40 +27,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.atry.R
-import com.example.atry.ui.components.general.Footer
-import com.example.atry.ui.components.general.Header
 import com.example.atry.ui.screens.functionalScreens.edit.editComponents.EditProfileImage
+import com.example.atry.ui.screens.functionalScreens.edit.editComponents.EditProfileNavBar
+import com.example.atry.ui.screens.functionalScreens.edit.editComponents.Information
+import com.example.atry.ui.screens.functionalScreens.edit.editComponents.PublicInformation
 import com.example.atry.ui.screens.functionalScreens.edit.editComponents.Selections
 
 @Composable
-@Preview
-fun EditProfileScreen(){
+@Preview()
+fun EditProfileScreen() {
+    var openPublicInformation by remember { mutableStateOf(true) }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
-        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Header("Sửa hồ sơ", R.drawable.humble_logo)
-
         Column(
             modifier = Modifier
-                .padding(20.dp)
-                .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(5.dp)
+                .padding(20.dp, 10.dp)
+            ,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            //main
-            EditProfileImage()
+            EditProfileNavBar(
+                openPublicInformation,
+                { openPublicInformation = true },
+                { openPublicInformation = false }
+            )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            if (openPublicInformation) {
+                PublicInformation()
+            } else {
+                Information()
+            }
 
-            Selections()
         }
-        var selected  by remember { mutableStateOf("profile") }
-        Footer(selected = selected, onSelect = { selected = it })
     }
 }
-
 

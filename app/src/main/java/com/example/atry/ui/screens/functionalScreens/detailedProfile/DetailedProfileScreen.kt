@@ -2,9 +2,18 @@ package com.example.atry.ui.screens.functionalScreens.detailedProfile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,36 +21,44 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.atry.ui.components.general.Footer
-
-import androidx.navigation.NavController
-import com.example.atry.navigation.navController
+import androidx.compose.ui.unit.sp
+import com.example.atry.R
+import com.example.atry.ui.components.headerAndFooter.Footer
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailInfo
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailedProfileImage
-import com.example.atry.ui.viewmodel.PartnerProfile
+import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.ActionButtons
+import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailedProfileHeader
 
+@Preview
 @Composable
 fun DetailScreen(){
-
-    val profile = navController.previousBackStackEntry
-        ?.savedStateHandle
-        ?.get<PartnerProfile>("profile")
-
+    val scrollState = rememberScrollState()
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(Color.White),
-        verticalArrangement = Arrangement.SpaceBetween
+        .background(MaterialTheme.colorScheme.surface)
     ) {
+        DetailedProfileHeader()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 20.dp)
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
 
-        DetailedProfileImage()
-        //in4
-        DetailInfo(profile)
-        var selected  by remember { mutableStateOf("likeYou") }
-        Footer(selected = selected, onSelect = { selected = it })
+        ) {
+
+            DetailedProfileImage()
+
+            DetailInfo()
+
+            ActionButtons()
+        }
     }
 }

@@ -21,12 +21,16 @@ import androidx.compose.ui.unit.dp
 fun Selections() {
     // Sở thích
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         SelectionBox(title = "Sở thích", hint = "Khi rảnh bạn tường làm gì")
 
         // Gu người iu
         SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
+        SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
+
+        SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
+
 
         // Bio
         WriteBox(title = "Bio", hint = "Bạn giới thiệu về bản thân mình nhé.")

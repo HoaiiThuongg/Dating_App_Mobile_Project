@@ -12,27 +12,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
+import com.example.atry.ui.theme.dynamicGradientBrush
 
 @Composable
 fun Slogan (){
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .border(
                 width = 2.dp,
-                brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFF7500DB), Color(0xFFFF4187)), // gradient từ trái → phải
-                    start = Offset(0f, 0f),
-                    end = Offset(1000f, 0f)
-                ),
+                brush = dynamicGradientBrush(),
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp)
             )
             .padding(16.dp) ,// padding bên trong viền
@@ -51,25 +46,15 @@ fun Slogan (){
             Text("Humble",
                 style = TextStyle(
                     fontSize = 20.sp,
-                    brush = Brush.linearGradient(
-                        colors = listOf(Color(0xFF7500DB), Color(0xFFFF4187)), // gradient từ trái → phải
-                        start = Offset(0f, 0f),
-                        end = Offset(1000f, 0f)
-                    )
+                    brush = dynamicGradientBrush()
                 )
             )
 
         }
         Text("Humble ghép đôi - Tình yêu tới thôi",
             style = TextStyle(
-                fontSize = 12.sp, brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color(0xFF7500DB),
-                        Color(0xFFFF4187)
-                    ), // gradient từ trái → phải
-                    start = Offset(0f, 0f),
-                    end = Offset(1000f, 0f)
-                )
+                fontSize = 12.sp,
+                brush = dynamicGradientBrush(),
             )
         )
     }

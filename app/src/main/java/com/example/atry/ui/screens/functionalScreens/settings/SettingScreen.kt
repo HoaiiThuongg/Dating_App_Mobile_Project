@@ -1,79 +1,97 @@
 package com.example.atry.ui.screens.functionalScreens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Nightlight
+import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.atry.R
 import com.example.atry.navigation.navController
-import com.example.atry.ui.components.general.Footer
-import com.example.atry.ui.components.general.GrayBorderButton
-import com.example.atry.ui.components.general.Header
-import com.example.atry.ui.screens.functionalScreens.settings.settingComponents.InformationBar
+import com.example.atry.ui.components.AnimatedSwitch
+import com.example.atry.ui.components.buttons.RedLinearBorderButton
+import com.example.atry.ui.screens.functionalScreens.edit.editComponents.InformationBar
 import com.example.atry.ui.screens.functionalScreens.settings.settingComponents.Slogan
+import com.example.atry.ui.theme.ThemeSingleton
+import kotlinx.coroutines.launch
 
 @Composable
 @Preview
 fun SettingsScreen() {
+    val scope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White) ,
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // Header
-        Header("Cài đặt", R.drawable.like)
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp,Alignment.Top) ,
+            verticalArrangement = Arrangement.spacedBy(30.dp, Alignment.Top),
             modifier = Modifier
                 .weight(1f)
                 .padding(20.dp)
-        ){
+        ) {
             Slogan()
 
-            Text("Cài đặt", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Column (
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                ){
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
-                InformationBar("Số điện thoại","987654312")
-                InformationBar("Ngày sinh","Hà nội")
-                InformationBar("Email","Hà nội")
-                InformationBar("Nơi ở","Hà nội")
+
+                Text(
+                    "Cài đặt",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        "Giao diện",
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    )
+
+                    val isDark = ThemeSingleton.isDark.value
+
+                    AnimatedSwitch(
+                        isOn = isDark,
+                        onToggle = {
+                            scope.launch {
+                                ThemeSingleton.toggle()
+                            }
+                        },
+                        onIcon = Icons.Default.Nightlight,
+                        offIcon = Icons.Default.WbSunny,
+                        onColor = Color(0xFF1E1E2F),
+                        offColor = Color(0xFFFFF3B0)
+                    )
+
+                }
             }
-
-
         }
-
-        GrayBorderButton("Xong",{ navController.navigate("profile") })
-
-        var selected  by remember { mutableStateOf("profile") }
-        Footer(selected = selected, onSelect = { selected = it })
     }
 }

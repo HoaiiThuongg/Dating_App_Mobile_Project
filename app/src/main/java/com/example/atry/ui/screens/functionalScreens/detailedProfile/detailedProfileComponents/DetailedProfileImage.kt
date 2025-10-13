@@ -22,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -35,31 +36,33 @@ import com.example.atry.navigation.navController
 @Preview
 fun DetailedProfileImage() {
     Box(
-    modifier = Modifier
-    .fillMaxWidth()
-    .height(400.dp)
-    ){
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(400.dp)
+            .background(Color.White, shape = RoundedCornerShape(20.dp)) // bo góc + nền
+            .clip(RoundedCornerShape(20.dp))
+    ) {
         Image(
-            painter = painterResource(id = R.drawable.ava1), // ảnh của bé
+            painter = painterResource(id = R.drawable.ava2), // ảnh của bé
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.horizontalGradient(   // 👈 gradient dọc
-                        colors = listOf(
-                            Color(0xFF000000),
-                            Color(0x00000000), // xanh nhạt
-                            Color(0xFF000000)  // xanh đậm
-                        )
-                    )
-                )
-        ){
-
-        }
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(
+//                    brush = Brush.horizontalGradient(   // 👈 gradient dọc
+//                        colors = listOf(
+//                            Color(0xFF000000),
+//                            Color(0x00000000), // xanh nhạt
+//                            Color(0xFF000000)  // xanh đậm
+//                        )
+//                    )
+//                )
+//        ) {
+//
+//        }
 
         // Icon đóng
         IconButton(
@@ -75,7 +78,8 @@ fun DetailedProfileImage() {
         // Nút mũi tên trái/phải
         Row(
             modifier = Modifier
-                .align(Alignment.Center),
+                .align(Alignment.Center)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Icon(

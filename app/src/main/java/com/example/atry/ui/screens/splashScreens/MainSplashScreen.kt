@@ -11,14 +11,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.atry.R
 import com.example.atry.navigation.navController
 
-import com.example.atry.ui.components.general.WhiteBorderButton
+import com.example.atry.ui.components.buttons.WhiteBorderButton
 @Composable
+@Preview
 fun MainSplashScreen() {
     // Background gradient
     Box(
@@ -26,7 +28,7 @@ fun MainSplashScreen() {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFF84587), Color(0xFFFFA2D2))
+                    colors = listOf(Color(0xFFFF4379), Color(0xFFFFA2AB))
                 )
             ),
         contentAlignment = Alignment.Center
@@ -40,32 +42,42 @@ fun MainSplashScreen() {
 
             // 🔥 LOGO nằm ở đây nè
             Row(
-                verticalAlignment  = Alignment.CenterVertically,
+                verticalAlignment  = Alignment.Bottom,
                 horizontalArrangement  = Arrangement.SpaceBetween,
 //                modifier = Modifier.fillMaxSize().padding(24.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.humble_logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(120.dp)
+                    modifier = Modifier.size(110.dp)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    Text(
+                        text = "Humble",
+                        fontSize = 48.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "Version 1.0.0.0",
+                        fontSize = 16.sp,
+                        color = Color.White
+                    )
+                }
 
-                Text(
-                    text = "Humble",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
             }
 
             Spacer(modifier = Modifier.height(200.dp))
 
             Text(
-                text = "Khi bạn ấn vô tạo tài khoản hay đăng nhập, bạn đồng ý với điều khoản của chúng tôi nhé",
+                text = "Chào mừng mọi người đến với Humble \n Nơi tình yêu bắt đầu!",
                 color = Color.White,
-                fontSize = 14.sp
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
             )
 
             Spacer(modifier = Modifier.height(10.dp))

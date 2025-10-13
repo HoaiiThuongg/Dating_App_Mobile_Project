@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,9 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
 import com.example.atry.navigation.navController
+import com.example.atry.ui.viewmodel.ConnectedPeople
 
 @Composable
-fun ChatRow() {
+fun ChatRow(connectedPeople: ConnectedPeople) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,13 +50,13 @@ fun ChatRow() {
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = "Minh Vũ",
+                text = connectedPeople.name,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "Xin chào bạn nhé !",
+                text = connectedPeople.message,
                 fontSize = 14.sp,
                 color = Color.Gray
             )

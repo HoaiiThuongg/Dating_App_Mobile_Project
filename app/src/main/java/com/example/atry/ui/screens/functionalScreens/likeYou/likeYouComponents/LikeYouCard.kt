@@ -25,13 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.atry.R
+import com.example.atry.data.model.LikeYouInfoDTO
 import com.example.atry.navigation.navController
-import com.example.atry.ui.viewmodel.PartnerProfile
 
 @Composable
-fun LikeYouCard(profile: PartnerProfile) {
+fun LikeYouCard(
+    profile: LikeYouInfoDTO,
+    onMatching: () -> Unit
+) {
     Box(
         modifier = Modifier
             .border(
@@ -48,11 +50,7 @@ fun LikeYouCard(profile: PartnerProfile) {
             .background(Color.Gray)
             .aspectRatio(1f)
             .clickable {
-                navController.currentBackStackEntry?.savedStateHandle?.set(
-                    key = "profile",
-                    value = profile
-                )
-                navController.navigate("likeYouDetail")
+                navController.navigate("detailed_profile")
             }
 
     ) {
@@ -84,13 +82,16 @@ fun LikeYouCard(profile: PartnerProfile) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
+                .fillMaxWidth()
                 .align(Alignment.BottomStart)
                 .padding( 10.dp)
         ) {
             Column {
                 Text(profile.name, color = Color.White)
-                Text(profile.zodiac, color = Color.White)
+                Text(profile.age.toString() + "Tuổi", color = Color.White)
             }
+
+            MatchingHeart(size = 32.dp, onToggled = {onMatching()})
         }
 
     }

@@ -1,5 +1,7 @@
 package com.example.atry.ui.screens.functionalScreens.edit.editComponents
 
+import android.net.Uri
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
@@ -14,31 +16,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.atry.ui.components.form.ImageUploadField
+import com.example.atry.ui.components.ImageUploadField
+import kotlin.collections.toMutableList
 
 @Composable
 @Preview
 fun EditProfileImage() {
-    var images by remember { mutableStateOf(listOf<String>()) }
+    Column (
 
-    Text("Ảnh của bạn", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-    Text(
-    "Ảnh này sẽ hiển thị trên hồ sơ hẹn hò của bạn",
-    fontSize = 14.sp,
-    color = Color.Gray
-    )
+    ) {
+        var images by remember { mutableStateOf<List<Uri>>(emptyList()) }
 
-    Spacer(modifier = Modifier.height(8.dp))
-    ImageUploadField(
-    images = images,
-    onAddClick = {
-        // Demo: khi add thì thêm path giả
-        images = images + "new_image_path"
-    },
-    onRemoveClick = { index ->
-        // Xoá ảnh ở vị trí index
-        images = images.toMutableList().also { it.removeAt(index) }
+        Text("Ảnh của bạn", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(
+            "Ảnh này sẽ hiển thị trên hồ sơ hẹn hò của bạn",
+            fontSize = 14.sp,
+            color = Color.Gray
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ImageUploadField(
+            images = images,
+            onAddClick = { uri -> images = images + uri },
+            onRemoveClick = { index -> images = images.toMutableList().apply { removeAt(index) } }
+        )
     }
-    )
-
 }

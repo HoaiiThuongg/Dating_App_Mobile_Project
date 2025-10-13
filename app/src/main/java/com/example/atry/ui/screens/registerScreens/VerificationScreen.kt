@@ -14,11 +14,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.ui.text.font.FontWeight
 import com.example.atry.navigation.navController
-import com.example.atry.ui.components.general.GrayBorderButton
-import com.example.atry.ui.components.general.GrayBorderTextField
-import com.example.atry.ui.components.general.InputTitle
+import com.example.atry.ui.components.GrayBorderTextField
+import com.example.atry.ui.components.InputTitle
+import com.example.atry.ui.components.buttons.RedLinearBorderButton
 
 
 @Preview
@@ -47,16 +46,19 @@ fun VerificationScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement =  Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
             ){
-                GrayBorderTextField("Nhập mã OTP")
+                GrayBorderTextField(
+                    "Nhập mã OTP",
+                    { navController.navigate("password") }
+                )
                 Text("Mở mail của cậu và nhập mã xác minh đi!", color = Color.Gray,fontSize = 16.sp)
             }
 
 
         }
         Column(){
-            GrayBorderButton("Gửi lại",{})
+            RedLinearBorderButton("Gửi lại",{})
 
-            GrayBorderButton("Tiếp tục",{ navController.navigate("password") })
+            RedLinearBorderButton("Tiếp tục",{ navController.navigate("password") })
         }
 
     }

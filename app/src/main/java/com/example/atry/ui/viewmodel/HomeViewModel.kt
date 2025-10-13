@@ -1,76 +1,57 @@
 package com.example.atry.ui.viewmodel
 
+import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.atry.R
+import androidx.lifecycle.viewModelScope
+import com.example.atry.data.model.HomeMatchingProfileDTO
+import com.example.atry.data.repository.remote.RetrofitClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-
-data class Profile(
-    val id: String,
-    val name: String,
-    val age: String,
-    val bio: String,
-    val zodiac: String,
-    val hobbies: String,
-    val motto: String,
-    val imageRes: Int // ảnh demo từ drawable
-)
+import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
-    private val _profiles = MutableStateFlow<List<Profile>>(emptyList())
-    val profiles: StateFlow<List<Profile>> = _profiles.asStateFlow()
-
+    private val _profiles = MutableStateFlow<List<HomeMatchingProfileDTO>>(emptyList())
+    val profiles: StateFlow<List<HomeMatchingProfileDTO>> = _profiles
     private val _currentIndex = MutableStateFlow(0)
-    val currentIndex: StateFlow<Int> = _currentIndex.asStateFlow()
+    val currentIndex: StateFlow<Int> = _currentIndex
+    private val currentUserId = 1L // lấy từ login / shared preferences
+    var isLoading by mutableStateOf(false)
+        private set
+
 
     init {
         loadProfiles()
     }
-
     private fun loadProfiles() {
-        // mock BE data
-        _profiles.value = listOf(
-            Profile(
-                id = "1",
-                name = "Văn Lê Quốc Thịnh",
-                age="19",
-                bio = "Tớ là Thịnh mong được làm quen",
-                zodiac = "♏",
-                hobbies = "Game, nấu ăn",
-                motto = "Ghét giả dối",
-                imageRes = R.drawable.humble_logo
-            ),
-            Profile(
-                id = "2",
-                name = "Phan Tiến Quốc Anh",
-                age="19",
-                bio = "Tui muốn làm quen Thịnh",
-                zodiac = "♊",
-                hobbies = "Tarot, coding",
-                motto = "Luôn vui vẻ",
-                imageRes = R.drawable.humble_logo
-            ),
-            Profile(
-                id = "3",
-                name = "Nguyễn Ngọc Linh",
-                age="19",
-                bio = "Tui muốn 2 ông làm quen nhau",
-                zodiac = "♊",
-                hobbies = "Tarot, coding",
-                motto = "Luôn vui vẻ",
-                imageRes = R.drawable.humble_logo
-            )
-        )
+        viewModelScope.launch {
+            isLoading = true
+            try {
+                val userProfile = RetrofitClient.homeService.getProfileById(currentUserId)
+                _profiles.value = userProfile
+                Log.d("HomeVM", "Loaded users: $userProfile")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.e("HomeVM", "Failed to load users", e)
+            } finally {
+                isLoading = false
+            }
+        }
     }
 
-    fun onSwipeLeft() {
-        // bỏ qua, sang profile tiếp theo
-        _currentIndex.value = (_currentIndex.value + 1).coerceAtMost(_profiles.value.size - 1)
-    }
-
-    fun onSwipeRight() {
-        // có thể lưu vào "favorite" rồi chuyển tiếp
-        _currentIndex.value = (_currentIndex.value + 1).coerceAtMost(_profiles.value.size - 1)
+    fun swipe(userSwipingId: Long, userTargetId: Long, action: String) {
+        viewModelScope.launch {
+            isLoading = true
+            try {
+                val result = RetrofitClient.homeService.swipe(userSwipingId, userTargetId, action)
+                println("Swipe saved: $result")
+            } catch (e: Exception) {
+                println("Error: ${e.message}")
+            } finally {
+                isLoading = false
+            }
+        }
     }
 }

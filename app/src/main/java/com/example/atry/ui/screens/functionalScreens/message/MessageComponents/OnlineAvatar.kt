@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,11 +19,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.atry.R
+import com.example.atry.ui.viewmodel.ConnectedPeople
 
 @Composable
-fun OnlineAvatar() {
+fun OnlineAvatar(connectedPeople: ConnectedPeople) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(5.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ){
         Box(
             modifier = Modifier
@@ -44,6 +46,6 @@ fun OnlineAvatar() {
             )
 
         }
-        Text("Tên")
+        Text(connectedPeople.name, color = MaterialTheme.colorScheme.onSurface)
     }
 }

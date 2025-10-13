@@ -31,7 +31,7 @@ fun PartnerChatBox(){
 
     ) {
         Image(
-            painter = painterResource(id = R.drawable.viethuong),
+            painter = painterResource(id = R.drawable.ava1),
             contentDescription = "parter avatar",
             modifier = Modifier
                 .size(40.dp)
@@ -48,15 +48,15 @@ fun PartnerChatBox(){
             Box(
                 modifier = Modifier
                     .background(
-                        color = Color(0xFFEEEFF1), // xanh dương nhạt
+                        color = Color(0xFFEEEFF1),
                         shape = RoundedCornerShape(
-                            topStart = 50.dp,
-                            topEnd = 50.dp,
-                            bottomEnd = 50.dp,
-                            bottomStart = 0.dp
+                            topStart = 30.dp,
+                            topEnd = 30.dp,
+                            bottomEnd = 30.dp,
+                            bottomStart = 10.dp
                         )
                     )
-                    .padding(horizontal = 15.dp, vertical = 8.dp)
+                    .padding(horizontal = 20.dp, vertical = 8.dp)
             ) {
                 Text(
                     text = "uhm, có chuyện gì",

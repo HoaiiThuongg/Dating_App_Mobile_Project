@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,7 +25,7 @@ fun ChatScreen() {
     var text by remember { mutableStateOf("") }
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(Color.White),
+        .background(MaterialTheme.colorScheme.surface),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         //patner avatar and name

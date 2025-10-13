@@ -15,14 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.atry.navigation.navController
-import com.example.atry.ui.components.general.GrayBorderButton
-import com.example.atry.ui.components.general.InputTitle
-import com.example.atry.ui.components.general.ListPresentBox
+import com.example.atry.ui.components.InputTitle
+import com.example.atry.ui.components.ListPresentBox
+import com.example.atry.ui.components.buttons.RedLinearBorderButton
 
 @Preview
 @Composable
@@ -56,7 +54,7 @@ fun HobbySelectedScreen() {
 
         }
         Column(){
-            GrayBorderButton("Bỏ qua",{ navController.navigate("uploadPhoto") })
+            RedLinearBorderButton("Bỏ qua",{ navController.navigate("uploadPhoto") })
 
         }
 

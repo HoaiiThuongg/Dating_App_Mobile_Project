@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.atry.ui.components.GrayBorderTextField
 
 @Composable
 
@@ -29,13 +30,14 @@ fun WriteBox(title: String, hint: String) {
         Text(hint, fontSize = 14.sp, color = Color.Gray)
     }
 
-    OutlinedTextField(
-        value = "",
-        onValueChange = {},
-        placeholder = { Text("Giới thiệu về bản than...") },
-        trailingIcon = {
-            Icon(Icons.Default.ArrowForward, contentDescription = null)
-        },
-        modifier = Modifier.fillMaxWidth()
-    )
+//    OutlinedTextField(
+//        value = "",
+//        onValueChange = {},
+//        placeholder = { Text("Giới thiệu về bản than...") },
+//        trailingIcon = {
+//            Icon(Icons.Default.ArrowForward, contentDescription = null)
+//        },
+//        modifier = Modifier.fillMaxWidth()
+//    )
+    GrayBorderTextField("Giới thiệu về bản thân...") { }
 }

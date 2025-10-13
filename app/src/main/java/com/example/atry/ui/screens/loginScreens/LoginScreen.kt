@@ -5,65 +5,75 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import com.example.atry.navigation.navController
-import com.example.atry.ui.components.general.GrayBorderTextField
-import com.example.atry.ui.components.general.InputTitle
-import com.example.atry.ui.components.general.LinearButton
+import com.example.atry.ui.components.GrayBorderTextField
+import com.example.atry.ui.components.InputTitle
+import com.example.atry.ui.components.LinearButton
 import com.example.atry.ui.theme.purpleGradientBrush
+import com.example.atry.ui.theme.redGradientBrush
+import com.example.atry.ui.theme.redLinear
 
 
 @Composable
 @Preview
 fun LoginScreen() {
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White)
-        .padding(24.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+    Column(
+        modifier = Modifier
+            .imePadding()
+            .fillMaxSize()
     ){
-        IconButton(
-            onClick = { navController.navigate("splash")}) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = "Back"
-            )
-        }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement =  Arrangement.spacedBy(30.dp, Alignment.CenterVertically),
+        Column(modifier = Modifier
+            .imePadding()
+            .weight(1f)
+            .background(Color.White)
+            .padding(24.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ){
-
-
-            InputTitle("Đăng nhập")
-
+            IconButton(
+                onClick = { navController.navigate("splash")}) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement =  Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+                verticalArrangement =  Arrangement.spacedBy(30.dp, Alignment.CenterVertically),
             ){
-                GrayBorderTextField("Nhập tên đăng nhập")
-                GrayBorderTextField("Nhập mật khẩu")
+
+
+                InputTitle("Đăng nhập")
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement =  Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+                ){
+                    GrayBorderTextField(
+                        "Nhập tên đăng nhập",
+                        { navController.navigate("main") }
+                    )
+                    GrayBorderTextField(
+                        "Nhập mật khẩu",
+                        { navController.navigate("main") }
+                    )
+
+                }
+
 
             }
+            LinearButton("Đăng nhập",{navController.navigate("main")}, redGradientBrush)
 
 
         }
-        LinearButton("Đăng nhập",{navController.navigate("home")},purpleGradientBrush)
-
-
     }
+
 
 }

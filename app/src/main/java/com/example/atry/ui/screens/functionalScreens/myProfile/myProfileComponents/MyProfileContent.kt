@@ -50,14 +50,7 @@ fun MyProfileContent() {
         UserInformation()
 
         // 3 nút icon
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(32.dp),
-            verticalAlignment = Alignment.Top
-        ) {
-            ProfileActionButton(Icons.Default.Settings, "Cài đặt", "settings",50)
-            ProfileActionButton(Icons.Default.Edit, "Sửa hồ sơ", "editProfile",100)
-            ProfileActionButton(Icons.Default.Edit, "Ủng hộ", "donate",50)
-        }
+        ProfileActionButton()
     }
 
 

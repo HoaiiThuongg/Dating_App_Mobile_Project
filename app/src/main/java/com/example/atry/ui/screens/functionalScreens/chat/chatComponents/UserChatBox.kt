@@ -10,9 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.atry.ui.theme.primaryPurple
 
+@Preview
 @Composable
 fun UserChatBox(){
     Box(
@@ -24,15 +27,15 @@ fun UserChatBox(){
         Box(
             modifier = Modifier
                 .background(
-                    color = Color(0xFF4FC3F7), // xanh dương nhạt
+                    color = primaryPurple, // xanh dương nhạt
                     shape = RoundedCornerShape(
-                        topStart = 50.dp,
-                        topEnd = 50.dp,
-                        bottomEnd = 0.dp,
-                        bottomStart = 50.dp
+                        topStart = 30.dp,
+                        topEnd = 30.dp,
+                        bottomEnd = 10.dp,
+                        bottomStart = 30.dp
                     )
                 )
-                .padding(horizontal = 15.dp, vertical = 8.dp)
+                .padding(horizontal = 20.dp, vertical = 8.dp)
         ) {
             Text(
                 text = "hello xin chào bà thơ",

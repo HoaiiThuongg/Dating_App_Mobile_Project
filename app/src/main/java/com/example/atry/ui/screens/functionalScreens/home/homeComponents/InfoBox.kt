@@ -19,7 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun InfoBox(title: String, content: String) {
+fun InfoBox(title: String? ,
+            content: String? ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,11 +40,11 @@ fun InfoBox(title: String, content: String) {
                 shape = RoundedCornerShape(20.dp)
             )
             .background(Color.White, RoundedCornerShape(20.dp))
-            .padding(10.dp)
+            .padding(15.dp)
 
     ) {
-        Text(title, color = Color.Black, fontWeight = FontWeight.Bold)
+        Text(title?:"tiêu đề", color = Color.Black, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(4.dp))
-        Text(content, color = Color.Gray)
+        Text(content?:"lỗi", color = Color.Gray)
     }
 }

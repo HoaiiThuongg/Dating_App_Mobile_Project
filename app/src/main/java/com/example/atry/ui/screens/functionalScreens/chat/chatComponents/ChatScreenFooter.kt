@@ -1,10 +1,15 @@
 package com.example.atry.ui.screens.functionalScreens.chat.chatComponents
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -13,11 +18,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.atry.navigation.navController
 
 @Composable
 @Preview
@@ -25,9 +35,33 @@ fun ChatScreenFooter(){
     var text by remember { mutableStateOf("") }
 
     // footer
-    Box(
-        modifier = Modifier.padding(20.dp)
+    Column(
+        modifier = Modifier.padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp, alignment = Alignment.CenterVertically),
+
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Button(
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+            onClick = { navController.navigate("chatWithAi") },
+            modifier = Modifier
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xFFBE55BF), // tím
+                            Color(0xFFFF9DD3)  // xanh tím
+                        )
+                    ), shape = RoundedCornerShape(20.dp)
+                )
+                .border(
+                    1.dp, color = Color.Black,
+                    shape = RoundedCornerShape(20.dp)
+                )
+        ) {
+            Text("Chat bot giúp đỡ giao tiếp", color = Color.White)
+        }
+
+
         TextField(
             value = text,
             onValueChange = { text = it },
