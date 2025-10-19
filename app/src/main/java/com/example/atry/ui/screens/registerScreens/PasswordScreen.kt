@@ -14,6 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.ui.platform.testTag
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.GrayBorderTextField
 import com.example.atry.ui.components.InputTitle
@@ -22,16 +25,21 @@ import com.example.atry.ui.components.buttons.RedLinearBorderButton
 
 @Preview
 @Composable
-fun PasswordScreen() {
+fun PasswordScreen(
+    navController: NavHostController = rememberNavController(),
+    modifier: Modifier = Modifier
+) {
 
-    Column(modifier = Modifier
+    Column(modifier = modifier
         .fillMaxSize()
         .background(Color.White)
         .padding(24.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ){
         IconButton(
-            onClick = { /* handle back */ }) {
+            onClick = { /* handle back */ },
+            modifier = Modifier.testTag("back_button")
+        ) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = "Back"
@@ -41,8 +49,6 @@ fun PasswordScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement =  Arrangement.spacedBy(30.dp, Alignment.CenterVertically),
         ){
-
-
             InputTitle("Nhập mật khẩu")
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -50,16 +56,24 @@ fun PasswordScreen() {
             ){
                 GrayBorderTextField(
                     "Nhập mật khẩu đi",
-                    { navController.navigate("main") }
+                    { navController.navigate("main") },
+                    modifier = Modifier.testTag("password_field")
                 )
-                Text("Mật khẩu sao cho nó bảo mật đấy nhé.", color = Color.Gray,fontSize = 16.sp)
+                Text(
+                    "Mật khẩu sao cho nó bảo mật đấy nhé.",
+                    color = Color.Gray,
+                    fontSize = 16.sp,
+                    modifier = Modifier.testTag("password_description"))
             }
 
 
         }
         Column(){
-
-            RedLinearBorderButton("Xong",{ navController.navigate("main") })
+            Box(modifier = Modifier.testTag("finish_button_box")) {
+                RedLinearBorderButton(
+                    "Xong",
+                    { navController.navigate("main") })
+            }
         }
 
     }

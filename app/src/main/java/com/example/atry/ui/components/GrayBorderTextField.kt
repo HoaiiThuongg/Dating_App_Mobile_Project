@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 
 @Composable
-fun GrayBorderTextField(label: String, onDone: () -> Unit) {
+fun GrayBorderTextField(label: String, onDone: () -> Unit = {}, modifier: Modifier = Modifier) {
     var text by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -28,7 +28,7 @@ fun GrayBorderTextField(label: String, onDone: () -> Unit) {
         onValueChange = { newText -> text = newText },
         label = { Text(label) },
         shape = RoundedCornerShape(20.dp),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done

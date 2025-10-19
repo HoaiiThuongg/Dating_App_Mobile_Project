@@ -39,5 +39,5 @@ fun WriteBox(title: String, hint: String) {
 //        },
 //        modifier = Modifier.fillMaxWidth()
 //    )
-    GrayBorderTextField("Giới thiệu về bản thân...") { }
+    GrayBorderTextField("Giới thiệu về bản thân...")
 }
