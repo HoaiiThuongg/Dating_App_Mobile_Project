@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
 import com.example.atry.navigation.navController
-import com.example.atry.ui.viewmodel.ConnectedPeople
+import com.example.atry.viewmodel.ConnectedPeople
 
 @Composable
 fun ChatRow(connectedPeople: ConnectedPeople) {

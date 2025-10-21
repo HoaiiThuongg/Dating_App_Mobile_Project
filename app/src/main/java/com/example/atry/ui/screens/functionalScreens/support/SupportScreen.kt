@@ -84,7 +84,7 @@ fun SupportScreen() {
         Text(
             text = "Nếu bạn có bất cứ thắc mắc, phản ánh nào, hãy liên lạc với chúng tôi, chúng tôi luôn sẵn sàng hỗ trợ hết mình!",
             style = TextStyle(
-                fontSize = 16.sp,
+                fontSize = 20.sp,
                 brush = dynamicGradientBrush()
             ),
             textAlign = TextAlign.Center,
@@ -176,6 +176,6 @@ fun ContactItem(
             )
         }
 
-        Text(text = text, color = MaterialTheme.colorScheme.onBackground, fontSize = 14.sp)
+        Text(text = text, color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp)
     }
 }

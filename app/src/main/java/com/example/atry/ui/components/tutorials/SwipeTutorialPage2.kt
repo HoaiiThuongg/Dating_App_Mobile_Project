@@ -39,7 +39,6 @@ import com.example.atry.ui.theme.redPinkGradientBrush
 
 @Composable
 fun SwipeTutorialPage2(onPrev:()->Unit) {
-    val linearColor = dynamicGradientBrush()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -63,7 +62,7 @@ fun SwipeTutorialPage2(onPrev:()->Unit) {
                         .drawWithCache {
                             onDrawWithContent {
                                 drawContent()
-                                drawRect(linearColor, blendMode = BlendMode.SrcAtop)
+                                drawRect(color = Color.White, blendMode = BlendMode.SrcAtop)
                             }
                         }
                 )
@@ -88,7 +87,13 @@ fun SwipeTutorialPage2(onPrev:()->Unit) {
                 )
                 DislikeSwipeHandAnimation(Modifier.align(Alignment.CenterStart))
             }
-            Box(modifier = Modifier.size(36.dp))
+            IconButton(onClick = { }) {
+                Icon(
+                    painterResource(R.drawable.arrow),
+                    contentDescription = "Sau",
+                    tint = Color.Transparent,
+                )
+            }
 
         }
         Spacer(Modifier.height(5.dp))
@@ -97,7 +102,7 @@ fun SwipeTutorialPage2(onPrev:()->Unit) {
         Text(
             text = "Quẹt trái nếu họ không phải gu",
             fontSize = 20.sp,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = Color.White,
             modifier = Modifier.padding(bottom = 10.dp)
         )
     }

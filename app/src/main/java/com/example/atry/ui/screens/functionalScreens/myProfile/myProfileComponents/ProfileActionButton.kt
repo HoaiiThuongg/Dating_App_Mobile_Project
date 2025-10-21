@@ -37,13 +37,14 @@ fun ProfileActionButton() {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.clickable {
-                navController.navigate("settings")
-            }) {
+            ) {
             Box(
                 modifier = Modifier
-                    .size(50.dp)
                     .background(Color.DarkGray, CircleShape)
+                    .clickable {
+                        navController.navigate("settings")
+                    }
+                    .size(50.dp)
                     .padding(10.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -59,14 +60,15 @@ fun ProfileActionButton() {
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.clickable {
-                navController.navigate("editProfile") // 👈 điều hướng khi click
-            }) {
+            ) {
             Box(
                 modifier = Modifier
+                    .clickable {
+                    navController.navigate("editProfile")}
                     .size(100.dp)
                     .background(Color.DarkGray, CircleShape)
-                    .padding(20.dp),
+                    .padding(20.dp)
+                    ,
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -81,14 +83,15 @@ fun ProfileActionButton() {
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.clickable {
-                navController.navigate("support") // 👈 điều hướng khi click
-            }) {
+            ) {
             Box(
                 modifier = Modifier
+                    .clickable {
+                        navController.navigate("support")}
                     .size(50.dp)
                     .background(Color.DarkGray, CircleShape)
-                    .padding(10.dp),
+                    .padding(10.dp)
+                    ,
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

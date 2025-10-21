@@ -19,7 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.atry.R
-import com.example.atry.ui.viewmodel.ConnectedPeople
+import com.example.atry.viewmodel.ConnectedPeople
 
 @Composable
 fun OnlineAvatar(connectedPeople: ConnectedPeople) {

@@ -19,6 +19,15 @@ val logoGradientBrush = Brush.linearGradient(
     )
 )
 
+val redOrangeLinear = listOf(Color(0xFFFF5787),Color(0xFFFF8D8F) )
+
+val redOrangeLinearBrush = Brush.linearGradient(
+    colorStops = arrayOf(
+        0.41f to Color(0xFFFF5787), // tại 41%
+        1.0f to Color(0xFFFF8D8F)   // tại 100%
+    )
+)
+
 val purplePinkGradientBrush = Brush.linearGradient(
     colors = listOf(Color(0xFF7500DB), Color(0xFFFF4187)), // gradient từ trái → phải
     start = Offset(0f, 0f),

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.ArrowBack
 import com.example.atry.navigation.navController
-import com.example.atry.ui.components.GrayBorderTextField
+import com.example.atry.ui.components.textfield.GrayBorderTextField
 import com.example.atry.ui.components.InputTitle
 import com.example.atry.ui.components.buttons.RedLinearBorderButton
 

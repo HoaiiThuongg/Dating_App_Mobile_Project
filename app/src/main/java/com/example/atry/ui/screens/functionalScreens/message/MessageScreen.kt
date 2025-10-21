@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,7 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.ui.screens.functionalScreens.message.MessageComponents.ChatRow
 import com.example.atry.ui.screens.functionalScreens.message.MessageComponents.MatchedPeople
 import com.example.atry.ui.theme.primaryPurple
-import com.example.atry.ui.viewmodel.MessageViewModel
+import com.example.atry.viewmodel.MessageViewModel
 
 @Composable
 fun MessageScreen(messageViewModel: MessageViewModel = viewModel()) {

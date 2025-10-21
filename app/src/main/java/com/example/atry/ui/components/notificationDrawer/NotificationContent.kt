@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,7 +24,9 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atry.R
 import com.example.atry.ui.theme.redGradientBrush
 
 @Composable
@@ -41,19 +44,18 @@ fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
                     bottomStart = 20.dp
                 )
             )
-            .border(
-                width = 2.dp,
-                color = Color.White,
-                shape = RoundedCornerShape(
-                    topStart = 20.dp,
-                    topEnd = 0.dp,
-                    bottomEnd = 0.dp,
-                    bottomStart = 20.dp
-                )
-            )
-            .padding(20.dp)
-            ,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+//            .border(
+//                width = 2.dp,
+//                color = Color.White,
+//                shape = RoundedCornerShape(
+//                    topStart = 20.dp,
+//                    topEnd = 0.dp,
+//                    bottomEnd = 0.dp,
+//                    bottomStart = 20.dp
+//                )
+//            )
+            .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -69,13 +71,13 @@ fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
                     contentDescription = "Close",
                     modifier = Modifier
                         .size(32.dp)
-                        .graphicsLayer(alpha = 0.99f) // để hỗ trợ blend
+                        .graphicsLayer(alpha = 0.99f)
                         .drawWithCache {
                             onDrawWithContent {
                                 drawContent()
                                 drawRect(
                                     brush = redGradientBrush,
-                                    size = this.size, // 🩵 bắt buộc: vẽ gradient phủ toàn icon
+                                    size = this.size,
                                     blendMode = BlendMode.SrcAtop
                                 )
                             }
@@ -93,13 +95,13 @@ fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
                     contentDescription = "Close",
                     modifier = Modifier
                         .size(32.dp)
-                        .graphicsLayer(alpha = 0.99f) // để hỗ trợ blend
+                        .graphicsLayer(alpha = 0.99f)
                         .drawWithCache {
                             onDrawWithContent {
                                 drawContent()
                                 drawRect(
                                     brush = redGradientBrush,
-                                    size = this.size, // 🩵 bắt buộc: vẽ gradient phủ toàn icon
+                                    size = this.size,
                                     blendMode = BlendMode.SrcAtop
                                 )
                             }
@@ -108,7 +110,18 @@ fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
                 )
             }
         }
-        NotificationCard()
-        NotificationCard()
+        Spacer(modifier= Modifier.size(10.dp))
+        NotificationCard(
+            name = "Justin Bieber",
+            message = "vừa thích bạn",
+            date = "23/02/2025",
+            imageRes = R.drawable.ava1
+        )
+        NotificationCard(
+            name = "Justin Bieber",
+            message = "vừa thích bạn",
+            date = "23/02/2025",
+            imageRes = R.drawable.ava1
+        )
     }
 }

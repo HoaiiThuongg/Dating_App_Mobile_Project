@@ -85,7 +85,7 @@ fun MainSplashScreen() {
             // Nút "Tạo tài khoản"
            WhiteBorderButton(
                text = "Đăng kí nào!",
-               onClick = { navController.navigate("register") }
+               onClick = { navController.navigate("registerEmailInput") }
            )
 
             // Nút "Đăng nhập thôi!"

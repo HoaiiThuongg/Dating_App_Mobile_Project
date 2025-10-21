@@ -3,9 +3,7 @@ package com.example.atry.ui.components.navigationDrawer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -42,10 +40,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.R
 import com.example.atry.navigation.navController
-import com.example.atry.ui.components.qr.CameraPermissionContent
-import com.example.atry.ui.components.qr.UserQrScreen
 import com.example.atry.ui.theme.redGradientBrush
-import com.example.atry.ui.viewmodel.WarningCardViewModel
+import com.example.atry.viewmodel.WarningCardViewModel
 
 @Composable
 fun DrawerContent(
@@ -66,16 +62,16 @@ fun DrawerContent(
                     bottomStart = 0.dp
                 )
             )
-            .border(
-                width = 2.dp,
-                color = Color.White,
-                shape = RoundedCornerShape(
-                    topStart = 0.dp,
-                    topEnd = 20.dp,
-                    bottomEnd = 20.dp,
-                    bottomStart = 0.dp
-                )
-            )
+//            .border(
+//                width = 2.dp,
+//                color = Color.White,
+//                shape = RoundedCornerShape(
+//                    topStart = 0.dp,
+//                    topEnd = 20.dp,
+//                    bottomEnd = 20.dp,
+//                    bottomStart = 0.dp
+//                )
+//            )
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {

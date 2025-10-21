@@ -14,17 +14,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.atry.ui.components.WarningCard
+import com.example.atry.ui.components.alert.WarningCard
 import com.example.atry.ui.components.headerAndFooter.HeaderWithNavDrawer
 import com.example.atry.ui.components.tutorials.SwipeTutorial
-import com.example.atry.ui.screens.functionalScreens.EditProfileScreen
 import com.example.atry.ui.screens.functionalScreens.LikeYouScreen
 import com.example.atry.ui.screens.functionalScreens.MessageScreen
 import com.example.atry.ui.screens.functionalScreens.MyProfileScreen
-import com.example.atry.ui.screens.functionalScreens.SettingsScreen
-import com.example.atry.ui.screens.functionalScreens.SupportScreen
 import com.example.atry.ui.screens.functionalScreens.home.HomeScreen
-import com.example.atry.ui.viewmodel.WarningCardViewModel
+import com.example.atry.viewmodel.WarningCardViewModel
 
 @Composable
 fun MainScaffold(

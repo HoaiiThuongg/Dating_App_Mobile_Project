@@ -38,7 +38,7 @@ fun UserQrScreen(userId: String) {
             onClick = { navController.navigate("main_profile") },
             modifier = Modifier
                 .size(32.dp)
-                .align(Alignment.TopEnd)
+                .align(Alignment.TopStart)
         ) {
             Icon(
                 imageVector = Icons.Default.Close,

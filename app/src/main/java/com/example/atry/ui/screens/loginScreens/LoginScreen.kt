@@ -13,12 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.filled.ArrowBack
 import com.example.atry.navigation.navController
-import com.example.atry.ui.components.GrayBorderTextField
+import com.example.atry.ui.components.textfield.GrayBorderTextField
 import com.example.atry.ui.components.InputTitle
-import com.example.atry.ui.components.LinearButton
-import com.example.atry.ui.theme.purpleGradientBrush
-import com.example.atry.ui.theme.redGradientBrush
-import com.example.atry.ui.theme.redLinear
+import com.example.atry.ui.components.buttons.CustomBorderButton
 
 
 @Composable
@@ -69,7 +66,7 @@ fun LoginScreen() {
 
 
             }
-            LinearButton("Đăng nhập",{navController.navigate("main")}, redGradientBrush)
+            CustomBorderButton("Đăng nhập",{navController.navigate("main")}, Color.Red)
 
 
         }

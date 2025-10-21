@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -73,7 +74,15 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.4")
     implementation("androidx.camera:camera-view:1.3.4")
     implementation("com.google.accompanist:accompanist-permissions:0.35.1-alpha")
+    implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation(kotlin("test"))
 
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+
+    implementation("com.google.firebase:firebase-auth:22.3.0") // 👈 Firebase Auth
+    implementation("com.google.firebase:firebase-firestore:25.1.1") // nếu có dùng Firestore
+    implementation("com.google.firebase:firebase-storage:21.0.1") // nếu có CloudinaryService
+    implementation("com.google.firebase:firebase-messaging:24.0.0") // nếu có chat/push
 }

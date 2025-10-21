@@ -28,7 +28,7 @@ fun DatingButton() {
         if(ThemeSingleton.isDark.value) DarkGradientProfileContainer
         else listOf(Color(0xFFE270C9), primaryPurple)
     Button(
-        onClick = { navController.navigate("home") },
+        onClick = { navController.navigate("main_home") },
         modifier = Modifier
             .fillMaxWidth(0.6f)
             .height(50.dp)

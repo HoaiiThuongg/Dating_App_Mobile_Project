@@ -35,12 +35,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
-import com.example.atry.ui.theme.dynamicGradientBrush
-import com.example.atry.ui.theme.redPinkGradientBrush
 
 @Composable
 fun SwipeTutorialPage1(onNext:()->Unit) {
-    val linearColor = dynamicGradientBrush()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -52,7 +49,13 @@ fun SwipeTutorialPage1(onNext:()->Unit) {
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Box(modifier = Modifier.size(36.dp))
+            IconButton(onClick = { }) {
+                Icon(
+                    painterResource(R.drawable.arrow),
+                    contentDescription = "Sau",
+                    tint = Color.Transparent,
+                )
+            }
             Box(
                 modifier = Modifier
                     .width(200.dp)
@@ -84,7 +87,7 @@ fun SwipeTutorialPage1(onNext:()->Unit) {
                         .drawWithCache {
                             onDrawWithContent {
                                 drawContent()
-                                drawRect(linearColor, blendMode = BlendMode.SrcAtop)
+                                drawRect(color = Color.White, blendMode = BlendMode.SrcAtop)
                             }
                         }
                 )
@@ -96,7 +99,7 @@ fun SwipeTutorialPage1(onNext:()->Unit) {
         Text(
             text = "Quẹt phải nếu bạn thích họ",
             fontSize = 20.sp,
-            color = MaterialTheme.colorScheme.onBackground,
+            color =  Color.White,
             modifier = Modifier.padding(bottom = 10.dp)
         )
     }

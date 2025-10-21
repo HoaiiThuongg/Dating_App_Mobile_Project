@@ -45,9 +45,7 @@ fun EditProfileScreen() {
         Column(
             modifier = Modifier
                 .padding(20.dp, 10.dp)
-            ,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
+            ) {
             EditProfileNavBar(
                 openPublicInformation,
                 { openPublicInformation = true },

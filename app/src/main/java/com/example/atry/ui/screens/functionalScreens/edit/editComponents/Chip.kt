@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,12 +23,12 @@ import androidx.compose.ui.unit.sp
 fun Chip(text: String) {
     Row(
         modifier = Modifier
-            .border(1.dp, Color.Gray, RoundedCornerShape(50))
+            .border(1.dp, Color(0xFFC2C2C2), RoundedCornerShape(50))
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(Icons.Default.Favorite, contentDescription = null, tint = Color(0xFFE91E63), modifier = Modifier.size(14.dp))
         Spacer(Modifier.width(4.dp))
-        Text(text, color = Color.Black, fontSize = 14.sp)
+        Text(text, color = MaterialTheme.colorScheme.onBackground, fontSize = 14.sp)
     }
 }

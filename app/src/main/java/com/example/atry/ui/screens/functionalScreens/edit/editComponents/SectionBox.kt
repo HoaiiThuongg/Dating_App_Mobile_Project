@@ -10,35 +10,66 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.ui.theme.logoGradientBrush
 
 @Composable
 
 fun SelectionBox(title: String, hint: String) {
+    val titleBrush = if(!ThemeSingleton.isDark.value) Brush.linearGradient(
+        colorStops = arrayOf(
+            0.41f to Color.Black, // tại 41%
+            1.0f to Color.Black   // tại 100%
+        )
+    ) else logoGradientBrush
+    val subTitleColor = if(!ThemeSingleton.isDark.value) Color(0xFF626262) else Color.White
+
     Column (
         verticalArrangement = Arrangement.spacedBy(5.dp)
-    ){
-        Text(title, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-        Text(hint, fontSize = 14.sp, color = Color.Gray)
-    }
-
-    FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .border(
-                width = 2.dp,                  // độ dày viền
-                color = Color(0xFF777777),           // màu viền
-                shape = RoundedCornerShape(20.dp) // bo góc tròn
-            )
-            .padding(12.dp)
-            .fillMaxWidth()
     ) {
-        listOf("Giàu", "Đẹp trai").forEach {
-            Chip(text = it)
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        brush = titleBrush,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                ) {
+                    append(title)
+                }
+            }
+        )
+
+        Text(
+            text = hint,
+            fontSize = 16.sp,
+            color = subTitleColor
+        )
+
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .border(
+                    width = 2.dp,                  // độ dày viền
+                    color = Color(0xFFC2C2C2),           // màu viền
+                    shape = RoundedCornerShape(20.dp) // bo góc tròn
+                )
+                .padding(12.dp)
+                .fillMaxWidth()
+        ) {
+            listOf("Giàu", "Đẹp trai").forEach {
+                Chip(text = it)
+            }
         }
     }
 }
