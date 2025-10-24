@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
-    id("com.google.gms.google-services")
+    id("com.google.gms.google-services") version "4.4.4" apply false
 }
 
 android {
@@ -85,4 +85,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.1.1") // nếu có dùng Firestore
     implementation("com.google.firebase:firebase-storage:21.0.1") // nếu có CloudinaryService
     implementation("com.google.firebase:firebase-messaging:24.0.0") // nếu có chat/push
+    implementation("com.google.guava:guava:31.1-android")
+    implementation("com.cloudinary:cloudinary-android:3.1.2")
+    implementation("androidx.appcompat:appcompat:1.7.0")
 }
