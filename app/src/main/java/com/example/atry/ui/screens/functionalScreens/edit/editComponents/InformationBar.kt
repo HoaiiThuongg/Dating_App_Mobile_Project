@@ -10,6 +10,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -18,9 +22,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.atry.ui.components.textfield.BlackBorderTextField
+import com.example.atry.ui.components.textfield.CustomTextField
+import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.ui.theme.logoGradientBrush
+import com.example.atry.ui.theme.purpleGradientBrush
 
 @Composable
 fun InformationBar(title:String,content:String) {
+    val titleBrush = if(!ThemeSingleton.isDark.value) purpleGradientBrush
+    else logoGradientBrush
+    var text by remember { mutableStateOf(content) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,7 +41,6 @@ fun InformationBar(title:String,content:String) {
                 color = MaterialTheme.colorScheme.onSurface,
                 shape = RoundedCornerShape(30.dp)
             )
-            .padding(10.dp) // padding bên trong viền
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -37,24 +48,8 @@ fun InformationBar(title:String,content:String) {
                 .padding(2.dp)
                 .fillMaxWidth()
         ) {
-            Text(
-                title, fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                content, fontSize = 16.sp,
-                style = TextStyle(
-                    fontSize = 12.sp, brush = Brush.linearGradient(
-                        colors = listOf(
-                            Color(0xFF7500DB),
-                            Color(0xFFFF4187)
-                        ), // gradient từ trái → phải
-                        start = Offset(0f, 0f),
-                        end = Offset(1000f, 0f)
-                    )
-                )
-            )
+            BlackBorderTextField(title,text, onValueChange = { text = it },
+                MaterialTheme.colorScheme.onBackground,titleBrush)
         }
     }
 }

@@ -12,10 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.atry.viewmodel.ConnectedPeople
+import com.example.atry.backend.MatchedUser
 
 @Composable
-fun MatchedPeople(connectedPeople: List<ConnectedPeople>){
+fun MatchedPeople(matchedUsers: List<MatchedUser>){
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ){
@@ -26,10 +26,10 @@ fun MatchedPeople(connectedPeople: List<ConnectedPeople>){
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState()) // 👈 cho phép scroll ngang
         ) {
-            if (connectedPeople.isNotEmpty()) {
-                for (i in 0 until   (connectedPeople.size ) ) {
-                    val profile = connectedPeople[i]
-                    OnlineAvatar(profile)
+            if (matchedUsers.isNotEmpty()) {
+                for (i in 0 until   (matchedUsers.size ) ) {
+                    val profile = matchedUsers[i]
+                    OnlineAvatar(profile.user)
                 }
             }
         }

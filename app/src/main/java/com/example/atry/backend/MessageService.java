@@ -1,5 +1,19 @@
 package com.example.atry.backend;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import com.google.firebase.firestore.*;
 import java.util.*;
 
@@ -13,7 +27,7 @@ public class MessageService {
     public void getInitialMessages(String matchId, LoadMessagesCallback callback) {
         db.collection("messages")
                 .whereEqualTo("matchId", matchId)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .orderBy("date", Query.Direction.DESCENDING)
                 .limit(50)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -40,7 +54,7 @@ public class MessageService {
         // Chỉ lắng nghe tin nhắn mới hơn tin nhắn cuối cùng
         Query query = db.collection("messages")
                 .whereEqualTo("matchId", matchId)
-                .orderBy("createdAt", Query.Direction.ASCENDING);
+                .orderBy("date", Query.Direction.ASCENDING);
 
         // Nếu đã có tin nhắn, chỉ lấy tin nhắn mới hơn
         if (lastMessageTimestamp > 0) {
@@ -128,6 +142,37 @@ public class MessageService {
     public interface LoadMessagesWithPaginationCallback extends LoadMessagesCallback {
         void onSuccess(List<Message> messages, DocumentSnapshot lastDoc);
     }
+
+
+    //--------------new code-----------------
+    public interface LastMessageListener {
+        void onLastMessageReceived(Message lastMessage);
+    }
+
+    // 🔥 SỬA: Truy vấn collection "messages" chung và filter bằng matchId
+    // Giả định trường timestamp của Message là "sentAt" hoặc "createdAt"
+    public ListenerRegistration listenForLastMessage(String matchId, LastMessageListener listener) {
+        return db.collection("messages")
+                .whereEqualTo("matchId", matchId) // Lọc theo match ID
+                .orderBy("date", Query.Direction.DESCENDING) // Tin nhắn mới nhất trước
+                .limit(1)
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Lỗi khi lắng nghe tin nhắn cuối cùng", e);
+                        return;
+                    }
+
+                    if (snapshots != null && !snapshots.isEmpty()) {
+                        DocumentSnapshot doc = snapshots.getDocuments().get(0);
+                        Message lastMessage = doc.toObject(Message.class);
+                        if (lastMessage != null) {
+                            lastMessage.setMessageId(doc.getId());
+                            listener.onLastMessageReceived(lastMessage);
+                        }
+                    }
+                });
+    }
+
 }
 
     /*public void getMessagesByMatchId(String matchId, LoadMessagesCallback callback) {

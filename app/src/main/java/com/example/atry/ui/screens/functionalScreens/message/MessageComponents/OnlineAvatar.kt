@@ -18,11 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.atry.R
-import com.example.atry.viewmodel.ConnectedPeople
+import com.example.atry.backend.User
+import com.example.atry.data.singleton.CurrentUser
 
 @Composable
-fun OnlineAvatar(connectedPeople: ConnectedPeople) {
+fun OnlineAvatar(user: User) {
+    val imageUrl = CurrentUser.user?.profileImageUrl
+        ?: "https://res.cloudinary.com/dosnqohav/image/upload/v1760214495/ugoo3xchm0nru92na1kh.jpg"
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ){
@@ -31,7 +35,7 @@ fun OnlineAvatar(connectedPeople: ConnectedPeople) {
                 .size(60.dp)
         ){
             Image(
-                painter = painterResource(id=R.drawable.ava1),
+                painter = rememberAsyncImagePainter(model = imageUrl),
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -46,6 +50,6 @@ fun OnlineAvatar(connectedPeople: ConnectedPeople) {
             )
 
         }
-        Text(connectedPeople.name, color = MaterialTheme.colorScheme.onSurface)
+        Text(user.name, color = MaterialTheme.colorScheme.onSurface)
     }
 }

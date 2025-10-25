@@ -13,21 +13,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.ui.theme.primaryPurple
+import com.example.atry.viewmodel.functional.ChatViewModel
 
-@Preview
 @Composable
-fun UserChatBox(){
+@Preview
+fun UserChatBox(
+    text:String="hihi"
+){
     Box(
         modifier = Modifier
-            .fillMaxWidth() // chiếm hết ngang để căn được bên phải
-            .padding(8.dp),
+            .fillMaxWidth(), // chiếm hết ngang để căn được bên phải
         contentAlignment = Alignment.CenterEnd // dính sang phải
     ) {
         Box(
             modifier = Modifier
                 .background(
-                    color = primaryPurple, // xanh dương nhạt
+                    color = primaryPurple,
                     shape = RoundedCornerShape(
                         topStart = 30.dp,
                         topEnd = 30.dp,
@@ -38,7 +41,7 @@ fun UserChatBox(){
                 .padding(horizontal = 20.dp, vertical = 8.dp)
         ) {
             Text(
-                text = "hello xin chào bà thơ",
+                text = text,
                 color = Color.White,
                 fontSize = 16.sp
             )

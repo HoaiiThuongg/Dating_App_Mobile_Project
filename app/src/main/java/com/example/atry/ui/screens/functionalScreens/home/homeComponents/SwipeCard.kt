@@ -27,7 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.atry.R
-import com.example.atry.data_fe.model.HomeMatchingProfileDTO
+import com.example.atry.backend.User
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.InfoBox
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.ProfileImage
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.ProfileInfo
@@ -38,7 +38,7 @@ import kotlin.math.abs
 @Composable
 fun SwipeCard(
     modifier: Modifier,
-    profile: HomeMatchingProfileDTO,
+    user: User,
     onSwipeLeft: () -> Unit,
     onSwipeRight: () -> Unit
 ) {
@@ -122,13 +122,13 @@ fun SwipeCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(670.dp)
-                            .clip(RoundedCornerShape(16.dp))
+                            .clip(RoundedCornerShape(20.dp))
                     ) {
 
-                        ProfileImage()
+                        ProfileImage(user)
                         ProfileInfo(
                             modifier = Modifier.align(Alignment.BottomStart),
-                            profile
+                            user
                         )
                     }
 
@@ -139,8 +139,8 @@ fun SwipeCard(
                             .offset(y = 10.dp)
                             .padding(10.dp)
                     ) {
-                        InfoBox(title = "My bio", content = profile.bio)
-                        InfoBox(title = "Về tôi", content = profile.location)
+                        InfoBox(title = "My bio", content = user.bio)
+                        InfoBox(title = "Sở thích", content = user.interests)
                     }
                 }
             }

@@ -28,7 +28,7 @@ import com.example.atry.ui.theme.greenGradientBrush
 
 @Composable
 @Preview
-fun AiChatScreenFooter(){
+fun AiChatScreenFooter(modifier: Modifier=Modifier){
     var text by remember { mutableStateOf("") }
 
     // footer
@@ -76,7 +76,7 @@ fun AiChatScreenFooter(){
                 focusedIndicatorColor = Color.Transparent, // bỏ gạch chân
                 unfocusedIndicatorColor = Color.Transparent
             ),
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .border(1.dp, Color.Black, RoundedCornerShape(50)) // viền bo góc đồng bộ
         )

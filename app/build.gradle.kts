@@ -3,7 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
-    id("com.google.gms.google-services") version "4.4.4" apply false
+
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -11,7 +12,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.atry"
+        applicationId = "com.example.datingapp"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -74,18 +75,18 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.4")
     implementation("androidx.camera:camera-view:1.3.4")
     implementation("com.google.accompanist:accompanist-permissions:0.35.1-alpha")
-    implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation(kotlin("test"))
 
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
-
-    implementation("com.google.firebase:firebase-auth:22.3.0") // 👈 Firebase Auth
-    implementation("com.google.firebase:firebase-firestore:25.1.1") // nếu có dùng Firestore
-    implementation("com.google.firebase:firebase-storage:21.0.1") // nếu có CloudinaryService
-    implementation("com.google.firebase:firebase-messaging:24.0.0") // nếu có chat/push
-    implementation("com.google.guava:guava:31.1-android")
-    implementation("com.cloudinary:cloudinary-android:3.1.2")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.0")
+    implementation("com.google.firebase:firebase-storage:21.0.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.cloudinary:cloudinary-android:2.3.1")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.google.firebase:firebase-dynamic-links:21.1.0")
+    implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
-}
+
+    implementation("com.google.guava:guava:31.1-android")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")}

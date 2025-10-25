@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atry.data.singleton.CurrentUser
 
 @Composable
 @Preview
@@ -23,11 +24,10 @@ fun Information() {
         verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {
         item{ Spacer(Modifier.size(0.dp)) }
-        item { InformationBar("Số điện thoại", "987654312") }
-        item { InformationBar("Ngày sinh", "01/01/2000") }
-        items(10) {
-            InformationBar("Nơi ở", "Hà Nội")
-        }
+        item { EditableInfoField("Tên", CurrentUser.user?.name?:"Lỗi tên", { newName ->CurrentUser.user?.name}) }
+        item { EditableInfoField("Giới tính", CurrentUser.user?.gender?:"Lỗi", { newName ->CurrentUser.user?.gender}) }
+        item { EditableInfoField("Sở thích", CurrentUser.user?.interests?:"Lỗi", { newName ->CurrentUser.user?.interests}) }
+
         item{ Spacer(Modifier.size(0.dp)) }
 
     }

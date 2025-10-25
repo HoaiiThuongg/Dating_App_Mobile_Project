@@ -33,7 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.grayBlurBackground
 import com.example.atry.ui.theme.redLinear
-import com.example.atry.viewmodel.WarningCardViewModel
+import com.example.atry.viewmodel.composal.WarningCardViewModel
 
 @Composable
 @Preview

@@ -1,5 +1,7 @@
 package com.example.atry.ui.screens.functionalScreens.likeYou.likeYouComponents
 
+import android.net.Uri
+import android.text.style.BackgroundColorSpan
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,17 +24,20 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.atry.R
-import com.example.atry.data_fe.model.LikeYouInfoDTO
+import coil.compose.rememberAsyncImagePainter
+import com.example.atry.backend.User
 import com.example.atry.navigation.navController
+import com.google.gson.Gson
 
 @Composable
 fun LikeYouCard(
-    profile: LikeYouInfoDTO,
+    user: User,
     onMatching: () -> Unit
 ) {
+    val gson = Gson()
+    val imageUrl = user.profileImageUrl
+
     Box(
         modifier = Modifier
             .border(
@@ -49,13 +54,13 @@ fun LikeYouCard(
             .background(Color.Gray)
             .aspectRatio(1f)
             .clickable {
-                navController.navigate("detailed_profile")
-            }
+                val userJson = gson.toJson(user)
+                navController.navigate("detailed_profile/${Uri.encode(userJson)}")            }
 
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.ava1),
+            painter = rememberAsyncImagePainter(model = imageUrl),
             contentDescription = "Ảnh người thích bạn",
             modifier = Modifier
                 .fillMaxSize()
@@ -86,8 +91,8 @@ fun LikeYouCard(
                 .padding( 10.dp)
         ) {
             Column {
-                Text(profile.name, color = Color.White)
-                Text(profile.age.toString() + "Tuổi", color = Color.White)
+                Text(user.name, color = Color.White)
+                Text(user.age.toString() + " tuổi", color = Color.White)
             }
 
             MatchingHeart(size = 32.dp, onToggled = {onMatching()})

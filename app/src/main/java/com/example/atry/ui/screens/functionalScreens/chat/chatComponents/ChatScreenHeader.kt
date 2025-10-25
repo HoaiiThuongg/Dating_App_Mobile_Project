@@ -31,13 +31,25 @@ import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.primaryPurple
 import androidx.compose.material.icons.filled.VideoCall
 import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
+import com.example.atry.viewmodel.functional.ChatViewModel
 
 @Composable
 @Preview
-fun ChatScreenHeader(){
+fun ChatScreenHeader(
+    modifier: Modifier= Modifier,
+    viewModel: ChatViewModel= viewModel()
+){
+    val state by viewModel.uiState.collectAsState()
+    val matchedUser = state.matchedUser
+
+    val imageUrl = matchedUser?.user?.profileImageUrl
     //header
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -59,7 +71,7 @@ fun ChatScreenHeader(){
 
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ava1),
+                painter = rememberAsyncImagePainter(model = imageUrl),
                 contentDescription = null,
                 modifier = Modifier
                     .size(32.dp)
@@ -68,7 +80,7 @@ fun ChatScreenHeader(){
                 contentScale = ContentScale.Crop
             )
             Text(
-                text = "Parot Smell",
+                text = matchedUser?.user?.name?:"Vô danh",
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 16.sp

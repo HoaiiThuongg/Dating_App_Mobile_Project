@@ -17,17 +17,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.atry.R
+import com.example.atry.backend.User
+import com.example.atry.data.singleton.CurrentUser
 
 @Composable
-fun ProfileImage() {
+fun ProfileImage(
+    user: User
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-             // <-- quan trọng
     ) {
+        val imageUrl = user.profileImageUrl
         Image(
-            painter = painterResource(id = R.drawable.ava2), // đổi thành ảnh của bé
+            painter = rememberAsyncImagePainter(model = imageUrl),
             contentDescription = "Ảnh đối tượng",
             modifier = Modifier
                 .fillMaxSize()

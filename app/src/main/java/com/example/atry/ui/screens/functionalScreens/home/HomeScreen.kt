@@ -14,13 +14,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.backend.SwipeService
 import com.example.atry.ui.components.HeartLoading
 import com.example.atry.ui.components.nothingToLoad.NothingToLoad
-import com.example.atry.viewmodel.HomeViewModel
+import com.example.atry.viewmodel.functional.HomeViewModel
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
-    val profiles by viewModel.profiles.collectAsState()
+fun HomeScreen(
+    viewModel: HomeViewModel = viewModel()
+) {
+    val users = viewModel.users
     val currentIndex by viewModel.currentIndex.collectAsState()
     val isLoading = viewModel.isLoading
 
@@ -32,7 +35,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
         Box(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 10.dp)
+                .padding(10.dp,10.dp,10.dp,0.dp)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
@@ -45,15 +48,15 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 )
             }
 
-            if (profiles.isNotEmpty() || currentIndex <= profiles.size) {
+            if (users.isNotEmpty() || currentIndex <= users.size) {
                 // Chỉ hiển thị stack từ currentIndex trở đi
-                for (i in profiles.size - 1 downTo currentIndex) {
-                    val profile = profiles[i]
+                for (i in users.size - 1 downTo currentIndex) {
+                    val user = users[i]
                     SwipeCard(
                         modifier = Modifier.fillMaxSize(),
-                        profile = profile ?: return,
-                        onSwipeLeft = { viewModel.swipe(1, profile.user_id, "DISLIKE") },
-                        onSwipeRight = { viewModel.swipe(1, profile.user_id, "LIKE") }
+                        user = user,
+                        onSwipeLeft = { viewModel.swipe(user.userId ?: "", SwipeService.SwipeType.LEFT)},
+                        onSwipeRight ={ viewModel.swipe(user.userId ?: "", SwipeService.SwipeType.RIGHT) }
                     )
                 }
             }

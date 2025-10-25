@@ -30,7 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.ui.components.nothingToLoad.RotatedIcon
 import com.example.atry.ui.theme.grayBlurBackground
 import com.example.atry.ui.theme.redLinear
-import com.example.atry.viewmodel.WarningCardViewModel
+import com.example.atry.viewmodel.composal.WarningCardViewModel
 
 @Composable
 fun Alert(

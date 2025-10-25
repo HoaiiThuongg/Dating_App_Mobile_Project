@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,18 +19,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.backend.User
+import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.components.HeartLoading
 import com.example.atry.ui.components.nothingToLoad.NothingToLoad
 import com.example.atry.ui.screens.functionalScreens.likeYou.likeYouComponents.LikeYouCard
 import com.example.atry.ui.screens.functionalScreens.likeYou.likeYouComponents.LikedNumberAnnouncement
 import com.example.atry.ui.screens.functionalScreens.likeYou.likeYouComponents.MatchSuccessfullyCard
-import com.example.atry.viewmodel.LikeYouViewModel
+import com.example.atry.viewmodel.functional.LikeYouViewModel
+import com.example.atry.viewmodel.functional.LikedByState
 
 @Composable
 fun LikeYouScreen(viewModel: LikeYouViewModel = viewModel()) {
-    val partnerProfiles = viewModel.partner_profiles.collectAsState().value
+    val state by viewModel.state.collectAsState()
     var showMatchSuccessfullyCard by remember { mutableStateOf(false) }
-    val isLoading = viewModel.isLoading
+    val users = state.users
+
+    lateinit var matchedUser : User
 
     Column(
         modifier = Modifier
@@ -40,9 +46,9 @@ fun LikeYouScreen(viewModel: LikeYouViewModel = viewModel()) {
                 .weight(1f),
             contentAlignment = Alignment.Center
         ) {
-            if (isLoading) {
+            if (state.isLoading) {
                 HeartLoading() // vòng loading
-            } else if(partnerProfiles.isEmpty()) {
+            } else if(users.isEmpty()) {
                 NothingToLoad(
                     "Bạn không có ai thích cả",
                     "Hãy đăng thêm thông tin lên hồ sơ cảu bạn để được mọi người biết tới nhé"
@@ -52,7 +58,7 @@ fun LikeYouScreen(viewModel: LikeYouViewModel = viewModel()) {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                LikedNumberAnnouncement(partnerProfiles.size)
+                LikedNumberAnnouncement(users.size)
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
@@ -62,19 +68,20 @@ fun LikeYouScreen(viewModel: LikeYouViewModel = viewModel()) {
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                     horizontalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    items(partnerProfiles.reversed()) { profile ->
+                    items(users.reversed()) { profile ->
                         LikeYouCard(
-                            profile = profile,
+                            user = profile,
                             onMatching = {
-                                viewModel.matching(1L, 3L)
+                                viewModel.match(CurrentUser.user?.userId?:"",profile.userId)
                                 showMatchSuccessfullyCard=true
+                                matchedUser = profile
                             }
                         )
                     }
                 }
             }
             if (showMatchSuccessfullyCard) {
-                MatchSuccessfullyCard({showMatchSuccessfullyCard=false})
+                MatchSuccessfullyCard(matchedUser, onClose = {showMatchSuccessfullyCard=false})
             }
         }
     }

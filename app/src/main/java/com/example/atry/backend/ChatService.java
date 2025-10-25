@@ -5,8 +5,17 @@ import android.util.Log;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.*;
-import java.util.*;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ChatService {
     private static final String TAG = "ChatService";
@@ -22,15 +31,14 @@ public class ChatService {
         String senderId = auth.getCurrentUser().getUid();
 
         Map<String, Object> message = new HashMap<>();
+        message.put("matchId",matchId);
         message.put("senderId", senderId);
-        message.put("receiverId", receiverId);
-        message.put("text", content);
-        message.put("timestamp", FieldValue.serverTimestamp());
-        message.put("type", "text");
+        //message.put("receiverId", receiverId);
+        message.put("content", content);
+        message.put("date", FieldValue.serverTimestamp());
+        message.put("kind", "text");
 
-        db.collection("matches")
-                .document(matchId)
-                .collection("messages")
+        db.collection("messages")
                 .add(message)
                 .addOnSuccessListener(doc -> callback.onSuccess("Tin nhắn đã được gửi"))
                 .addOnFailureListener(e -> {
@@ -40,10 +48,10 @@ public class ChatService {
     }
 
     public ListenerRegistration listenForMessages(String matchId, MessageListener listener) {
-        return db.collection("matches")
+        return db.collection("matching")
                 .document(matchId)
                 .collection("messages")
-                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .orderBy("date", Query.Direction.ASCENDING)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.e(TAG, "Lỗi khi nghe tin nhắn: ", e);

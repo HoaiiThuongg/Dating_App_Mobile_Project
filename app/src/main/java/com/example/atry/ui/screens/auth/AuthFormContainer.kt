@@ -5,15 +5,25 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,7 +37,8 @@ import com.example.atry.R
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.alert.Alert
 import com.example.atry.ui.theme.redOrangeLinearBrush
-import com.example.atry.viewmodel.AlertViewModel
+import com.example.atry.viewmodel.composal.AlertViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun AuthFormContainer(
@@ -40,70 +51,85 @@ fun AuthFormContainer(
     viewModel: AlertViewModel = viewModel(),
     onAlertAction:()->Unit={viewModel.hideAlert()}
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = redOrangeLinearBrush
-                ),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            // Header
-            Column(
-                modifier = Modifier
-                    .padding(20.dp, 20.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (haveBack) {
-                    IconButton(
-                        onClick = { navController.navigate("splash") },
-                        modifier = Modifier
-                            .size(32.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.back),
-                            contentDescription = "notifications",
-                            tint = Color.White,
-                            modifier = Modifier.size(30.dp)
-                        )
-                    }
-                }
-                Text(
-                    text = title,
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Text(text = subtitle, fontSize = 20.sp, color = Color.White.copy(alpha = 0.8f))
-            }
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = topContent
-            )
-
-            // Form content — truyền vào từng màn riêng
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                    .background(Color.White)
-                    .padding(top = 50.dp, start = 30.dp, end = 30.dp, bottom = 30.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = bottomContent
+        val systemUiController = rememberSystemUiController()
+        LaunchedEffect(systemUiController) {
+            systemUiController.setStatusBarColor(
+                color = Color(0xFFFF5787),
+                darkIcons = false // Biểu tượng màu sáng (trắng), phù hợp với gradient tối
             )
         }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing)
+        ) {
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                contentWindowInsets = WindowInsets(0.dp)
+            ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = redOrangeLinearBrush
+                    )
+                    .padding(paddingValues)
+                ,
+            ) {
+                // Header
+                Column(
+                    modifier = Modifier
+                        .padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    if (haveBack) {
+                        IconButton(
+                            onClick = { navController.navigate("splash") },
+                            modifier = Modifier
+                                .size(32.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.back),
+                                contentDescription = "notifications",
+                                tint = Color.White,
+                                modifier = Modifier.size(30.dp)
+                            )
+                        }
+                    }
+                    Text(
+                        text = title,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(text = subtitle, fontSize = 20.sp, color = Color.White.copy(alpha = 0.8f))
+                }
 
-        if(viewModel.isAlertVisible) {
-            Alert(alertMessage,{onAlertAction()})
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = topContent
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                        .background(Color.White)
+                        .verticalScroll(rememberScrollState())
+                        .imePadding()
+                        .padding(top = 50.dp, start = 30.dp, end = 30.dp, bottom =30.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = bottomContent
+                )
+            }
+
+            if (viewModel.isAlertVisible) {
+                Alert(alertMessage, { onAlertAction() })
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.atry
 
 import com.example.atry.data_fe.repository.fakeBE.AuthRepository
-import com.example.atry.viewmodel.LoginViewModel
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi

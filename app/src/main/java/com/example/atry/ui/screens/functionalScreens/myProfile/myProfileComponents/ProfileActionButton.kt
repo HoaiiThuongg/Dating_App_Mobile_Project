@@ -37,7 +37,7 @@ fun ProfileActionButton() {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
+        ) {
             Box(
                 modifier = Modifier
                     .background(Color.DarkGray, CircleShape)
@@ -60,15 +60,15 @@ fun ProfileActionButton() {
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
+        ) {
             Box(
                 modifier = Modifier
                     .clickable {
-                    navController.navigate("editProfile")}
+                        navController.navigate("editProfile")}
                     .size(100.dp)
                     .background(Color.DarkGray, CircleShape)
                     .padding(20.dp)
-                    ,
+                ,
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -83,7 +83,7 @@ fun ProfileActionButton() {
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
+        ) {
             Box(
                 modifier = Modifier
                     .clickable {
@@ -91,7 +91,7 @@ fun ProfileActionButton() {
                     .size(50.dp)
                     .background(Color.DarkGray, CircleShape)
                     .padding(10.dp)
-                    ,
+                ,
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

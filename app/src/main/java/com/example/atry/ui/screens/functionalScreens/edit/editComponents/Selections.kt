@@ -28,9 +28,7 @@ fun Selections() {
         // Gu người iu
         SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
         SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
-
         SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
-
 
         // Bio
         WriteBox(title = "Bio", hint = "Bạn giới thiệu về bản thân mình nhé.")

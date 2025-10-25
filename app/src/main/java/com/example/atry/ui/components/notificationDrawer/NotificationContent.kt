@@ -54,7 +54,7 @@ fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
 //                    bottomStart = 20.dp
 //                )
 //            )
-            .padding(20.dp),
+            .padding(20.dp,40.dp,20.dp,20.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         Row(
@@ -115,13 +115,13 @@ fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
             name = "Justin Bieber",
             message = "vừa thích bạn",
             date = "23/02/2025",
-            imageRes = R.drawable.ava1
+            imageRes = R.drawable.humble_logo
         )
         NotificationCard(
             name = "Justin Bieber",
             message = "vừa thích bạn",
             date = "23/02/2025",
-            imageRes = R.drawable.ava1
+            imageRes = R.drawable.humble_logo
         )
     }
 }

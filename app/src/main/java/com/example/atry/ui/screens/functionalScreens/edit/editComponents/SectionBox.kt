@@ -55,21 +55,6 @@ fun SelectionBox(title: String, hint: String) {
             color = subTitleColor
         )
 
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-                .border(
-                    width = 2.dp,                  // độ dày viền
-                    color = Color(0xFFC2C2C2),           // màu viền
-                    shape = RoundedCornerShape(20.dp) // bo góc tròn
-                )
-                .padding(12.dp)
-                .fillMaxWidth()
-        ) {
-            listOf("Giàu", "Đẹp trai").forEach {
-                Chip(text = it)
-            }
-        }
+        TagInputField()
     }
 }

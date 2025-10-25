@@ -34,7 +34,7 @@ import com.example.atry.ui.screens.functionalScreens.edit.editComponents.PublicI
 import com.example.atry.ui.screens.functionalScreens.edit.editComponents.Selections
 
 @Composable
-@Preview()
+@Preview
 fun EditProfileScreen() {
     var openPublicInformation by remember { mutableStateOf(true) }
 
@@ -45,7 +45,7 @@ fun EditProfileScreen() {
         Column(
             modifier = Modifier
                 .padding(20.dp, 10.dp)
-            ) {
+        ) {
             EditProfileNavBar(
                 openPublicInformation,
                 { openPublicInformation = true },

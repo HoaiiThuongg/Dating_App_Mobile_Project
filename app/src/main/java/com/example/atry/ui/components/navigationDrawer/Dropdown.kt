@@ -31,7 +31,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun Dropdown() {
     var expanded by remember { mutableStateOf(false) } // trạng thái mở/đóng dropdown
-    var selectedOption by remember { mutableStateOf("Mặc định") }
+    var selectedOption by remember { mutableStateOf(
+        if(ThemeSingleton.isDark.value) "Tối"
+        else  "Mặc định")
+    }
 
     val options = listOf("Mặc định", "Tối")
     val scope = rememberCoroutineScope()

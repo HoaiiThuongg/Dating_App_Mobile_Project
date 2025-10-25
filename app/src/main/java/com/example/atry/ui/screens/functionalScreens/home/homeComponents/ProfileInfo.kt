@@ -20,12 +20,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
-import com.example.atry.data_fe.model.HomeMatchingProfileDTO
+import com.example.atry.backend.User
 
 @Composable
 fun ProfileInfo(
     modifier: Modifier = Modifier,
-    profile: HomeMatchingProfileDTO
+    user: User
 ) {
     Column(
         modifier = modifier
@@ -41,7 +41,7 @@ fun ProfileInfo(
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Text(
-                    text = profile.name,
+                    text =  user.name ?: "Ẩn danh",
                     style = TextStyle(
                         brush = Brush.linearGradient(
                             colors = listOf(Color(0xFFFF7487), Color(0xFFF33A75))
@@ -51,7 +51,7 @@ fun ProfileInfo(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = profile.bio + " tuổi",
+                    text = "${user.age} tuổi",
                     color = Color.White,
                     fontSize = 18.sp
                 )

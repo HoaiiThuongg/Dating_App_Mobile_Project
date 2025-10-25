@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -29,12 +30,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.atry.R
+import com.example.atry.backend.User
 import com.example.atry.navigation.navController
 
 @Composable
-@Preview
-fun DetailedProfileImage() {
+fun DetailedProfileImage(user: User) {
+    val imageUrl = user.profileImageUrl
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,38 +47,11 @@ fun DetailedProfileImage() {
             .clip(RoundedCornerShape(20.dp))
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ava2), // ảnh của bé
+            painter = rememberAsyncImagePainter(model = imageUrl),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(
-//                    brush = Brush.horizontalGradient(   // 👈 gradient dọc
-//                        colors = listOf(
-//                            Color(0xFF000000),
-//                            Color(0x00000000), // xanh nhạt
-//                            Color(0xFF000000)  // xanh đậm
-//                        )
-//                    )
-//                )
-//        ) {
-//
-//        }
-
-        // Icon đóng
-        IconButton(
-            onClick = { navController.navigate("likeYou") },
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(8.dp)
-        ) {
-            Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.White)
-        }
-
-
         // Nút mũi tên trái/phải
         Row(
             modifier = Modifier
@@ -82,19 +59,37 @@ fun DetailedProfileImage() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowLeft,
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(40.dp)
-            )
+            IconButton(
+                onClick = { navController.navigate("likeYou") },
+                modifier = Modifier
+                    .padding(3.dp)
+                    .clip(CircleShape)
+                    // 2. Dùng .background() để thêm màu nền
+                    .background(Color.Black)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(40.dp)
+                )
+            }
             Spacer(modifier = Modifier.width(250.dp))
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowRight,
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(40.dp)
-            )
+            IconButton(
+                onClick = { navController.navigate("likeYou") },
+                modifier = Modifier
+                    .padding(3.dp)
+                    .clip(CircleShape)
+                    // 2. Dùng .background() để thêm màu nền
+                    .background(Color.Black)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(40.dp)
+                )
+            }
         }
     }
 }

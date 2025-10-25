@@ -1,5 +1,9 @@
 package com.example.atry.backend;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -68,7 +72,32 @@ public class UserService {
                     callback.onFailure("Cập nhật thông tin thất bại: " + e.getMessage());
                 });
     }
-
+    public void getUserById(String userId, UserCallback callback) {
+        db.collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        User user = documentSnapshot.toObject(User.class);
+                        if (user != null) {
+                            // Đảm bảo userId được đặt vào đối tượng User
+                            user.setUserId(documentSnapshot.getId());
+                            callback.onSuccess("lấy thành công");
+                        } else {
+                            // Trường hợp tài liệu tồn tại nhưng không thể map thành User
+                            callback.onFailure("Could not map document to User object.");
+                        }
+                    } else {
+                        // Trường hợp không tìm thấy tài liệu user
+                        callback.onSuccess("fail");
+                        // Hoặc callback.onError(new Exception("User not found")); tùy logic
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Lỗi khi tải thông tin người dùng: " + userId, e);
+                    callback.onFailure(e.getMessage());
+                });
+    }
    /* public void deleteUserAccount (UserCallback callback) {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if (firebaseUser == null) {

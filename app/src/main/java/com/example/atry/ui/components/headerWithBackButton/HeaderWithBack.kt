@@ -35,7 +35,7 @@ fun HeaderWithBack(screenName: String,
             .background(
                 color = MaterialTheme.colorScheme.surface
             )
-            .padding(horizontal = 15.dp, vertical = 25.dp)
+            .padding(15.dp, 50.dp,15.dp,25.dp)
         ,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically

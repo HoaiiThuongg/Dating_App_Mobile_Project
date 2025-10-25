@@ -21,16 +21,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.atry.R
+import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.theme.ThemeSingleton
+import java.io.File
 
 @Composable
+@Preview
 fun UserInformation() {
     val highlightColor =
         if (ThemeSingleton.isDark.value) Color.Black
         else Color(0xFFE270C9)
+    val imageUrl = CurrentUser.user?.profileImageUrl
+        ?: "https://res.cloudinary.com/dosnqohav/image/upload/v1760214495/ugoo3xchm0nru92na1kh.jpg"
 
     Box(contentAlignment = Alignment.Center) {
         Box(
@@ -43,31 +50,31 @@ fun UserInformation() {
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ava1),
-                contentDescription = null,
+                painter = rememberAsyncImagePainter(model = imageUrl),
+                contentDescription = "avatar",
                 modifier = Modifier
-                    .size(150.dp)
+                    .size(155.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
         }
 
         // Thanh % hoàn thiện
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .offset(y = 16.dp)
-                .clip(RoundedCornerShape(50))
-                .background(color = highlightColor)
-                .padding(horizontal = 12.dp, vertical = 4.dp)
-        ) {
-            Text(
-                "78% Hoàn thiện hồ sơ",
-                color = Color.White,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
+//        Box(
+//            modifier = Modifier
+//                .align(Alignment.BottomCenter)
+//                .offset(y = 16.dp)
+//                .clip(RoundedCornerShape(50))
+//                .background(color = highlightColor)
+//                .padding(horizontal = 12.dp, vertical = 4.dp)
+//        ) {
+//            Text(
+//                "78% Hoàn thiện hồ sơ",
+//                color = Color.White,
+//                fontSize = 12.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+//        }
     }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -75,7 +82,7 @@ fun UserInformation() {
     ) {
         // Tên + tuổi
         Text(
-            "Nguyễn Ngọc Linh, 19",
+            CurrentUser.user?.name + ", "+ CurrentUser.user?.age,
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground

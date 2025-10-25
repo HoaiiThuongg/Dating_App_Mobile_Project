@@ -20,6 +20,10 @@ public class Message {
         this.createAt = new Date();
     }
 
+    public String getMessageId() {
+        return messageId;
+    }
+
     public String getSenderId() { return senderId; }
     public String getMatchId() { return matchId; }
     public String getContent() { return content; }

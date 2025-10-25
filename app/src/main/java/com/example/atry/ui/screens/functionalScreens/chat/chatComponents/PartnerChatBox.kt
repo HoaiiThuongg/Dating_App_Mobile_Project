@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,18 +22,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.atry.R
+import com.example.atry.viewmodel.functional.ChatViewModel
 
 @Composable
-@Preview
-fun PartnerChatBox(){
+fun PartnerChatBox(
+    viewModel: ChatViewModel= viewModel(),
+    text:String
+){
+    val state by viewModel.uiState.collectAsState()
+    val matchedUser = state.matchedUser
+
+    val imageUrl = matchedUser?.user?.profileImageUrl
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterHorizontally)
 
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ava1),
+            painter = rememberAsyncImagePainter(model = imageUrl),
             contentDescription = "parter avatar",
             modifier = Modifier
                 .size(40.dp)
@@ -59,7 +71,7 @@ fun PartnerChatBox(){
                     .padding(horizontal = 20.dp, vertical = 8.dp)
             ) {
                 Text(
-                    text = "uhm, có chuyện gì",
+                    text = text,
                     color = Color.Black,
                     fontSize = 16.sp
                 )

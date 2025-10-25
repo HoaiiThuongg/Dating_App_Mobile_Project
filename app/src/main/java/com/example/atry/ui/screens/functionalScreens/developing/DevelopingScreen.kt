@@ -48,7 +48,7 @@ fun DevelopingScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.developing),
+                painter = painterResource(id = R.drawable.humble_logo),
                 contentDescription = null,
                 modifier = Modifier
                     .size(150.dp)

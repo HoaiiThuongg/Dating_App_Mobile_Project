@@ -39,9 +39,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.R
+import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.redGradientBrush
-import com.example.atry.viewmodel.WarningCardViewModel
+import com.example.atry.viewmodel.composal.WarningCardViewModel
 
 @Composable
 fun DrawerContent(
@@ -72,7 +73,7 @@ fun DrawerContent(
 //                    bottomStart = 0.dp
 //                )
 //            )
-            .padding(20.dp),
+            .padding(20.dp,40.dp,20.dp,20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Row(
@@ -115,7 +116,10 @@ fun DrawerContent(
         Option("Quét Mã QR",{navController.navigate("cam_scan_qr")})
         Spacer(modifier = Modifier.weight(1f))
         Button (
-            onClick = { viewModel.showWarning() },
+            onClick = {
+                viewModel.showWarning()
+                CurrentUser.clear()
+                      },
             modifier = Modifier
                 .fillMaxWidth()
                 .border(

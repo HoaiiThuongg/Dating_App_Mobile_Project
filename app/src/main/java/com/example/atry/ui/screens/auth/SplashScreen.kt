@@ -1,9 +1,7 @@
 package com.example.atry.ui.screens.auth
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -63,7 +61,7 @@ fun SplashScreen () {
 
             CustomLinearButton("Đăng nhập", { navController.navigate("login")},
                 redOrangeLinear, Color.White)
-            Text("Hoặc đăng nhập bằng", color = Color(0xFF595959), fontSize = 14.sp)
+            Text("Chào mừng bạn đến với Humble", color = Color(0xFF595959), fontSize = 14.sp)
 
             IconButton(
                 onClick = { },
@@ -71,7 +69,7 @@ fun SplashScreen () {
                     .size(32.dp)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.google),
+                    painter = painterResource(id = R.drawable.humble_logo),
                     contentDescription = "notifications",
                     tint = Color.Unspecified,
                     modifier = Modifier.size(32.dp)

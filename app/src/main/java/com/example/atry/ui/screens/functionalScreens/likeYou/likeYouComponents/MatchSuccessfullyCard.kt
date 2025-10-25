@@ -29,14 +29,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.atry.R
+import com.example.atry.backend.User
+import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.theme.grayBlurBackground
 import com.example.atry.ui.theme.redLinear
 
 @Composable
 fun MatchSuccessfullyCard(
+    matchedUser: User,
     onClose: () -> Unit
 ) {
+    val imageUrl1 = CurrentUser.user?.profileImageUrl
+    val imageUrl2 = matchedUser.profileImageUrl
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -80,7 +87,7 @@ fun MatchSuccessfullyCard(
                     horizontalArrangement = Arrangement.spacedBy((-15).dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ava1),
+                        painter = rememberAsyncImagePainter(model = imageUrl1),
                         contentDescription = "Avatar 1",
                         modifier = Modifier
                             .size(100.dp)
@@ -88,7 +95,7 @@ fun MatchSuccessfullyCard(
                         contentScale = ContentScale.Crop
                     )
                     Image(
-                        painter = painterResource(id = R.drawable.ava2),
+                        painter = rememberAsyncImagePainter(model = imageUrl2),
                         contentDescription = "Avatar 1",
                         modifier = Modifier
                             .size(100.dp)
@@ -98,7 +105,7 @@ fun MatchSuccessfullyCard(
                 }
 
                 Text(
-                    "Ghép đôi thành công",
+                    "Ghép đôi thành công với ${matchedUser.name}",
                     color = Color.White, fontSize = 20.sp,
                     textAlign = TextAlign.Center
                 )

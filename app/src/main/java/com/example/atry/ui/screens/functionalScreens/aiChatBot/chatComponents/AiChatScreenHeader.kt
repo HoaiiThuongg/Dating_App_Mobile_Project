@@ -28,10 +28,10 @@ import com.example.atry.navigation.navController
 
 @Composable
 @Preview
-fun AiChatScreenHeader(){
+fun AiChatScreenHeader(modifier: Modifier= Modifier){
     //header
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -74,7 +74,7 @@ fun AiChatScreenHeader(){
 
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ava1),
+                painter = painterResource(id = R.drawable.humble_logo),
                 contentDescription = null,
                 modifier = Modifier
                     .size(32.dp)

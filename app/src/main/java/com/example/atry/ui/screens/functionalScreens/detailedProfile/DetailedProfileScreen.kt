@@ -4,10 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -27,22 +30,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
+import com.example.atry.backend.User
 import com.example.atry.ui.components.headerAndFooter.Footer
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailInfo
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailedProfileImage
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.ActionButtons
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailedProfileHeader
 
-@Preview
 @Composable
-fun DetailScreen(){
+fun DetailScreen(user: User){
     val scrollState = rememberScrollState()
 
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.surface)
+        .windowInsetsPadding(WindowInsets.navigationBars)
     ) {
-        DetailedProfileHeader()
+        DetailedProfileHeader(user)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,9 +58,9 @@ fun DetailScreen(){
 
         ) {
 
-            DetailedProfileImage()
+            DetailedProfileImage(user)
 
-            DetailInfo()
+            DetailInfo(user)
 
             ActionButtons()
         }
