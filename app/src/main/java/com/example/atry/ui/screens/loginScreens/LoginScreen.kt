@@ -12,7 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.filled.ArrowBack
-import com.example.atry.navigation.navController
+import androidx.navigation.NavHostController
+//import com.example.atry.navigation.navController
 import com.example.atry.ui.components.textfield.GrayBorderTextField
 import com.example.atry.ui.components.InputTitle
 import com.example.atry.ui.components.buttons.CustomBorderButton
@@ -20,7 +21,9 @@ import com.example.atry.ui.components.buttons.CustomBorderButton
 
 @Composable
 @Preview
-fun LoginScreen() {
+fun LoginScreen(
+    navController: NavHostController = com.example.atry.navigation.navController
+) {
 
     Column(
         modifier = Modifier
