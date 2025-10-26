@@ -1,9 +1,15 @@
 plugins {
+    // Giữ nguyên alias nếu bạn đang dùng version catalog (libs.versions.toml)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
     id("com.google.gms.google-services") version "4.4.4" apply false
+    id("jacoco")
+}
+
+jacoco {
+    toolVersion = "0.8.13"
 }
 
 android {
@@ -28,6 +34,11 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+        debug {
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -41,7 +52,16 @@ android {
     }
 }
 
+configurations.all {
+    // Ép buộc các phiên bản test compatible để tránh conflict (an toàn, nếu bạn muốn gỡ lên tuỳ).
+    resolutionStrategy.force(
+        "androidx.test.ext:junit:1.1.5",
+        "androidx.test.espresso:espresso-core:3.5.0"
+    )
+}
+
 dependencies {
+    // Core / Compose / Navigation
     implementation("androidx.navigation:navigation-compose:2.8.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -53,14 +73,26 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.navigation.testing)
+
+    // --- Test dependencies: chú ý sử dụng testImplementation / androidTestImplementation ---
+    // Unit tests (JVM)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+
+    // Instrumented Android tests (Compose UI tests transitively yêu cầu junit:1.1.5 & espresso:3.5.0)
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+
+    // Compose UI test artifact (phiên bản lấy từ BOM)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+
+    // Debug
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    // Libraries (giữ nguyên phần còn lại)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -77,14 +109,19 @@ dependencies {
     implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation(kotlin("test"))
+
+    // Test libraries that shouldn't be runtime/implementation:
+    // - (Đã chuyển) implementation(kotlin("test")) bị gỡ vì làm lẫn test libs vào runtime.
+    // Nếu bạn cần kotlin test trên JVM, dùng testImplementation("org.jetbrains.kotlin:kotlin-test")
+    // testImplementation("org.jetbrains.kotlin:kotlin-test") // (tùy chọn)
 
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
 
-    implementation("com.google.firebase:firebase-auth:22.3.0") // 👈 Firebase Auth
-    implementation("com.google.firebase:firebase-firestore:25.1.1") // nếu có dùng Firestore
-    implementation("com.google.firebase:firebase-storage:21.0.1") // nếu có CloudinaryService
-    implementation("com.google.firebase:firebase-messaging:24.0.0") // nếu có chat/push
+    // Firebase / other libs
+    implementation("com.google.firebase:firebase-auth:22.3.0")
+    implementation("com.google.firebase:firebase-firestore:25.1.1")
+    implementation("com.google.firebase:firebase-storage:21.0.1")
+    implementation("com.google.firebase:firebase-messaging:24.0.0")
     implementation("com.google.guava:guava:31.1-android")
     implementation("com.cloudinary:cloudinary-android:3.1.2")
     implementation("androidx.appcompat:appcompat:1.7.0")

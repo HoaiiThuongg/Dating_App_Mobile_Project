@@ -12,7 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 //import com.example.atry.navigation.navController
 import com.example.atry.ui.components.textfield.GrayBorderTextField
 import com.example.atry.ui.components.InputTitle
@@ -22,7 +24,8 @@ import com.example.atry.ui.components.buttons.CustomBorderButton
 @Composable
 @Preview
 fun LoginScreen(
-    navController: NavHostController = com.example.atry.navigation.navController
+    navController: NavHostController = rememberNavController(),
+    modifier: Modifier = Modifier
 ) {
 
     Column(
@@ -38,7 +41,9 @@ fun LoginScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ){
             IconButton(
-                onClick = { navController.navigate("splash")}) {
+                onClick = { navController.navigate("splash")},
+                modifier = Modifier.testTag("back_button")
+            ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back"
@@ -58,18 +63,25 @@ fun LoginScreen(
                 ){
                     GrayBorderTextField(
                         "Nhập tên đăng nhập",
-                        { navController.navigate("main") }
+                        { navController.navigate("main") },
+                        modifier = Modifier.testTag("username_field")
                     )
                     GrayBorderTextField(
                         "Nhập mật khẩu",
-                        { navController.navigate("main") }
+                        { navController.navigate("main") },
+                        modifier = Modifier.testTag("password_field")
                     )
 
                 }
 
 
             }
-            CustomBorderButton("Đăng nhập",{navController.navigate("main")}, Color.Red)
+            CustomBorderButton(
+                "Đăng nhập",
+                {navController.navigate("main")},
+                Color.Red,
+                modifier = Modifier.testTag("login_button")
+            )
 
 
         }

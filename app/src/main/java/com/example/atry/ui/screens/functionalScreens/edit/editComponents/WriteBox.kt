@@ -44,6 +44,6 @@ fun WriteBox(title: String, hint: String) {
             }
         )
         Text(hint, fontSize = 16.sp, color = subTitleColor)
-        GrayBorderTextField("Giới thiệu về bản thân...") { }
+        GrayBorderTextField("Giới thiệu về bản thân...")
     }
 }

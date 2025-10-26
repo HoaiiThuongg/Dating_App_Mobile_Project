@@ -26,7 +26,8 @@ import androidx.compose.ui.text.TextStyle
 fun CustomBorderButton(
     text: String,
     onClick: () -> Unit,
-    borderColor: Color
+    borderColor: Color,
+    modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsPressedAsState()
@@ -40,7 +41,7 @@ fun CustomBorderButton(
         colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
         border = BorderStroke(1.dp, textBrush),
         shape = RoundedCornerShape(50),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .height(50.dp)
