@@ -25,6 +25,20 @@
         <activity
             android:name=".TestActivity"
             android:exported="true">
+
+            <!-- Cấu hình xác thực eamil -->
+            <!-- Mở app khi click link xác thực -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="dating-app-6b66a.firebaseapp.com"
+                    android:pathPrefix="/__/auth/action" />
+            </intent-filter>
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

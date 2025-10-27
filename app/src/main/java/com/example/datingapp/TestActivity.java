@@ -1,16 +1,15 @@
 package com.example.datingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.auth.FirebaseUser;
 
 public class TestActivity extends AppCompatActivity {
     private static final String TAG = "EmailLinkTest";
@@ -33,8 +32,11 @@ public class TestActivity extends AppCompatActivity {
 
         authHelper = new EmailLinkAuthService(this);
 
-        //testEmailLinkRegistration();
-        testLoginWithEmailPassword();
+        processEmailLink(getIntent());
+        if (getIntent() != null && getIntent().getData() != null) {
+            testEmailLinkRegistration();
+        }
+        //testLoginWithEmailPassword();
         //testUploadImageToCloudinary();
 
        /* try {
@@ -46,12 +48,68 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
+    //Phương thức onNewIntent() được gọi khi một Activity đã tồn tại (đã mở trước đó) nhận một Intent mới
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        processEmailLink(intent);
+    }
+
+    private void processEmailLink(Intent intent) {
+        // kiểm tra nếu intend đã có dữ liệu link Firebase
+        if (intent.getData() != null) {
+            authHelper.handleVerifyEmail(intent.getData(), new EmailLinkAuthService.AuthCallback() {
+                @Override
+                public void onSuccess(String message) {
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    //Chuyển sang màn hình Login hoặc đặt mật khẩu
+                    Intent next = new Intent(getApplicationContext(), TestActivity.class);
+                    next.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(next);
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    Toast.makeText(getApplicationContext(), "Lỗi: " + error, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onEmailSent(String message) {
+                }
+            });
+        }
+    }
+
+
+    private void testEmailLinkRegistration() {
+        appendMessage("Gửi link xác thực đến email: " + testEmail, 0xFF000000);
+
+        authHelper.sendVerifyEmail(testEmail, new EmailLinkAuthService.AuthCallback() {
+            @Override
+            public void onSuccess(String message) {
+                appendMessage("onSuccess: " + message, 0xFF00AA00); // xanh lá
+            }
+
+            @Override
+            public void onFailure(String error) {
+                appendMessage("onFailure: " + error, 0xFFAA0000); // đỏ
+            }
+
+            @Override
+            public void onEmailSent(String message) {
+                appendMessage("onEmailSent: " + message, 0xFF0000FF); // xanh dương
+                appendMessage("Link đã được gửi tới email thật.", 0xFF000000);
+                appendMessage("Bước tiếp theo: click link trong email thật để tiếp tục.", 0xFF000000);
+            }
+        });
+    }
+
 
     /*private void testUpdateUserInfo() throws IOException {
         appendMessage(" Bắt đầu test updateUserInfo()", Color.BLACK);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            appendMessage("⚠Chưa đăng nhập! Hãy đăng nhập trước khi test.", Color.RED);
+            appendMessage("Chưa đăng nhập! Hãy đăng nhập trước khi test.", Color.RED);
             return;
         }
 

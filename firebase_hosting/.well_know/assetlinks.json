@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.datingapp",
+      "sha256_cert_fingerprints": [
+        "FE:B6:56:0C:F9:69:DF:BE:CD:67:FD:A4:4C:52:21:30:7A:1E:0C:93:2C:94:69:84:17:CC:AA:54:B9:77:7B:A8"
+      ]
+    }
+  }
+]
