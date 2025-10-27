@@ -14,6 +14,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.platform.testTag
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.textfield.GrayBorderTextField
 import com.example.atry.ui.components.InputTitle
@@ -22,7 +26,10 @@ import com.example.atry.ui.components.buttons.RedLinearBorderButton
 
 @Preview
 @Composable
-fun EmailScreen() {
+fun EmailScreen(
+    navController: NavController? = rememberNavController(),
+    modifier: Modifier = Modifier
+) {
 
     Column(modifier = Modifier
             .fillMaxSize()
@@ -31,31 +38,39 @@ fun EmailScreen() {
         verticalArrangement = Arrangement.SpaceBetween
     ){
         IconButton(
-        onClick = { /* handle back */ }) {
-        Icon(
-            imageVector = Icons.Filled.ArrowBack,
-            contentDescription = "Back"
-        )
-    }
+            onClick = { navController?.navigate("splash") },
+            modifier.testTag("back_button")
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBack,
+                contentDescription = "Back"
+            )
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement =  Arrangement.spacedBy(30.dp, Alignment.CenterVertically),
         ){
-
-
             InputTitle("Nhập email")
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement =  Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
             ){
-                GrayBorderTextField("Nhập tên đăng nhập",{ navController.navigate("otp") })
+                GrayBorderTextField(
+                    "Nhập tên đăng nhập",
+                    { navController?.navigate("otp") },
+                    modifier.testTag("email_field")
+                    )
                 Text("Chúng tớ sẽ gửi mã xác minh đến email của cậu", color = Color.Gray,fontSize = 16.sp)
             }
 
 
         }
         Column(){
-            RedLinearBorderButton("Tiếp tục",{ navController.navigate("otp") })
+            RedLinearBorderButton(
+                "Tiếp tục",
+                { navController?.navigate("otp") },
+                modifier = Modifier.testTag("continue_button")
+            )
         }
 
     }

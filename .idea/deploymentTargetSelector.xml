@@ -16,13 +16,13 @@
       <SelectionState runConfigName="loginScreen_elementsDisplayed_and_loginNavigatesToMain()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MainActivityTest">
+      <SelectionState runConfigName="EmailScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="clicking_back_button_navigates_to_splash()">
+      <SelectionState runConfigName="clicking_back_navigates_to_back_route()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="LoginScreenNavTest">
+      <SelectionState runConfigName="clicking_continue_navigates_to_otp_and_shows_otp_screen()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
