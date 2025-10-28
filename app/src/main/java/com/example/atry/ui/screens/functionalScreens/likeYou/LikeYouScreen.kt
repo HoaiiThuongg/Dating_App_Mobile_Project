@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.backend.SwipeService
 import com.example.atry.backend.User
 import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.components.HeartLoading
@@ -34,8 +35,7 @@ fun LikeYouScreen(viewModel: LikeYouViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
     var showMatchSuccessfullyCard by remember { mutableStateOf(false) }
     val users = state.users
-
-    lateinit var matchedUser : User
+    val matchedUser = state.matchedUser
 
     Column(
         modifier = Modifier
@@ -72,16 +72,15 @@ fun LikeYouScreen(viewModel: LikeYouViewModel = viewModel()) {
                         LikeYouCard(
                             user = profile,
                             onMatching = {
-                                viewModel.match(CurrentUser.user?.userId?:"",profile.userId)
+                                viewModel.swipe(profile, SwipeService.SwipeType.RIGHT)
                                 showMatchSuccessfullyCard=true
-                                matchedUser = profile
                             }
                         )
                     }
                 }
             }
             if (showMatchSuccessfullyCard) {
-                MatchSuccessfullyCard(matchedUser, onClose = {showMatchSuccessfullyCard=false})
+                MatchSuccessfullyCard(matchedUser=matchedUser, onClose = {showMatchSuccessfullyCard=false})
             }
         }
     }

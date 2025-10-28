@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,11 +27,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.R
 import com.example.atry.backend.User
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.InfoBox
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.ProfileImage
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.ProfileInfo
+import com.example.atry.viewmodel.functional.HomeViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -40,7 +43,8 @@ fun SwipeCard(
     modifier: Modifier,
     user: User,
     onSwipeLeft: () -> Unit,
-    onSwipeRight: () -> Unit
+    onSwipeRight: () -> Unit,
+    homeViewModel: HomeViewModel= viewModel()
 ) {
     val scope = rememberCoroutineScope()
     val offsetX = remember { Animatable(0f) }
@@ -53,6 +57,11 @@ fun SwipeCard(
 
     val screenWidth = 1000f // fix cứng, sau có thể lấy LocalConfiguration
 
+    LaunchedEffect(user.userId) {
+        homeViewModel.getUserProfileById(user.userId)
+    }
+
+    val profile by homeViewModel.userProfile.observeAsState()
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -128,7 +137,8 @@ fun SwipeCard(
                         ProfileImage(user)
                         ProfileInfo(
                             modifier = Modifier.align(Alignment.BottomStart),
-                            user
+                            user,
+                            profile
                         )
                     }
 
@@ -139,8 +149,10 @@ fun SwipeCard(
                             .offset(y = 10.dp)
                             .padding(10.dp)
                     ) {
-                        InfoBox(title = "My bio", content = user.bio)
-                        InfoBox(title = "Sở thích", content = user.interests)
+                        InfoBox(title = "Tiểu sử", content = profile?.bio?:"Không muốn chia sẻ")
+                        InfoBox(title = "Cung hoàng đạo", content = profile?.zodiacSign?:"Bí ẩn")
+                        InfoBox(title = "Địa điêm", content = profile?.location?:"Không muốn chia sẻ")
+                        InfoBox(title = "Lối sống", content = profile?.lifestyle?:"Không muốn chia sẻ")
                     }
                 }
             }
@@ -155,7 +167,7 @@ fun SwipeCard(
             soundResId = R.raw.dislike
         )
 
-        // ❤️ Tim đỏ (bên phải)
+        //  Tim đỏ (bên phải)
         AnimatedHeart(
             visible = showRightHeart,
             painter = painterResource(id = R.drawable.like_heart),

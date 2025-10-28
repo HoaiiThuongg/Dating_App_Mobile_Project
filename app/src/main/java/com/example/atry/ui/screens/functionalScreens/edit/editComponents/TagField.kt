@@ -48,7 +48,12 @@ fun TagInputField(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .border(
+                width = 1.dp, // Độ dày của viền
+                color = Color(0xFFC4C4C4), // Màu viền xám
+                shape = RoundedCornerShape(20.dp) // Bo góc 12dp
+            )
+            .padding(15.dp)
     ) {
         tags.forEach { tag ->
             Row(

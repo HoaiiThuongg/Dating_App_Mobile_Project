@@ -36,8 +36,7 @@ fun UserInformation() {
     val highlightColor =
         if (ThemeSingleton.isDark.value) Color.Black
         else Color(0xFFE270C9)
-    val imageUrl = CurrentUser.user?.profileImageUrl
-        ?: "https://res.cloudinary.com/dosnqohav/image/upload/v1760214495/ugoo3xchm0nru92na1kh.jpg"
+    val imageUrl = CurrentUser.user?.defaultImage
 
     Box(contentAlignment = Alignment.Center) {
         Box(
@@ -82,7 +81,7 @@ fun UserInformation() {
     ) {
         // Tên + tuổi
         Text(
-            CurrentUser.user?.name + ", "+ CurrentUser.user?.age,
+            CurrentUser.user?.name + ", "+ CurrentUser.userProfile?.age + " tuổi",
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground

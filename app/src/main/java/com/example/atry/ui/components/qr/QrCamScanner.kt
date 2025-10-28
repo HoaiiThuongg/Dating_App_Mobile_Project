@@ -5,22 +5,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,50 +28,39 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.redGradientBrush
+import com.example.atry.viewmodel.functional.QRViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.gson.Gson
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import androidx.compose.runtime.livedata.observeAsState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraPermissionContent() {
     val cameraPermission = Manifest.permission.CAMERA
     val permissionState = rememberPermissionState(permission = cameraPermission)
+    val context = LocalContext.current
 
+    var permissionRequested by remember { mutableStateOf(false) }
+
+    // Launch Accompanist permission request once
     LaunchedEffect(Unit) {
-        permissionState.launchPermissionRequest()
+        if (!permissionRequested) {
+            permissionState.launchPermissionRequest()
+            permissionRequested = true
+        }
     }
 
     if (permissionState.status.isGranted) {
-        QrCamScannerScreen { qrValue ->
-            println("QR quét được: $qrValue")
-        }
+        QrCamScannerScreen()
     } else {
-        Text("Cần cấp quyền camera để quét QR 💫", modifier = Modifier.padding(16.dp))
-    }
-}
-
-@Suppress("UnsafeOptInUsageError")
-@Composable
-fun QrCamScannerScreen(onQrScanned: (String) -> Unit) {
-    val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    var permissionGranted by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
-                    PackageManager.PERMISSION_GRANTED
-        )
-    }
-
-    var scannedCode by remember { mutableStateOf<String?>(null) }
-
-    if (!permissionGranted) {
-        Text("Vui lòng cấp quyền camera 📷")
+        // Request permission directly from Activity as fallback
         LaunchedEffect(Unit) {
             ActivityCompat.requestPermissions(
                 context.findActivity(),
@@ -85,14 +68,27 @@ fun QrCamScannerScreen(onQrScanned: (String) -> Unit) {
                 123
             )
         }
-        return
+        Text("Cần cấp quyền camera để quét QR 💫", modifier = Modifier.padding(16.dp))
     }
+}
 
+@Suppress("UnsafeOptInUsageError")
+@Composable
+fun QrCamScannerScreen(
+    viewModel: QRViewModel = viewModel()
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val gson = Gson()
+    val user by viewModel.user.observeAsState()
     val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
+
+    var scannedCode by remember { mutableStateOf<String?>(null) }
+    var hasNavigated by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // 🩵 Camera hiển thị nền
+        // Camera preview
         AndroidView(
             modifier = Modifier.fillMaxSize(),
             factory = { ctx ->
@@ -117,12 +113,13 @@ fun QrCamScannerScreen(onQrScanned: (String) -> Unit) {
                         scanner.process(image)
                             .addOnSuccessListener { barcodes ->
                                 barcodes.firstOrNull()?.rawValue?.let { code ->
-                                    scannedCode = code // 🪄 Cập nhật code quét được
+                                    if (scannedCode == null) {
+                                        scannedCode = code
+                                        viewModel.getUserById(code)
+                                    }
                                 }
                             }
-                            .addOnCompleteListener {
-                                imageProxy.close()
-                            }
+                            .addOnCompleteListener { imageProxy.close() }
                     } else {
                         imageProxy.close()
                     }
@@ -143,34 +140,36 @@ fun QrCamScannerScreen(onQrScanned: (String) -> Unit) {
             }
         )
 
+        // Overlay UI
         Column(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             IconButton(
                 onClick = { navController.navigate("main_profile") },
                 modifier = Modifier
                     .size(32.dp)
+                    .offset(x = 20.dp, y = 50.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Close",
                     modifier = Modifier
                         .size(32.dp)
-                        .graphicsLayer(alpha = 0.99f) // để hỗ trợ blend
+                        .graphicsLayer(alpha = 0.99f)
                         .drawWithCache {
                             onDrawWithContent {
                                 drawContent()
                                 drawRect(
                                     brush = redGradientBrush,
-                                    size = this.size, // 🩵 bắt buộc: vẽ gradient phủ toàn icon
+                                    size = this.size,
                                     blendMode = BlendMode.SrcAtop
                                 )
                             }
                         },
-                    tint = Color.White
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -178,22 +177,19 @@ fun QrCamScannerScreen(onQrScanned: (String) -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (scannedCode == null) {
-                    Text("Đang quét QR...", color = Color.White)
-                } else {
-                    Text("Mã QR quét được:", color = Color.White)
-                    Text(
-                        scannedCode ?: "",
-                        color = Color.Yellow,
-                        modifier = Modifier.padding(top = 5.dp)
-                    )
+                when {
+                    scannedCode == null -> Text("Đang quét QR...", color = Color.White)
+                    user == null -> Text("Đang tải thông tin người dùng...", color = Color.White)
+                    user != null && !hasNavigated -> {
+                        hasNavigated = true
+                        val userJson = gson.toJson(user)
+                        navController.navigate("detailed_profile/${Uri.encode(userJson)}")
+                    }
                 }
             }
         }
     }
-    // 🩷 Hiển thị text ở giữa màn hình
 }
-
 
 fun Context.findActivity(): Activity {
     var context = this

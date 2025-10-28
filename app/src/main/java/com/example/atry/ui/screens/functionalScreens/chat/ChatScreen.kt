@@ -1,5 +1,6 @@
 package com.example.atry.ui.screens.functionalScreens.chat
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +49,7 @@ fun ChatScreen(
     factory: ViewModelProvider.Factory,
 ) {
     val viewModel: ChatViewModel = viewModel(factory = factory)
+
     val messages = viewModel.messages
     val systemUiController = rememberSystemUiController()
     val isDark = ThemeSingleton.isDark.value
@@ -54,7 +57,10 @@ fun ChatScreen(
     val listState = rememberLazyListState()
     val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
-    // 🔥 SỬA: Thêm imeVisible vào dependencies của LaunchedEffect
+    val uiState by viewModel.uiState.collectAsState()
+    val matchedUser = uiState.matchedUser
+
+
     LaunchedEffect(messages.size, isImeVisible) {
         if (messages.isNotEmpty()) {
             listState.animateScrollToItem(messages.lastIndex)
@@ -67,6 +73,7 @@ fun ChatScreen(
             darkIcons = !isDark
         )
     }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -103,11 +110,14 @@ fun ChatScreen(
                         } else {
                             PartnerChatBox(text=message.content)
                         }
+                        Log.d("message.senderId and current id",message.senderId + " "+ CurrentUser.user?.userId)
+
                     }
+
                 }
                 //texting
                 ChatScreenFooter(
-
+                    matchedUser=matchedUser,
                     Modifier.verticalScroll(rememberScrollState())
                         .imePadding()
                 )

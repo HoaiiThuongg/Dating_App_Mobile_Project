@@ -35,22 +35,22 @@ fun PartnerChatBox(
     val state by viewModel.uiState.collectAsState()
     val matchedUser = state.matchedUser
 
-    val imageUrl = matchedUser?.user?.profileImageUrl
+//    val imageUrl = matchedUser?.user?.profileImageUrl
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterHorizontally)
 
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(model = imageUrl),
-            contentDescription = "parter avatar",
-            modifier = Modifier
-                .size(40.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color.LightGray),
-            contentScale = ContentScale.Crop
-        )
+//        Image(
+//            painter = rememberAsyncImagePainter(model = imageUrl),
+//            contentDescription = "parter avatar",
+//            modifier = Modifier
+//                .size(40.dp)
+//                .clip(RoundedCornerShape(20.dp))
+//                .background(Color.LightGray),
+//            contentScale = ContentScale.Crop
+//        )
 
         Box(
             modifier = Modifier

@@ -1,33 +1,30 @@
 package com.example.atry.backend;
 
-import static android.content.ContentValues.TAG;
-
 import android.util.Log;
 
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import com.google.firebase.firestore.*;
-import java.util.*;
 
 public class MessageService {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration messageListener;
-
     private boolean isInitialLoad = true;
     private long lastMessageTimestamp = 0;
 
+    private CollectionReference getMessagesCollectionRef(String matchId) {
+        return db.collection("matches")
+                .document(matchId)
+                .collection("messages");
+    }
+
+    // --- Lấy messages ban đầu ---
     public void getInitialMessages(String matchId, LoadMessagesCallback callback) {
-        db.collection("messages")
-                .whereEqualTo("matchId", matchId)
-                .orderBy("date", Query.Direction.DESCENDING)
+        getMessagesCollectionRef(matchId)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(50)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -37,8 +34,10 @@ public class MessageService {
                         if (msg != null) {
                             msg.setMessageId(doc.getId());
                             messages.add(msg);
-                            if (msg.getCreateAt() != null && msg.getCreateAt().getTime() > lastMessageTimestamp) {
-                                lastMessageTimestamp = msg.getCreateAt().getTime();
+
+                            Timestamp ts = doc.getTimestamp("timestamp");
+                            if (ts != null) {
+                                lastMessageTimestamp = Math.max(lastMessageTimestamp, ts.toDate().getTime());
                             }
                         }
                     }
@@ -49,17 +48,10 @@ public class MessageService {
                 .addOnFailureListener(callback::onError);
     }
 
-    // Mới chỉ lấy những tin nhắn mới, chưa tính đến trường hợp ng dùng sửa xóa tin nhắn
+    // --- Lắng nghe tin nhắn mới ---
     public void listenForNewMessages(String matchId, LoadMessagesCallback callback) {
-        // Chỉ lắng nghe tin nhắn mới hơn tin nhắn cuối cùng
-        Query query = db.collection("messages")
-                .whereEqualTo("matchId", matchId)
-                .orderBy("date", Query.Direction.ASCENDING);
-
-        // Nếu đã có tin nhắn, chỉ lấy tin nhắn mới hơn
-        if (lastMessageTimestamp > 0) {
-            query = query.startAfter(new Date(lastMessageTimestamp));
-        }
+        Query query = getMessagesCollectionRef(matchId)
+                .orderBy("timestamp", Query.Direction.ASCENDING);
 
         messageListener = query.addSnapshotListener((snapshots, error) -> {
             if (error != null) {
@@ -67,44 +59,40 @@ public class MessageService {
                 return;
             }
 
-            if (snapshots != null && !snapshots.isEmpty() && !isInitialLoad) {
+            if (snapshots != null && !isInitialLoad) {
                 List<Message> newMessages = new ArrayList<>();
                 for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                    if (dc.getType() == DocumentChange.Type.ADDED) {
-                        Message newMsg = dc.getDocument().toObject(Message.class);
-                        newMsg.setMessageId(dc.getDocument().getId());
-                        newMessages.add(newMsg);
-
-                        // Cập nhật timestamp
-                        if (newMsg.getCreateAt() != null) {
-                            lastMessageTimestamp = Math.max(lastMessageTimestamp,
-                                    newMsg.getCreateAt().getTime());
+                    Timestamp ts = dc.getDocument().getTimestamp("timestamp");
+                    if (dc.getType() == DocumentChange.Type.ADDED && ts != null) {
+                        long currentTs = ts.toDate().getTime();
+                        if (currentTs > lastMessageTimestamp) {
+                            Message newMsg = dc.getDocument().toObject(Message.class);
+                            newMsg.setMessageId(dc.getDocument().getId());
+                            newMessages.add(newMsg);
+                            lastMessageTimestamp = currentTs;
                         }
                     }
                 }
-                if (!newMessages.isEmpty()) {
-                    callback.onSuccess(newMessages);
-                }
+                if (!newMessages.isEmpty()) callback.onSuccess(newMessages);
             }
         });
     }
 
+    // --- Load thêm message (pagination) ---
     public void loadMoreMessages(String matchId, DocumentSnapshot lastDoc, int limit, LoadMessagesCallback callback) {
         if (lastDoc == null) {
             callback.onError(new IllegalArgumentException("lastDoc cannot be null"));
             return;
         }
 
-        db.collection("messages")
-                .whereEqualTo("matchId", matchId)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+        getMessagesCollectionRef(matchId)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .startAfter(lastDoc)
                 .limit(limit)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Message> messages = new ArrayList<>();
                     DocumentSnapshot newLastDoc = null;
-
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         Message msg = doc.toObject(Message.class);
                         if (msg != null) {
@@ -113,10 +101,8 @@ public class MessageService {
                             newLastDoc = doc;
                         }
                     }
-
                     Collections.reverse(messages);
 
-                    // Trả về cả lastDoc mới để tiếp tục pagination
                     if (callback instanceof LoadMessagesWithPaginationCallback) {
                         ((LoadMessagesWithPaginationCallback) callback).onSuccess(messages, newLastDoc);
                     } else {
@@ -126,7 +112,28 @@ public class MessageService {
                 .addOnFailureListener(callback::onError);
     }
 
-    // Lưu ý: hủy listener khi rời màn hình chat (chồng chéo)
+    //---listen
+    public interface ReadByCallback {
+        void onReadByUpdated(List<String> readBy);
+    }
+
+    public ListenerRegistration listenReadBy(String matchId, ReadByCallback callback) {
+        return db.collection("matches")
+                .document(matchId)
+                .addSnapshotListener((snapshot, e) -> {
+                    if (snapshot != null && snapshot.exists()) {
+                        List<String> readBy = (List<String>) snapshot.get("readBy");
+                        if (readBy == null) readBy = new ArrayList<>();
+                        callback.onReadByUpdated(readBy);
+                    } else {
+                        callback.onReadByUpdated(new ArrayList<>());
+                    }
+                });
+    }
+
+
+
+    // --- Hủy listener ---
     public void cleanup() {
         if (messageListener != null) {
             messageListener.remove();
@@ -134,34 +141,47 @@ public class MessageService {
         }
     }
 
-    public interface LoadMessagesCallback {
-        void onSuccess(List<Message> messages);
-        void onError(Exception e);
+    // --- Đánh dấu tin nhắn đã đọc bởi user ---
+    public void markMatchAsRead(String matchId, String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Truy cập node matches/matchId
+        DocumentReference matchRef = db.collection("matches").document(matchId);
+
+        matchRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                List<String> readBy = (List<String>) documentSnapshot.get("readBy");
+                if (readBy == null) {
+                    readBy = new ArrayList<>();
+                }
+                if (!readBy.contains(userId)) {
+                    readBy.add(userId);
+                    matchRef.update("readBy", readBy)
+                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "Updated readBy in match"))
+                            .addOnFailureListener(e -> Log.e("Firestore", "Error updating readBy in match", e));
+                }
+            }
+        }).addOnFailureListener(e -> Log.e("Firestore", "Error getting match document", e));
     }
 
-    public interface LoadMessagesWithPaginationCallback extends LoadMessagesCallback {
-        void onSuccess(List<Message> messages, DocumentSnapshot lastDoc);
+
+
+    // --- Lấy số tin nhắn chưa đọc của user ---
+    public void getUnreadCount(String matchId, String userId, UnreadCountCallback callback) {
+        getMessagesCollectionRef(matchId)
+                .whereNotIn("readBy", Collections.singletonList(userId))
+                .get()
+                .addOnSuccessListener(query -> callback.onResult(query.size()))
+                .addOnFailureListener(e -> Log.e("MessageService", "Failed getUnreadCount", e));
     }
 
-
-    //--------------new code-----------------
-    public interface LastMessageListener {
-        void onLastMessageReceived(Message lastMessage);
-    }
-
-    // 🔥 SỬA: Truy vấn collection "messages" chung và filter bằng matchId
-    // Giả định trường timestamp của Message là "sentAt" hoặc "createdAt"
+    // --- Lắng nghe tin nhắn cuối cùng ---
     public ListenerRegistration listenForLastMessage(String matchId, LastMessageListener listener) {
-        return db.collection("messages")
-                .whereEqualTo("matchId", matchId) // Lọc theo match ID
-                .orderBy("date", Query.Direction.DESCENDING) // Tin nhắn mới nhất trước
+        return getMessagesCollectionRef(matchId)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(1)
                 .addSnapshotListener((snapshots, e) -> {
-                    if (e != null) {
-                        Log.e(TAG, "Lỗi khi lắng nghe tin nhắn cuối cùng", e);
-                        return;
-                    }
-
+                    if (e != null) { Log.e("MessageService", "Error last msg", e); return; }
                     if (snapshots != null && !snapshots.isEmpty()) {
                         DocumentSnapshot doc = snapshots.getDocuments().get(0);
                         Message lastMessage = doc.toObject(Message.class);
@@ -173,22 +193,42 @@ public class MessageService {
                 });
     }
 
-}
+    public void isMessageRead(String matchId, String userId, ReadCheckCallback callback) {
+        DocumentReference matchRef = db.collection("matches").document(matchId);
 
-    /*public void getMessagesByMatchId(String matchId, LoadMessagesCallback callback) {
-        db.collection("messages")
-                .whereEqualTo("matchId", matchId)
-                .orderBy("date", Query.Direction.ASCENDING)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    List<Message> messages = new ArrayList<>();
-                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
-                        Message msg = doc.toObject(Message.class);
-                        messages.add(msg);
-                    }
-                    callback.onSuccess(messages);
-                })
-                .addOnFailureListener(e -> {
-                    callback.onFailure("Lỗi khi tải tin nhắn: " + e.getMessage());
-                });
-    }*/
+        matchRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                List<String> readBy = (List<String>) documentSnapshot.get("readBy");
+                boolean hasRead = readBy != null && readBy.contains(userId);
+                callback.onResult(hasRead);
+            } else {
+                callback.onResult(false);
+            }
+        }).addOnFailureListener(e -> {
+            callback.onResult(false);
+        });
+    }
+
+
+    // --- Interfaces ---
+
+    public interface ReadCheckCallback {
+        void onResult(boolean hasRead);
+    }
+    public interface LoadMessagesCallback {
+        void onSuccess(List<Message> messages);
+        void onError(Exception e);
+    }
+
+    public interface LoadMessagesWithPaginationCallback extends LoadMessagesCallback {
+        void onSuccess(List<Message> messages, DocumentSnapshot lastDoc);
+    }
+
+    public interface LastMessageListener {
+        void onLastMessageReceived(Message lastMessage);
+    }
+
+    public interface UnreadCountCallback {
+        void onResult(int count);
+    }
+}

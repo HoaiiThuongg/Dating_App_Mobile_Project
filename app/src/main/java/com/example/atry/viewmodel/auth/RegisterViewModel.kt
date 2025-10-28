@@ -1,6 +1,7 @@
 package com.example.atry.viewmodel.auth
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.atry.backend.EmailLinkAuthService
@@ -37,7 +38,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
         _state.value = RegisterState(isLoading = true)
 
-        authService.sendSignInLink(email, object : EmailLinkAuthService.AuthCallback {
+        authService.sendVerifyEmail(email, object : EmailLinkAuthService.AuthCallback {
             override fun onSuccess(message: String) {
                 viewModelScope.launch {
                     _state.value = RegisterState(isSuccess = true, message = message)
@@ -64,7 +65,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     fun handleSignInLink(link: String) {
         _state.value = RegisterState(isLoading = true)
-        authService.handleSignInLink(link, object : EmailLinkAuthService.AuthCallback {
+        authService.handleVerifyEmail(Uri.parse(link), object : EmailLinkAuthService.AuthCallback {
             override fun onSuccess(message: String) {
                 viewModelScope.launch {
                     _state.value = RegisterState(isSuccess = true, message = message)
@@ -82,7 +83,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun setPasswordForCurrentUser(password: String) {
-        authService.setPasswordForCurrentUser(password, object : EmailLinkAuthService.AuthCallback {
+        authService.setPassword(password, object : EmailLinkAuthService.AuthCallback {
             override fun onSuccess(message: String) {
                 _state.value = RegisterState(isSuccess = true, message = message)
                 val userId = FirebaseAuth.getInstance().currentUser?.uid

@@ -54,6 +54,9 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.material3)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -89,4 +92,8 @@ dependencies {
 
     implementation("com.google.guava:guava:31.1-android")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")}
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    implementation("io.agora.rtc:voice-sdk:4.5.0")
+    implementation("androidx.compose.runtime:runtime-livedata")
+
+}

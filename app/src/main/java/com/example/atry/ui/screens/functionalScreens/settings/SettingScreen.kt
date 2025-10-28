@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.AnimatedSwitch
 import com.example.atry.ui.components.buttons.RedLinearBorderButton
-import com.example.atry.ui.screens.functionalScreens.edit.editComponents.InformationBar
 import com.example.atry.ui.screens.functionalScreens.settings.settingComponents.Slogan
 import com.example.atry.ui.theme.ThemeSingleton
 import kotlinx.coroutines.launch

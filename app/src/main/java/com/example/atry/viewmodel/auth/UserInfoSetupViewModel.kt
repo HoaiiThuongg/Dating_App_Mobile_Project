@@ -3,7 +3,8 @@ package com.example.atry.viewmodel.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.atry.backend.User
-import com.example.atry.backend.UserService // Giả sử UserService ở đây
+import com.example.atry.backend.UserProfile
+import com.example.atry.backend.UserService
 import com.example.atry.data.singleton.CurrentUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,16 +17,19 @@ data class UserUpdateState(
     val message: String? = null
 )
 class UserInfoSetupViewModel (private val userService: UserService) : ViewModel() {
+    private val _userprofile = MutableStateFlow<UserProfile?>(CurrentUser.userProfile)
+    val userprofile: StateFlow<UserProfile?> = _userprofile
+
     private val _user = MutableStateFlow<User?>(CurrentUser.user)
     val user: StateFlow<User?> = _user
     private val _updateState = MutableStateFlow(UserUpdateState())
     val updateState: StateFlow<UserUpdateState> = _updateState
 
-    fun updateUserInfo(user: User) {
+    fun updateUserInfo(user: UserProfile) {
         // 1. Kích hoạt trạng thái Loading
         _updateState.value = UserUpdateState(isLoading = true)
 
-        userService.updateUserInfo(user, object : UserService.UserCallback {
+        userService.updateUserProfile(user, object : UserService.UserCallback {
             override fun onSuccess(message: String) {
                 viewModelScope.launch {
                     _updateState.value = UserUpdateState(
@@ -36,14 +40,15 @@ class UserInfoSetupViewModel (private val userService: UserService) : ViewModel(
             }
 
             override fun onFailure(errorMessage: String) {
-                // 3. Cập nhật trạng thái thất bại
                 viewModelScope.launch {
                     _updateState.value = UserUpdateState(
-                        error = errorMessage
+                        isSuccess = false,
+                        message = errorMessage
                     )
                 }
             }
         })
+
     }
 
     fun updateName(newName: String) {

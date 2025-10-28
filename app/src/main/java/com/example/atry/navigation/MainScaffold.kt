@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.components.alert.WarningCard
 import com.example.atry.ui.components.headerAndFooter.HeaderWithNavDrawer
 import com.example.atry.ui.components.tutorials.SwipeTutorial
@@ -29,6 +31,7 @@ import com.example.atry.ui.screens.functionalScreens.MyProfileScreen
 import com.example.atry.ui.screens.functionalScreens.home.HomeScreen
 import com.example.atry.ui.theme.ThemeSingleton
 import com.example.atry.viewmodel.composal.WarningCardViewModel
+import com.example.atry.viewmodel.functional.VoiceCallViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -36,7 +39,8 @@ fun MainScaffold(
     screenName:String,
     screenHeaderTitle: String,
     iconRes: Int,
-    viewModel: WarningCardViewModel = viewModel()
+    viewModel: WarningCardViewModel = viewModel(),
+    voiceCallViewModel: VoiceCallViewModel = viewModel()
 ) {
     innerNavController = rememberNavController()
     var selected by remember { mutableStateOf(screenName) }
@@ -46,6 +50,20 @@ fun MainScaffold(
 
     val systemUiController = rememberSystemUiController()
     val isDark = ThemeSingleton.isDark.value // <-- Đọc giá trị State ở đây
+    val incomingCallFrom by voiceCallViewModel.incomingCallFrom.collectAsState()
+    val navController = rememberNavController()
+
+    // Giả sử user hiện tại là "userB"
+    LaunchedEffect(Unit) {
+        voiceCallViewModel.startCheckingIncomingCall(CurrentUser.user?.userId?:"")
+    }
+
+    // 👉 Khi có cuộc gọi đến -> điều hướng sang màn Incoming
+    LaunchedEffect(incomingCallFrom) {
+        incomingCallFrom?.let { callerId ->
+            navController.navigate("incoming_call/$callerId")
+        }
+    }
 
     LaunchedEffect(systemUiController, isDark) { // <-- THÊM 'isDark' VÀO DANH SÁCH KEYS
         systemUiController.setStatusBarColor(

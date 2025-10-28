@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,19 +36,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.viewmodel.functional.EditProfileViewModel
 
 @Composable
 fun EditableInfoField(
     label:String,
     initialName: String,
-    onNameUpdated: (String) -> Unit, // Callback khi tên được lưu
-    modifier: Modifier = Modifier
+    labelDB:String, // Callback khi tên được lưu
+    modifier: Modifier = Modifier,
+    viewModel: EditProfileViewModel= viewModel()
 ) {
+    val updateStatus by viewModel.updateStatus.collectAsState()
+
     // 1. Quản lý trạng thái chỉnh sửa
     var isEditing by remember { mutableStateOf(false) }
 
     // 2. Quản lý giá trị Text (sử dụng remember để giữ trạng thái khi chỉnh sửa)
-    var currentName by remember { mutableStateOf(initialName) }
+    var currentValue by remember { mutableStateOf(initialName) }
 
     // 3. Quản lý Focus (để tự động mở bàn phím khi chuyển sang chế độ chỉnh sửa)
     val focusRequester = remember { FocusRequester() }
@@ -56,8 +62,8 @@ fun EditableInfoField(
     val onToggleEdit = {
         if (isEditing) {
             // Chế độ chỉnh sửa -> Chế độ xem (Lưu)
-            if (currentName.isNotBlank()) {
-                onNameUpdated(currentName) // Gọi callback để lưu tên mới
+            if (currentValue.isNotBlank()) {
+                viewModel.updateUserField(labelDB,currentValue)
             }
             isEditing = false
         } else {
@@ -73,7 +79,8 @@ fun EditableInfoField(
             text = label,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(end = 8.dp)
+            modifier = Modifier.padding(end = 8.dp),
+            color = MaterialTheme.colorScheme.onBackground
         )
     // Khung chứa chính (Row)
     Row(
@@ -99,8 +106,8 @@ fun EditableInfoField(
                 if (isEditing) {
                     // CHẾ ĐỘ CHỈNH SỬA
                     BasicTextField(
-                        value = currentName,
-                        onValueChange = { currentName = it },
+                        value = currentValue,
+                        onValueChange = { currentValue = it },
                         textStyle = TextStyle(
                             color = Color(0xFF6A1B9A), // Màu tím đậm cho text đang chỉnh sửa
                             fontSize = 18.sp
@@ -116,7 +123,7 @@ fun EditableInfoField(
                 } else {
                     // CHẾ ĐỘ XEM
                     Text(
-                        text = currentName,
+                        text = currentValue,
                         style = TextStyle(
                             color = Color(0xFF6A1B9A), // Màu tím đậm
                             fontSize = 18.sp

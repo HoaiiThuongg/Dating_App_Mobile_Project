@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,18 +26,25 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.atry.backend.User
 import com.example.atry.navigation.navController
+import com.example.atry.viewmodel.functional.LikeYouViewModel
 import com.google.gson.Gson
 
 @Composable
 fun LikeYouCard(
     user: User,
-    onMatching: () -> Unit
+    onMatching: () -> Unit,
+    viewModel: LikeYouViewModel = viewModel()
 ) {
+
+    viewModel.getUserProfileById(user.userId)
+
+    val profile = viewModel.userProfile.observeAsState()
     val gson = Gson()
-    val imageUrl = user.profileImageUrl
+    val imageUrl = user.defaultImage
 
     Box(
         modifier = Modifier
@@ -92,7 +100,7 @@ fun LikeYouCard(
         ) {
             Column {
                 Text(user.name, color = Color.White)
-                Text(user.age.toString() + " tuổi", color = Color.White)
+//                Text(user.age.toString() + " tuổi", color = Color.White)
             }
 
             MatchingHeart(size = 32.dp, onToggled = {onMatching()})

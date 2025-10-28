@@ -35,7 +35,6 @@ fun InfoInput2(
     // Lấy giá trị tên hiện tại
     val phoneNumber = user?.name ?: ""
     val gender = user?.gender ?: ""
-    val bio = user?.bio ?: ""
 
     AuthFormContainer(
         title = "Tạo tài khoản",

@@ -18,3 +18,5 @@ externalNativeBuild/
 local.properties
 
 
+app/release/
+*.apk

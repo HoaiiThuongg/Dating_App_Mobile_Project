@@ -47,6 +47,10 @@ class SendViewModel() : ViewModel() {
             }
         })
     }
+    fun startChat(matchId: String, receiverId: String) {
+        _uiState.update { it.copy(receiverId = receiverId) }
+        startListeningForMessages(matchId)
+    }
 
     fun updateMessageInput(newText: String) {
         messageInput = newText

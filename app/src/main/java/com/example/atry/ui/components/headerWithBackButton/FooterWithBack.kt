@@ -39,7 +39,7 @@ fun FooterWithBack(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("home")
-                    navController.navigate("main")
+                    navController.navigate("main_home")
                 }
             ) {
                 Icon(

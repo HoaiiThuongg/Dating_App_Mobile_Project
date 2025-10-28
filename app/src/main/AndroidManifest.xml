@@ -2,45 +2,57 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Cấu hình Permission (Giữ nguyên) -->
+    <!-- ... -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.any" android:required="false" />
-
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Try"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:theme="@style/Theme.Try">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Try">
+            android:theme="@style/Theme.Try"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- 1. INTENT FILTER CHO CUSTOM SCHEME (Phải khớp với JS) -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="app" android:host="deeplink" android:pathPrefix="/setpassword" />
+            </intent-filter>
 
+            <!-- 2. INTENT FILTER CHO APP LINKS (HTTPS - Tên miền Firebase Hosting) -->
+            <!-- Giữ lại để đảm bảo tính ổn định và bảo mật (App Links) -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Host PHẢI KHỚP với URL bạn dùng trong sendVerifyEmail -->
                 <data android:scheme="https"
-                    android:host="datingapp.page.link"
+                    android:host="dating-app-6b66a.firebaseapp.com"
                     android:pathPrefix="/setpassword" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

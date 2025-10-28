@@ -29,176 +29,44 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
 import com.example.atry.backend.User
+import com.example.atry.backend.UserProfile
 import com.example.atry.ui.theme.purpleGradientBrush
 
 @Composable
-fun DetailInfo(user: User) {
+fun DetailInfo(user: User,userProfile: UserProfile?) {
+    val age = if (userProfile?.age == null) "Giấu tuổi" else userProfile.age.toString()
+
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text =user.name,
+                text = user.name,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = user.age.toString(),
+                text = age,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFFE91E63) // hồng
             )
         }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(
-                    width = 2.dp,
-                    brush = purpleGradientBrush,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .padding(16.dp)
-                .background(Color.Transparent, shape = RoundedCornerShape(12.dp)),
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location),
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Hà Nội", color = Color.Gray, fontSize = 14.sp)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location),
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Cung Cự Giải", color = Color.Gray, fontSize = 14.sp)
-            }
 
-        }
-
+        InfoDetailBox("Cung hoa", userProfile?.location ?: "Bí ẩn")
 
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(
-                    width = 2.dp,
-                    brush = purpleGradientBrush,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .padding(16.dp)
-                .background(Color.Transparent, shape = RoundedCornerShape(12.dp)),
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location),
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Hà Nội", color = Color.Gray, fontSize = 14.sp)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location),
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Cung Cự Giải", color = Color.Gray, fontSize = 14.sp)
-            }
-
-        }
+        InfoDetailBox("Cung hoàng đạo", userProfile?.zodiacSign ?: "Bí ẩn")
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(
-                    width = 2.dp,
-                    brush = purpleGradientBrush,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .padding(16.dp)
-                .background(Color.Transparent, shape = RoundedCornerShape(12.dp)),
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
+        InfoDetailBox("Tiểu sử", userProfile?.bio ?: "Chưa muốn chia sẻ")
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location),
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Hà Nội", color = Color.Gray, fontSize = 14.sp)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location),
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Cung Cự Giải", color = Color.Gray, fontSize = 14.sp)
-            }
-
-        }
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(
-                    width = 2.dp,
-                    brush = purpleGradientBrush,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .padding(16.dp)
-                .background(Color.Transparent, shape = RoundedCornerShape(12.dp)),
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location),
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Hà Nội", color = Color.Gray, fontSize = 14.sp)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location),
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Cung Cự Giải", color = Color.Gray, fontSize = 14.sp)
-            }
-
-        }
-
-        }
+        InfoDetailBox("Quan điểm sống", userProfile?.lifestyle ?: "Chưa muốn chia sẻ")
+    }
 }

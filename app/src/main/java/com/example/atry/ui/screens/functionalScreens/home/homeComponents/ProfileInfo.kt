@@ -21,11 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
 import com.example.atry.backend.User
+import com.example.atry.backend.UserProfile
 
 @Composable
 fun ProfileInfo(
     modifier: Modifier = Modifier,
-    user: User
+    user: User,
+    profile: UserProfile?
 ) {
     Column(
         modifier = modifier
@@ -51,7 +53,7 @@ fun ProfileInfo(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "${user.age} tuổi",
+                    text = "${profile?.age} tuổi",
                     color = Color.White,
                     fontSize = 18.sp
                 )

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,27 +32,42 @@ public class ChatService {
         String senderId = auth.getCurrentUser().getUid();
 
         Map<String, Object> message = new HashMap<>();
-        message.put("matchId",matchId);
         message.put("senderId", senderId);
-        //message.put("receiverId", receiverId);
+        message.put("receiverId", receiverId);
         message.put("content", content);
-        message.put("date", FieldValue.serverTimestamp());
-        message.put("kind", "text");
+        message.put("timestamp", FieldValue.serverTimestamp());
+        message.put("type", "text");
 
-        db.collection("messages")
+        DocumentReference matchRef = db.collection("matches").document(matchId);
+
+        db.collection("matches")
+                .document(matchId)
+                .collection("messages")
                 .add(message)
-                .addOnSuccessListener(doc -> callback.onSuccess("Tin nhắn đã được gửi"))
+                .addOnSuccessListener(doc -> {
+                    // Thay thế hoàn toàn readBy bằng senderId
+                    List<String> newReadBy = new ArrayList<>();
+                    newReadBy.add(senderId);
+
+                    matchRef.update("readBy", newReadBy)
+                            .addOnSuccessListener(aVoid -> Log.d(TAG, "ReadBy đã được reset và chỉ chứa sender"))
+                            .addOnFailureListener(e -> Log.e(TAG, "Lỗi update readBy", e));
+
+                    callback.onSuccess("Tin nhắn đã được gửi");
+                })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Lỗi khi gửi tin nhắn", e);
                     callback.onFailure("Lỗi: " + e.getMessage());
                 });
     }
 
+
+
     public ListenerRegistration listenForMessages(String matchId, MessageListener listener) {
-        return db.collection("matching")
+        return db.collection("matches")
                 .document(matchId)
                 .collection("messages")
-                .orderBy("date", Query.Direction.ASCENDING)
+                .orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.e(TAG, "Lỗi khi nghe tin nhắn: ", e);

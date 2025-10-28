@@ -1,5 +1,6 @@
 package com.example.atry.ui.screens.auth.register
 
+import ImageUploadField
 import android.net.Uri
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -15,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.navigation.navController
-import com.example.atry.ui.components.ImageUploadField
 import com.example.atry.ui.components.buttons.CustomBorderButton
 import com.example.atry.ui.components.buttons.CustomLinearButton
 import com.example.atry.ui.screens.auth.AuthFormContainer
@@ -34,13 +34,11 @@ fun PicturesInput(viewModel: AlertViewModel = viewModel()) {
             Text("Thêm ảnh", fontSize = 24.sp, color = Color.Black)
 
             Spacer(modifier = Modifier.size(30.dp))
-            ImageUploadField(
-                images = images,
-                onAddClick = { uri -> images = images + uri },
-                onRemoveClick = { index ->
-                    images = images.toMutableList().apply { removeAt(index) }
-                }
-            )
+//            ImageUploadField(
+//                images = viewModel.images,
+//                onAddClick = { uri -> viewModel.addImage(context, uri) },
+//                onRemoveClick = { index -> viewModel.removeImage(index) }
+//            )
             Spacer(modifier = Modifier.size(30.dp))
             CustomBorderButton(
                 "Quay Lại",

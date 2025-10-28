@@ -1,10 +1,15 @@
 package com.example.atry.viewmodel.functional
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.atry.backend.SwipeService
 import com.example.atry.backend.User
+import com.example.atry.backend.UserProfile
+import com.example.atry.backend.UserService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,6 +33,24 @@ class HomeViewModel : ViewModel() {
     init {
         loadMoreUsers()
     }
+    private val userService = UserService()
+
+    private val _userProfile = MutableLiveData<UserProfile?>()
+    val userProfile: LiveData<UserProfile?> = _userProfile
+
+    fun getUserProfileById(userId: String) {
+        userService.getUserProfileById(userId, object : UserService.UserCallback {
+            override fun onSuccess(user: UserProfile) {
+                Log.d("Home", "Lấy được profile với phone: ${user.phone}")
+                _userProfile.postValue(user)
+            }
+
+            override fun onFailure(errorMessage: String) {
+                Log.e("Home", "Lỗi: $errorMessage")
+                _userProfile.postValue(null)
+            }
+        })
+    }
 
     fun loadProfiles() {
         viewModelScope.launch {
@@ -35,7 +58,7 @@ class HomeViewModel : ViewModel() {
             val currentUser = mAuth.currentUser
 
             db.collection("users")
-                .limit(1)
+                .limit(10)
                 .get()
                 .addOnSuccessListener { result ->
                     val list = result.documents.mapNotNull { doc ->
@@ -56,7 +79,7 @@ class HomeViewModel : ViewModel() {
 
     private var lastDoc: DocumentSnapshot? = null
 
-    fun loadMoreUsers(limit: Int = 1) {
+    fun loadMoreUsers(limit: Int = 10) {
         isLoading = true
         swipeService.loadProfilesPaginated(limit, lastDoc,
             object : SwipeService.LoadUsersCallback {

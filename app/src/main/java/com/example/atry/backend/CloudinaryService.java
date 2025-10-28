@@ -28,7 +28,7 @@ public class CloudinaryService {
 
     public String uploadImage(String imagePath) throws IOException {
         Map uploadResult = cloudinary.uploader().upload(imagePath, ObjectUtils.emptyMap());
-        return (String) uploadResult.get("url");
+        return (String) uploadResult.get("secure_url");
     }
 
     public void deleteImage(String publicId) throws IOException {

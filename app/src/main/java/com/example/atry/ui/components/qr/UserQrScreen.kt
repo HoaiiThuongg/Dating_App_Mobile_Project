@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,13 +20,17 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.redGradientBrush
+import com.example.atry.viewmodel.functional.QRViewModel
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 
 @Composable
-fun UserQrScreen(userId: String) {
+fun UserQrScreen(
+    userId: String
+) {
     val qrBitmap = remember { generateQrCode(userId) }
 
     Box(
@@ -34,31 +39,7 @@ fun UserQrScreen(userId: String) {
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        IconButton(
-            onClick = { navController.navigate("main_profile") },
-            modifier = Modifier
-                .size(32.dp)
-                .align(Alignment.TopStart)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Close",
-                modifier = Modifier
-                    .size(32.dp)
-                    .graphicsLayer(alpha = 0.99f) // để hỗ trợ blend
-                    .drawWithCache {
-                        onDrawWithContent {
-                            drawContent()
-                            drawRect(
-                                brush = redGradientBrush,
-                                size = this.size, // 🩵 bắt buộc: vẽ gradient phủ toàn icon
-                                blendMode = BlendMode.SrcAtop
-                            )
-                        }
-                    },
-                tint = androidx.compose.ui.graphics.Color.White
-            )
-        }
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -80,6 +61,33 @@ fun UserQrScreen(userId: String) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(text = "ID: $userId", fontSize = 16.sp)
+        }
+
+        IconButton(
+            onClick = { navController.navigate("main_profile") },
+            modifier = Modifier
+                .size(32.dp)
+                .align(Alignment.TopStart)
+                .offset(y = 50.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "Close",
+                modifier = Modifier
+                    .size(32.dp)
+                    .graphicsLayer(alpha = 0.99f) // để hỗ trợ blend
+                    .drawWithCache {
+                        onDrawWithContent {
+                            drawContent()
+                            drawRect(
+                                brush = redGradientBrush,
+                                size = this.size, // 🩵 bắt buộc: vẽ gradient phủ toàn icon
+                                blendMode = BlendMode.SrcAtop
+                            )
+                        }
+                    },
+                tint = MaterialTheme.colorScheme.onBackground
+            )
         }
     }
 }

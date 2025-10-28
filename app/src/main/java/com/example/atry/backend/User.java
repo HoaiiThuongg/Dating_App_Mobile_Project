@@ -1,92 +1,56 @@
 package com.example.atry.backend;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
     private String userId;
     private String name;
-    private int age;
-    private String bio;
+    private String email;
+
+    private String defaultImage;
+
     private String gender;
-    private String interests;
-    private String profileImageUrl;
-    private Date lastUpdated;
 
-    public User() {
-    }
 
-    public User(String userId, String name, int age, String bio, String gender, String interests, String profileImageUrl) {
+    public User() {}
+
+    public User(String userId, String name, String email, String defaultImage, String gender) {
         this.userId = userId;
         this.name = name;
-        this.age = age;
-        this.bio = bio;
+        this.email = email;
+        this.defaultImage = defaultImage;
         this.gender = gender;
-        this.interests = interests;
-        this.profileImageUrl = profileImageUrl;
-        this.lastUpdated = new Date();
     }
 
-    public String getUserId() {
-        return userId;
-    }
+    // --- Getter / Setter ---
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
+    public String getEmail() {
+        return email;
     }
 
     public String getGender() {
         return gender;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public String getInterests() {
-        return interests;
+    public String getDefaultImage() {
+        return defaultImage;
     }
 
-    public void setInterests(String interests) {
-        this.interests = interests;
-    }
-
-    public String getProfileImageUrl() {
-        return profileImageUrl;
-    }
-
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
-    }
-
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setDefaultImage(String defaultImage) {
+        this.defaultImage = defaultImage;
     }
 }

@@ -86,8 +86,8 @@ fun CustomTextField(
 
 
 @Composable
-fun GrayBorderTextField(label: String, onDone: () -> Unit) {
-    var text by remember { mutableStateOf("") }
+fun GrayBorderTextField(label: String,value: String, onDone: () -> Unit) {
+    var text by remember { mutableStateOf(value) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     OutlinedTextField(

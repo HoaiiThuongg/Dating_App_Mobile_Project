@@ -25,8 +25,7 @@ import com.example.atry.data.singleton.CurrentUser
 
 @Composable
 fun OnlineAvatar(user: User) {
-    val imageUrl = CurrentUser.user?.profileImageUrl
-        ?: "https://res.cloudinary.com/dosnqohav/image/upload/v1760214495/ugoo3xchm0nru92na1kh.jpg"
+    val imageUrl ="https://res.cloudinary.com/dosnqohav/image/upload/v1760214495/ugoo3xchm0nru92na1kh.jpg"
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ){

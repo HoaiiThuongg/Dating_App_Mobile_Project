@@ -29,7 +29,7 @@ fun PublicInformation() {
             .verticalScroll(scrollState),
         verticalArrangement = Arrangement.spacedBy(25.dp)
     ) {
-        Spacer(Modifier.size(0.dp))
+        UploadAvatar()
         EditProfileImage()  // vẫn dùng LazyVerticalGrid
         Selections()
         Spacer(Modifier.size(20.dp))

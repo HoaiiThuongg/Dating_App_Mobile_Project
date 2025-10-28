@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.atry.DeepLinkHandler
+import com.example.atry.MainActivity
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.auth.RegisterViewModel
 
@@ -15,7 +15,7 @@ import com.example.atry.viewmodel.auth.RegisterViewModel
 fun RegisterEntryScreen(
     viewModel: RegisterViewModel = viewModel()) {
     val context = LocalContext.current
-    val deepLink = remember { DeepLinkHandler.currentLink }
+    val deepLink = remember { MainActivity.DeepLinkHandler.currentLink }
 
     LaunchedEffect(deepLink) {
         if (deepLink != null) {

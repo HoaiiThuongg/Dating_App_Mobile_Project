@@ -38,11 +38,12 @@ import com.example.atry.ui.theme.redLinear
 
 @Composable
 fun MatchSuccessfullyCard(
-    matchedUser: User,
+    matchedUser: User?,
     onClose: () -> Unit
 ) {
-    val imageUrl1 = CurrentUser.user?.profileImageUrl
-    val imageUrl2 = matchedUser.profileImageUrl
+    val imageUrl1 = CurrentUser.user?.defaultImage
+    val imageUrl2 = "https://res.cloudinary.com/dosnqohav/image/upload/v1760911882/jfurguzxnawoif3imdft.png"
+
 
     Box(
         modifier = Modifier
@@ -105,7 +106,7 @@ fun MatchSuccessfullyCard(
                 }
 
                 Text(
-                    "Ghép đôi thành công với ${matchedUser.name}",
+                    "Ghép đôi thành công với ${matchedUser?.name}",
                     color = Color.White, fontSize = 20.sp,
                     textAlign = TextAlign.Center
                 )

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atry.data.singleton.CurrentUser
 
 @Composable
 @Preview
@@ -23,14 +24,36 @@ fun Selections() {
     Column(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        SelectionBox(title = "Sở thích", hint = "Khi rảnh bạn tường làm gì")
+        SelectionBox(
+            title = "Sở thích",
+            hint = "Bạn thích kiểu người như nào?",
+            items = CurrentUser.userProfile?.interests ?: emptyList(),
+            labelDB = "interests"
+        )
+        SelectionBox(
+            title = "Gu ngươời yêu",
+            hint = "Bạn thích kiểu người như nào?",
+            items = CurrentUser.userProfile?.partnerPreferences ?: emptyList(),
+            labelDB = "partnerPreferences"
+        )
+        SelectionBox(
+            title = "Tôn giáo",
+            hint = "Bạn thích kiểu người như nào?",
+            items = CurrentUser.userProfile?.religions ?: emptyList(),
+            labelDB = "religions"
+        )
 
-        // Gu người iu
-        SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
-        SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
-        SelectionBox(title = "Gu người yêu", hint = "Bạn thích kiểu người như nào?")
-
-        // Bio
-        WriteBox(title = "Bio", hint = "Bạn giới thiệu về bản thân mình nhé.")
+        WriteBox(
+            title = "Bio",
+            hint = "Bạn giới thiệu về bản thân mình nhé.",
+            initialValue = CurrentUser.userProfile?.bio ?: "",
+            labelDB = "bio"
+        )
+        WriteBox(
+            title = "Quan điểm sống",
+            hint = "Bạn giới thiệu về bản thân mình nhé.",
+            initialValue = CurrentUser.userProfile?.lifestyle ?: "",
+            labelDB = "lifestyle"
+        )
     }
 }

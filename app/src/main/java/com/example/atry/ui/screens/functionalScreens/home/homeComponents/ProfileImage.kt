@@ -30,7 +30,8 @@ fun ProfileImage(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        val imageUrl = user.profileImageUrl
+        val imageUrl = user.defaultImage
+
         Image(
             painter = rememberAsyncImagePainter(model = imageUrl),
             contentDescription = "Ảnh đối tượng",

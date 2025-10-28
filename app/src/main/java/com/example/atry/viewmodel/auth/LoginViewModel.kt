@@ -1,10 +1,12 @@
 package com.example.atry.viewmodel.auth
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.atry.backend.EmailLinkAuthService
 import com.example.atry.backend.User
+import com.example.atry.backend.UserProfile
 import com.example.atry.data.singleton.CurrentUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -45,13 +47,25 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                         .addOnSuccessListener { doc ->
                             CurrentUser.user = doc.toObject(User::class.java)
                         }
+                        .addOnFailureListener { e ->
+                            Log.e("User", "Lỗi khi lấy user: ${e.message}")
+                        }
+                    FirebaseFirestore.getInstance().collection("userProfiles")
+                        .document(userId)
+                        .get()
+                        .addOnSuccessListener { doc ->
+                            CurrentUser.userProfile = doc.toObject(UserProfile::class.java)
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("UserProfile", "Lỗi khi lấy profile: ${e.message}")
+                        }
                 }
 
             }
 
             override fun onFailure(error: String) {
                 viewModelScope.launch {
-                    _state.value = LoginState(error = error)
+                    _state.value = LoginState(error = "Sai mật khẩu hoặc tên đăng nhập")
                 }
             }
 

@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -36,18 +37,22 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.backend.MatchedUser
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.functional.ChatViewModel
 import com.example.atry.viewmodel.functional.SendViewModel
 
 @Composable
 fun ChatScreenFooter(
+    matchedUser: MatchedUser?,
     modifier: Modifier=Modifier,
     viewModel: SendViewModel=viewModel(),
     chatViewModel: ChatViewModel=viewModel()
 ){
     val state by chatViewModel.uiState.collectAsState()
-
+    LaunchedEffect(Unit) {
+        viewModel.startChat(matchId = matchedUser?.matchId ?: "", receiverId =matchedUser?.user?.userId?:"")
+    }
     // footer
     Column(
         modifier = Modifier.padding(20.dp),
@@ -75,35 +80,6 @@ fun ChatScreenFooter(
             Text("Chat bot giúp đỡ giao tiếp", color = Color.White)
         }
 
-
-//        Row(
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            TextField(
-//                value = text,
-//                onValueChange = { text = it },
-//                placeholder = {
-//                    Text(
-//                        "Gõ tin nhắn đi nào ~~",
-//                        style = TextStyle(color = Color.Gray)
-//                    )
-//                },
-//                textStyle = TextStyle(color = Color.Black),
-//                shape = RoundedCornerShape(50), // bo góc container cùng border
-//                colors = TextFieldDefaults.colors(
-//                    focusedContainerColor = Color(0xFFD9D9D9), // nền xám nhạt
-//                    unfocusedContainerColor = Color(0xFFD9D9D9),
-//                    disabledContainerColor = Color(0xFFD9D9D9),
-//                    cursorColor = Color.Black,
-//                    focusedTextColor = Color.Black,
-//                    unfocusedTextColor = Color.Black,
-//                    focusedIndicatorColor = Color.Transparent, // bỏ gạch chân
-//                    unfocusedIndicatorColor = Color.Transparent
-//                ),
-//                modifier = modifier
-//                    .fillMaxWidth()
-//                    .border(1.dp, Color.Black, RoundedCornerShape(50)) // viền bo góc đồng bộ
-//            )
         Row(
             modifier = modifier
                 .fillMaxWidth()
@@ -133,7 +109,7 @@ fun ChatScreenFooter(
                             if (viewModel.messageInput.isEmpty()) {
                                 Text(
                                     text = "Gõ tin nhắn đi nào !",
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                                    color = Color.Black
                                 )
                             }
                             // Text Field thực tế

@@ -31,11 +31,13 @@ fun InfoInput1(
     viewModel: UserInfoSetupViewModel= viewModel()
 ) {
     var selectedPlace by remember { mutableStateOf<String?>(null) }
+    val userProfile by viewModel.userprofile.collectAsState()
     val user by viewModel.user.collectAsState()
+
     // Lấy giá trị tên hiện tại
     val currentName = user?.name ?: ""
-    val age = user?.age ?: ""
-    val location = user?.gender ?: ""
+    val age = userProfile?.age ?: ""
+    val location = userProfile?.location ?: ""
 
     AuthFormContainer(
         title = "Tạo tài khoản",
