@@ -1,0 +1,17 @@
+# ==== Web API ====
+fastapi
+uvicorn
+
+# ==== RAG & LLM ====
+langchain
+llama-cpp-python         # Dùng để load model LLaMA, Mistral, Qwen local
+sentence-transformers     # Sinh embedding cho tài liệu
+faiss-cpu                 # Vector database nội bộ (local)
+pypdf                     # Đọc tài liệu PDF
+beautifulsoup4            # Cần cho WebBaseLoader khi load từ URL
+requests
+python-dotenv             # Đọc file .env (config)
+pydantic                  # Kiểu dữ liệu và validation
+numpy
+
+
