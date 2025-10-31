@@ -107,7 +107,8 @@ fun AuthFormContainer(
 
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .weight(1f),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     content = topContent
@@ -119,7 +120,7 @@ fun AuthFormContainer(
                         .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
                         .background(Color.White)
                         .verticalScroll(rememberScrollState())
-                        .imePadding()
+//                        .imePadding()
                         .padding(top = 50.dp, start = 30.dp, end = 30.dp, bottom =30.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
                     horizontalAlignment = Alignment.CenterHorizontally,

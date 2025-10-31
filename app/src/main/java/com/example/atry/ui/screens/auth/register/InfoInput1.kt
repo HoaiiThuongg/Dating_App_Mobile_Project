@@ -24,6 +24,8 @@ import com.example.atry.ui.components.textfield.UnderlineTextField
 import com.example.atry.ui.screens.auth.AuthFormContainer
 import com.example.atry.ui.theme.redOrangeLinear
 import com.example.atry.viewmodel.auth.UserInfoSetupViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 @Preview
@@ -31,13 +33,9 @@ fun InfoInput1(
     viewModel: UserInfoSetupViewModel= viewModel()
 ) {
     var selectedPlace by remember { mutableStateOf<String?>(null) }
-    val userProfile by viewModel.userprofile.collectAsState()
-    val user by viewModel.user.collectAsState()
-
     // Lấy giá trị tên hiện tại
-    val currentName = user?.name ?: ""
-    val age = userProfile?.age ?: ""
-    val location = userProfile?.location ?: ""
+    var name by remember { mutableStateOf("") }
+    var dob by remember { mutableStateOf("") }
 
     AuthFormContainer(
         title = "Tạo tài khoản",
@@ -47,18 +45,16 @@ fun InfoInput1(
             Text("Nhập thông tin", fontSize = 24.sp, color = Color.Black)
             Spacer(modifier = Modifier.size(30.dp))
             UnderlineTextField(
-                value = currentName,
-                onValueChange = { newName ->
-                    viewModel.updateName(newName)
-                                },
+                value = name,
+                onValueChange = { newName -> name = newName },
                 label = "Tên"
             )
-            UnderlineTextField(
-                value = age.toString(),
-                onValueChange = { },
-                label = "Tuổi"
+            DateInputField(
+                label = "Ngày sinh",
+                onValueChange = { newValue -> dob = newValue },
+                onDateChange = { newDob -> dob = newDob }
             )
-            DateInputField("Ngày sinh", {}, {})
+
             CustomDropdownField(
                 "Nơi ở",
                 "Chọn địa điểm",
@@ -66,10 +62,36 @@ fun InfoInput1(
                 selectedOption = selectedPlace,
                 onOptionSelected = { selectedPlace = it })
             Spacer(modifier = Modifier.size(20.dp))
-
             CustomLinearButton(
-                "Tếp theo", { navController.navigate("registerInfoInput2") },
-                redOrangeLinear, Color.White
+                "Tiếp theo", {
+                    if (name.isBlank()) {
+                        // báo lỗi
+                        return@CustomLinearButton
+                    }
+
+                    if (dob.isBlank()) {
+                        // báo lỗi
+                        return@CustomLinearButton
+                    }
+
+                    val date = try {
+                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(dob)
+                    } catch (e: Exception) {
+                        null
+                    }
+
+                    if (date == null) {
+                        // báo lỗi format sai
+                        return@CustomLinearButton
+                    }
+
+                    viewModel.updateUserField("name", name)
+                    viewModel.updateDob(date)
+                    viewModel.updateUserProfileField("location", selectedPlace.toString())
+                    navController.navigate("registerInfoInput2")
+                },
+                redOrangeLinear,
+                Color.White
             )
 
         }

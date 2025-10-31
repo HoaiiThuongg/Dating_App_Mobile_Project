@@ -63,7 +63,7 @@ fun AiChatScreen() {
                 }
                 //texting
                 AiChatScreenFooter(
-                    Modifier.verticalScroll(rememberScrollState())
+                    modifier = Modifier.verticalScroll(rememberScrollState())
                         .imePadding())
             }
         }

@@ -41,6 +41,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import com.example.atry.data.singleton.CurrentUser
 
@@ -59,6 +60,7 @@ fun ChatScreen(
 
     val uiState by viewModel.uiState.collectAsState()
     val matchedUser = uiState.matchedUser
+    val context = LocalContext.current
 
 
     LaunchedEffect(messages.size, isImeVisible) {
@@ -89,7 +91,7 @@ fun ChatScreen(
                     .background(MaterialTheme.colorScheme.surface),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                ChatScreenHeader(Modifier.padding(paddingValues))
+                ChatScreenHeader(modifier = Modifier.padding(paddingValues), context = context)
                 //main screen
                 if(messages.isEmpty()) {
                     Text("empty")

@@ -53,7 +53,7 @@ fun DrawerContent(
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .width(240.dp)
+            .width(280.dp)
             .background(
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 shape = RoundedCornerShape(
@@ -104,6 +104,8 @@ fun DrawerContent(
         Dropdown()
         Option("Mã QR của bạn",{ navController.navigate("user_qr") })
         Option("Quét Mã QR",{navController.navigate("cam_scan_qr")})
+        Option("Ai chat bot",{ navController.navigate("chatWithAi") })
+
         Spacer(modifier = Modifier.weight(1f))
         Button (
             onClick = {

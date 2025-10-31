@@ -53,4 +53,5 @@ public class User {
     public void setDefaultImage(String defaultImage) {
         this.defaultImage = defaultImage;
     }
+
 }

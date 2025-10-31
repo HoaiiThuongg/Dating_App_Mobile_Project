@@ -6,12 +6,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.MainActivity
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.auth.RegisterViewModel
 
 @Composable
+@Preview
 fun RegisterEntryScreen(
     viewModel: RegisterViewModel = viewModel()) {
     val context = LocalContext.current

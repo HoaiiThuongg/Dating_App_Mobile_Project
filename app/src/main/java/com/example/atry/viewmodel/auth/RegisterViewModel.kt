@@ -29,7 +29,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     private val authService = EmailLinkAuthService(application.applicationContext)
 
-    // 📨 gửi link xác thực email tới Firebase backend
+    //gửi link xác thực email tới Firebase backend
     fun sendEmailToBE() {
         if (email.isBlank()) {
             _state.value = RegisterState(error = "Email không được để trống")

@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.R
 import com.example.atry.backend.User
+import com.example.atry.backend.UserProfile
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.InfoBox
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.ProfileImage
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.ProfileInfo
@@ -60,8 +61,9 @@ fun SwipeCard(
     LaunchedEffect(user.userId) {
         homeViewModel.getUserProfileById(user.userId)
     }
+    val profileCache by homeViewModel.profileCache.collectAsState()
+    val profile = profileCache[user.userId]
 
-    val profile by homeViewModel.userProfile.observeAsState()
 
     Box(
         modifier = Modifier.fillMaxSize()

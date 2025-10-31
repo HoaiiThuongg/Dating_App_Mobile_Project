@@ -1,13 +1,9 @@
 package com.example.atry.ui.screens.functionalScreens.chat.chatComponents
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
@@ -15,36 +11,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.primaryPurple
-import androidx.compose.material.icons.filled.VideoCall
-import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.rememberAsyncImagePainter
 import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.viewmodel.functional.ChatViewModel
 import com.example.atry.viewmodel.functional.VoiceCallViewModel
+import com.example.atry.backend.voiceCall.AgoraRtcManager
 
 @Composable
 fun ChatScreenHeader(
     modifier: Modifier = Modifier,
-    viewModel: ChatViewModel = viewModel(),
-    voiceCallViewModel: VoiceCallViewModel = viewModel()
+    viewModel: ChatViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    voiceCallViewModel: VoiceCallViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    context: Context
 ) {
     val chatState by viewModel.uiState.collectAsState()
     val matchedUser = chatState.matchedUser
@@ -53,10 +39,28 @@ fun ChatScreenHeader(
     val incomingFrom by voiceCallViewModel.incomingCallFrom.collectAsState()
 
     val userName = matchedUser?.user?.name ?: "Vô danh"
-
-    // ✅ Mỗi vài giây kiểm tra xem có cuộc gọi đến không
     LaunchedEffect(Unit) {
-        voiceCallViewModel.startCheckingIncomingCall(CurrentUser.user?.userId ?: "")
+        voiceCallViewModel.startCheckingIncomingCall(CurrentUser.user?.userId?:"")
+    }
+    LaunchedEffect(incomingFrom) {
+        incomingFrom?.let { callerId ->
+            navController.navigate("incoming_call/$callerId")
+        }
+    }
+
+    // ⚡ TẠO RTC MANAGER
+    val rtcManager = remember {
+        AgoraRtcManager(context, object : AgoraRtcManager.RtcListener {
+            override fun onJoinChannelSuccess(uid: Int) {
+                Log.d("AgoraRtc", "Joined channel successfully: UID=$uid")
+            }
+            override fun onUserJoined(uid: Int) {
+                Log.d("AgoraRtc", "User joined: UID=$uid")
+            }
+            override fun onUserOffline(uid: Int) {
+                Log.d("AgoraRtc", "User offline: UID=$uid")
+            }
+        })
     }
 
     Row(
@@ -68,31 +72,16 @@ fun ChatScreenHeader(
     ) {
         IconButton(onClick = { navController.navigate("main_message") }) {
             Image(
-                painter = painterResource(id = R.drawable.grayarrow),
+                painter = androidx.compose.ui.res.painterResource(id = R.drawable.grayarrow),
                 contentDescription = "Quay lại",
             )
         }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(7.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-//            Image(
-//                painter = rememberAsyncImagePainter(model = imageUrl),
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .size(32.dp)
-//                    .clip(RoundedCornerShape(20.dp))
-//                    .background(Color.LightGray),
-//                contentScale = ContentScale.Crop
-//            )
-            Text(
-                text = userName,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 16.sp
-            )
-        }
+        Text(
+            text = userName,
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        )
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
@@ -101,8 +90,14 @@ fun ChatScreenHeader(
             IconButton(
                 onClick = {
                     val channelName = "dating_channel_${matchedUser?.user?.userId ?: "default"}"
-                    val uid = (matchedUser?.user?.userId?.hashCode() ?: 1234) and 0x7FFFFFFF
+                    val uid = (CurrentUser.user?.userId?.hashCode() ?: 1234) and 0x7FFFFFFF
+
+                    voiceCallViewModel.startCall(CurrentUser.user?.userId?:"",matchedUser?.user?.userId?:"")
+                    //  Fetch token từ server
                     voiceCallViewModel.fetchToken(channelName, uid)
+                    matchedUser?.user?.userId?.let { calleeId ->
+                        voiceCallViewModel.startCheckingCallAccepted(CurrentUser.user?.userId ?: "")
+                    }
                 },
                 modifier = Modifier.size(32.dp)
             ) {
@@ -112,45 +107,34 @@ fun ChatScreenHeader(
                     tint = primaryPurple
                 )
             }
+        }
+    }
 
-            IconButton(
-                onClick = { /* TODO: Video call sau */ },
-                modifier = Modifier.size(32.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Videocam,
-                    contentDescription = "Video Call",
-                    tint = primaryPurple
-                )
+    // ⚡ Khi có token thành công -> join channel ngay
+    if (voiceCallState is VoiceCallViewModel.UiState.Success) {
+        val res = (voiceCallState as VoiceCallViewModel.UiState.Success).tokenResponse
+
+        LaunchedEffect(res.token) {
+            try {
+                rtcManager.joinChannel(res.token, res.channelName, res.uid.toInt())
+                Log.d("CALL", "Joined Agora channel: ${res.channelName}")
+            } catch (e: Exception) {
+                Log.e("CALL", "Failed join channel", e)
             }
         }
     }
 
-    // ✅ Khi có token -> chuyển sang màn gọi
-    when (voiceCallState) {
-        is VoiceCallViewModel.UiState.Success -> {
-            val token = (voiceCallState as VoiceCallViewModel.UiState.Success).data.token
-            LaunchedEffect(token) {
-                navController.navigate("voice_call?token=$token")
-            }
+    // ⚡ Khi thoát ChatScreen, rời kênh để không còn nghe
+    DisposableEffect(Unit) {
+        onDispose {
+            rtcManager.leaveChannel()
         }
-        is VoiceCallViewModel.UiState.Error -> {
-            Text(
-                text = "Lỗi: ${(voiceCallState as VoiceCallViewModel.UiState.Error).message}",
-                color = Color.Red,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-        is VoiceCallViewModel.UiState.Loading -> {
-            Text("🔄 Đang tạo token...", color = Color.Gray, modifier = Modifier.padding(8.dp))
-        }
-        else -> {}
     }
 
-    // ✅ Nếu có người gọi đến
+    // ⚡ Nếu có cuộc gọi đến
     incomingFrom?.let { callerId ->
         LaunchedEffect(callerId) {
-            navController.navigate("incoming_call?callerId=$callerId")
+            navController.navigate("incoming_call/$callerId")
         }
     }
 }

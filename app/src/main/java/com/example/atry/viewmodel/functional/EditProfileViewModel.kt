@@ -155,13 +155,9 @@ class EditProfileViewModel(app: Application) : AndroidViewModel(app){
                 val path = getRealPathFromUri(context, item)
                 val url = cloudinaryService.uploadImage(path)
                 onUploaded(url)
-                // Thay Local bằng Remote khi upload xong
                 val index = images.indexOf(item)
                 if (index != -1) images[index] = ImageItem.Remote(url)
-                // Cập nhật CurrentUser.userProfile luôn
                 CurrentUser.user?.defaultImage = url
-
-                // Cập nhật backend
                 userService.updateUserField("defaultImage", url, object : UserService.UserCallback {
                     override fun onSuccess(message: String) { Log.d("Upload", message) }
                     override fun onFailure(errorMessage: String) { Log.e("Upload", errorMessage) }

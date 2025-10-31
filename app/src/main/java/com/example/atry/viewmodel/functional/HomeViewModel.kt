@@ -34,61 +34,47 @@ class HomeViewModel : ViewModel() {
         loadMoreUsers()
     }
     private val userService = UserService()
+    private val _profileCache = MutableStateFlow<Map<String, UserProfile?>>(emptyMap())
+    val profileCache: StateFlow<Map<String, UserProfile?>> = _profileCache
 
     private val _userProfile = MutableLiveData<UserProfile?>()
     val userProfile: LiveData<UserProfile?> = _userProfile
-
-    fun getUserProfileById(userId: String) {
-        userService.getUserProfileById(userId, object : UserService.UserCallback {
-            override fun onSuccess(user: UserProfile) {
-                Log.d("Home", "Lấy được profile với phone: ${user.phone}")
-                _userProfile.postValue(user)
-            }
-
-            override fun onFailure(errorMessage: String) {
-                Log.e("Home", "Lỗi: $errorMessage")
-                _userProfile.postValue(null)
-            }
-        })
-    }
 
     fun loadProfiles() {
         viewModelScope.launch {
             isLoading = true
             val currentUser = mAuth.currentUser
 
-            db.collection("users")
-                .limit(10)
-                .get()
-                .addOnSuccessListener { result ->
-                    val list = result.documents.mapNotNull { doc ->
-                        val user = doc.toObject(User::class.java)
-                        if (user != null && doc.id != currentUser?.uid) {
-                            user.apply { userId = doc.id }
-                        } else null
-                    }
 
-                    _users.value = list.shuffled() // random chút cho vui
-                    isLoading = false
-                }
-                .addOnFailureListener {
-                    isLoading = false
-                }
         }
     }
 
     private var lastDoc: DocumentSnapshot? = null
 
+    var hasMore: Boolean = true
+
     fun loadMoreUsers(limit: Int = 10) {
         isLoading = true
         swipeService.loadProfilesPaginated(limit, lastDoc,
             object : SwipeService.LoadUsersCallback {
-                override fun onSuccess(usersList: List<User>, lastVisible: DocumentSnapshot) {
+                override fun onSuccess(usersList: List<User>, lastVisible: DocumentSnapshot?) {
+                    if (usersList.isEmpty()) {
+                        hasMore = false
+                        isLoading=false
+                    }
                     users.addAll(usersList)
-                    lastDoc = lastVisible
+                    //  Chỉ cập nhật lastDoc nếu có
+                    if (lastVisible != null) {
+                        lastDoc = lastVisible
+                        isLoading = false
+                    }
+                    // Nếu không có user mới nữa → đánh dấu hết data
+                    if (usersList.isEmpty() || lastVisible == null) {
+                        hasMore = false // nhớ khai báo biến này để check load tiếp
+                        isLoading = false
+                    }
                     isLoading = false
                 }
-
                 override fun onFailure(error: String) {
                     isLoading = false
                 }
@@ -108,4 +94,19 @@ class HomeViewModel : ViewModel() {
             }
         })
     }
+
+    fun getUserProfileById(userId: String) {
+        profileCache.value[userId]?.let { return }
+
+        userService.getUserProfileById(userId, object : UserService.UserCallback {
+            override fun onSuccess(user: UserProfile) {
+                _profileCache.value = _profileCache.value + (userId to user)
+            }
+
+            override fun onFailure(errorMessage: String) {
+                _profileCache.value = _profileCache.value + (userId to null)
+            }
+        })
+    }
+
 }

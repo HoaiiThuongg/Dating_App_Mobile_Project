@@ -57,7 +57,7 @@ fun SplashScreen () {
         },
         bottomContent = {
             CustomBorderButton("Đăng kí",
-                {navController.navigate("registerEmailInput")},Color.Black)
+                {navController.navigate("registerInfoInput1")},Color.Black)
 
             CustomLinearButton("Đăng nhập", { navController.navigate("login")},
                 redOrangeLinear, Color.White)

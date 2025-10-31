@@ -1,9 +1,12 @@
 package com.example.atry.backend;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -11,9 +14,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SwipeService {
     public enum SwipeType {
@@ -43,116 +49,210 @@ public class SwipeService {
 
 
     // Tải danh sách ng dùng khác chưa có điều kiện lọc (AI Matching)???
-    public void loadProfilesPaginated(int limit,DocumentSnapshot lastDoc, LoadUsersCallback callback) {
+    public void loadProfilesPaginated(int limit, DocumentSnapshot lastDoc, LoadUsersCallback callback) {
         String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
         if (currentUserId == null) {
             callback.onFailure("Người dùng chưa đăng nhập");
             return;
         }
-        Query query = db.collection("users")
-                .whereNotEqualTo("userId", currentUserId)
-//                .orderBy("createdAt") ///  sắp xếp theo cj?
-                .limit(limit);
 
-        if (lastDoc != null) {
-            query = query.startAfter(lastDoc);
-        }
+        Task<QuerySnapshot> likedTask = db.collection("swipes")
+                .document(currentUserId)
+                .collection("liked")
+                .get();
 
-        // xem xet viec tai nhieu anh co the gay lac he thống
+        Task<QuerySnapshot> dislikedTask = db.collection("swipes")
+                .document(currentUserId)
+                .collection("disliked")
+                .get();
 
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<User> userList = new ArrayList<>();
-                DocumentSnapshot lastVisible = null;
+        Task<QuerySnapshot> matchedTask = db.collection("users")
+                .document(currentUserId)
+                .collection("matches")
+                .get();
 
-                for (QueryDocumentSnapshot doc : task.getResult()) {
-                    User user = doc.toObject(User.class);
-                    userList.add(user);
-                    lastVisible = doc;
-                }
-                callback.onSuccess(userList, lastVisible);
-            } else {
-                callback.onFailure("Không thể tải danh sách người dùng");
-            }
-        });
+        Tasks.whenAllSuccess(likedTask, dislikedTask, matchedTask)
+                .addOnSuccessListener(results -> {
+
+                    Set<String> excludedIds = new HashSet<>();
+                    excludedIds.add(currentUserId);
+
+                    for (DocumentSnapshot d : likedTask.getResult()) excludedIds.add(d.getId());
+                    for (DocumentSnapshot d : dislikedTask.getResult()) excludedIds.add(d.getId());
+                    for (DocumentSnapshot d : matchedTask.getResult()) excludedIds.add(d.getId());
+
+                    Query query = db.collection("users")
+                            .orderBy(FieldPath.documentId())
+                            .limit(limit);
+
+                    if (lastDoc != null) {
+                        query = query.startAfter(lastDoc);
+                    }
+
+                    query.get().addOnSuccessListener(snapshot -> {
+                        List<User> result = new ArrayList<>();
+                        DocumentSnapshot newLastVisible = lastDoc;
+
+                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                            String uid = doc.getId();
+                            if (!excludedIds.contains(uid)) {
+                                User user = doc.toObject(User.class);
+                                result.add(user);
+                                newLastVisible = doc; // chỉ update khi user hợp lệ
+                            }
+                        }
+
+                        if (result.isEmpty()) {
+                            // Nếu snapshot còn data phía sau → thử tiếp
+                            if (!snapshot.getDocuments().isEmpty()) {
+                                DocumentSnapshot last = snapshot.getDocuments()
+                                        .get(snapshot.size() - 1);
+
+                                // gọi lại để load tiếp
+                                loadProfilesPaginated(limit, last, callback);
+                                return;
+                            }
+
+                            // Không còn gì thật sự
+                            callback.onSuccess(result, null);
+                            return;
+                        }
+
+
+                        Collections.shuffle(result);
+                        callback.onSuccess(result, newLastVisible);
+
+                    }).addOnFailureListener(e ->
+                            callback.onFailure("Tải user lỗi: " + e.getMessage())
+                    );
+
+                }).addOnFailureListener(e ->
+                        callback.onFailure("Lỗi khi lấy danh sách swipe/match: " + e.getMessage())
+                );
     }
+
+
 
 
     public void swipeType(String targetUserId, SwipeType swipeType, SwipeCallback callback) {
         String currentUserId = auth.getCurrentUser().getUid();
-
         if (targetUserId == null) {
             callback.onFailure("ID người dùng không hợp lệ");
             return;
         }
 
         Map<String, Object> data = new HashMap<>();
+        data.put("timestamp", System.currentTimeMillis());
 
-        String subCollection;
+        // 🔥 Dùng biến tạm local trước
+        String tempCurrentCollection;
+        String tempTargetCollection;
 
         if (swipeType == SwipeType.RIGHT) {
-            data.put("timestamp", System.currentTimeMillis()); // Nên thêm timestamp
-            subCollection = "liked";
-        } else if (swipeType == SwipeType.LEFT){
-            data.put("timestamp", System.currentTimeMillis());
-            subCollection = "passed";
-        } else { // SUPER
-            data.put("timestamp", System.currentTimeMillis());
-            subCollection = "super liked"; // LƯU Ý: Phải nhất quán tên này
+            tempCurrentCollection = "liked";
+            tempTargetCollection = "likedBy";
+        } else if (swipeType == SwipeType.LEFT) {
+            tempCurrentCollection = "disliked";
+            tempTargetCollection = "dislikedBy";
+        } else {
+            tempCurrentCollection = "liked";
+            tempTargetCollection = "likedBy";
+            data.put("super", true);
         }
+
+        // ✅ Gán final cho lambda
+        final String currentUserSubCollection = tempCurrentCollection;
+        final String targetUserSubCollection = tempTargetCollection;
+
         db.collection("swipes")
-                .document(targetUserId)
-                .collection(subCollection)
                 .document(currentUserId)
+                .collection(currentUserSubCollection)
+                .document(targetUserId)
                 .set(data, SetOptions.merge())
+
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) throw task.getException();
+                    return db.collection("swipes")
+                            .document(targetUserId)
+                            .collection(targetUserSubCollection)
+                            .document(currentUserId)
+                            .set(data, SetOptions.merge());
+                })
+
                 .addOnSuccessListener(aVoid -> {
-                    // 3. SỬA LỖI LOGIC: Kiểm tra match nếu là LIKE HOẶC SUPER
                     if (swipeType == SwipeType.RIGHT || swipeType == SwipeType.SUPER) {
-                        checkForMatch(currentUserId, targetUserId, callback);
-                    } else if (swipeType == SwipeType.LEFT){
+                        // 1. Lấy tên người dùng hiện tại (currentUserId)
+                        db.collection("users").document(currentUserId).get()
+                                .addOnSuccessListener(documentSnapshot -> {
+                                    String currentUserName = documentSnapshot.getString("name"); // Giả sử trường tên là 'name'
+                                    if (currentUserName != null) {
+                                        // 2. Gửi thông báo "Bạn được thích" cho targetUserId
+                                        String title = "Bạn được thích";
+                                        String content = currentUserName + " đã thích bạn";
+                                        addNotification(targetUserId, title, content);
+                                    }
+                                    // 3. Tiếp tục kiểm tra Match
+                                    checkForMatch(currentUserId, targetUserId, callback);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("Firebase", "Lỗi khi lấy tên người dùng hiện tại: " + e.getMessage());
+                                    // Vẫn tiếp tục kiểm tra match ngay cả khi không lấy được tên
+                                    checkForMatch(currentUserId, targetUserId, callback);
+                                });
+                    } else {
                         callback.onSuccess("Đã bỏ qua người dùng");
                     }
-                    // Nếu là SUPER, nó sẽ chạy qua checkForMatch.
                 })
-                .addOnFailureListener(e -> {
-                    callback.onFailure("Lỗi khi lưu swipe: " + e.getMessage());
-                });
+                .addOnFailureListener(e -> callback.onFailure("Lỗi khi lưu swipe: " + e.getMessage()));
     }
 
+
+
     private void checkForMatch(String currentUserId, String targetUserId, SwipeCallback callback) {
-        // LƯU Ý: Sửa "superliked" thành "super liked" (có khoảng trắng)
 
-        // 1. Task kiểm tra LIKE ngược lại (B đã LIKE A chưa?)
-        Task<DocumentSnapshot> likedTask = db.collection("swipes")
+        // Kiểm tra A đã like/super like B chưa
+        Task<DocumentSnapshot> currentLikedTask = db.collection("swipes")
                 .document(targetUserId)
-                .collection("liked") // Phải khớp với subCollection trong swipeType
+                .collection("liked")
                 .document(currentUserId)
                 .get();
 
-        // 2. Task kiểm tra SUPER LIKE ngược lại (B đã SUPER LIKE A chưa?)
-        Task<DocumentSnapshot> superTask = db.collection("swipes")
+        // Kiểm tra B đã like/super like A chưa
+        Task<DocumentSnapshot> targetLikedTask = db.collection("swipes")
+                .document(currentUserId)
+                .collection("liked")
                 .document(targetUserId)
-                .collection("super liked") // Sửa lại để khớp
+                .get();
+
+        Task<DocumentSnapshot> currentSuperTask = db.collection("swipes")
+                .document(targetUserId)
+                .collection("super liked")
                 .document(currentUserId)
                 .get();
 
-        // Chạy song song cả 2 task
-        Tasks.whenAllSuccess(likedTask, superTask)
+        Task<DocumentSnapshot> targetSuperTask = db.collection("swipes")
+                .document(currentUserId)
+                .collection("super liked")
+                .document(targetUserId)
+                .get();
+
+        Tasks.whenAllSuccess(currentLikedTask, targetLikedTask, currentSuperTask, targetSuperTask)
                 .addOnSuccessListener(results -> {
-                    DocumentSnapshot likedDoc = (DocumentSnapshot) results.get(0);
-                    DocumentSnapshot superDoc = (DocumentSnapshot) results.get(1);
+                    boolean currentLiked = ((DocumentSnapshot) results.get(0)).exists();
+                    boolean targetLiked = ((DocumentSnapshot) results.get(1)).exists();
+                    boolean currentSuper = ((DocumentSnapshot) results.get(2)).exists();
+                    boolean targetSuper = ((DocumentSnapshot) results.get(3)).exists();
 
-                    // MATCH nếu Document bất kỳ tồn tại
-                    if (likedDoc.exists() || superDoc.exists()) {
+                    if ((currentLiked || currentSuper) && (targetLiked || targetSuper)) {
                         saveMatch(currentUserId, targetUserId, callback);
                     } else {
                         callback.onSuccess("Đã like người dùng, chưa match");
                     }
                 })
-                .addOnFailureListener(e -> {
-                    callback.onFailure("Lỗi khi kiểm tra match: " + e.getMessage());
-                });
+                .addOnFailureListener(e ->
+                        callback.onFailure("Lỗi khi kiểm tra match: " + e.getMessage()));
     }
+
 
     public void saveMatch(String userA, String userB, SwipeCallback callback) {
         // 1. Đảm bảo ID Match là duy nhất và nhất quán (ví dụ: A_B, nếu A < B)
@@ -204,10 +304,36 @@ public class SwipeService {
 
         // --- 5. Chạy song song và xử lý kết quả ---
         Tasks.whenAll(task1, task2, task3)
-                .addOnSuccessListener(aVoid ->
-                        callback.onSuccess("Bạn đã match với người dùng này!"))
-                .addOnFailureListener(e ->
-                        callback.onFailure("Lỗi khi lưu match: " + e.getMessage()));
+                .addOnSuccessListener(aVoid -> {
+                    // 🔥 Thêm logic thông báo sau khi lưu Match thành công
+
+                    // Lấy tên của User A và User B
+                    Task<DocumentSnapshot> taskGetNameA = db.collection("users").document(userA).get();
+                    Task<DocumentSnapshot> taskGetNameB = db.collection("users").document(userB).get();
+
+                    Tasks.whenAllSuccess(taskGetNameA, taskGetNameB)
+                            .addOnSuccessListener(list -> {
+                                String nameA = ((DocumentSnapshot)list.get(0)).getString("name");
+                                String nameB = ((DocumentSnapshot)list.get(1)).getString("name");
+
+                                // 1. Tạo thông báo Match
+                                String title = "Matched";
+                                // Thông báo cho User A
+                                String contentA = "Bạn và " + (nameB != null ? nameB : "một người dùng") + " đã match nhau";
+                                addNotification(userA, title, contentA);
+
+                                // Thông báo cho User B
+                                String contentB = "Bạn và " + (nameA != null ? nameA : "một người dùng") + " đã match nhau";
+                                addNotification(userB, title, contentB);
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("Firebase", "Không thể lấy tên người dùng để tạo thông báo Match.");
+                            });
+
+                    callback.onSuccess("Bạn đã match với người dùng này!");
+                })
+                .addOnFailureListener(e -> callback.onFailure("Lỗi khi lưu match: " + e.getMessage()));
+
     }
 
     public List<User> getCachedUsers() {
@@ -236,62 +362,67 @@ public class SwipeService {
             return;
         }
 
-        // Truy vấn sub-collection "incoming_likes" của user hiện tại.
-        // Đây là truy vấn tối ưu nhất để lấy danh sách người đã thích bạn.
-        db.collection("swipes")
+        Task<QuerySnapshot> likedByTask = db.collection("swipes")
                 .document(currentUserId)
-                .collection("liked")
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (querySnapshot.isEmpty()) {
+                .collection("likedBy")
+                .get();
+
+        Task<QuerySnapshot> matchedTask = db.collection("users")
+                .document(currentUserId)
+                .collection("matches")
+                .get();
+
+        Tasks.whenAllSuccess(likedByTask, matchedTask)
+                .addOnSuccessListener(results -> {
+                    QuerySnapshot likedBySnapshot = likedByTask.getResult();
+                    QuerySnapshot matchedSnapshot = matchedTask.getResult();
+
+                    Set<String> matchedIds = new HashSet<>();
+                    for (DocumentSnapshot d : matchedSnapshot) {
+                        matchedIds.add(d.getId());
+                    }
+
+                    if (likedBySnapshot.isEmpty()) {
                         callback.onSuccess(new ArrayList<>(), null);
                         return;
                     }
 
                     List<Task<User>> userLoadingTasks = new ArrayList<>();
-
-                    for (DocumentSnapshot likeDoc : querySnapshot.getDocuments()) {
-                        // ID của Document chính là ID của người thích bạn (swiperId)
+                    for (DocumentSnapshot likeDoc : likedBySnapshot.getDocuments()) {
                         String swiperId = likeDoc.getId();
-
-                        if (swiperId != null) {
-                            // Tải thông tin chi tiết người dùng
+                        if (swiperId != null && !matchedIds.contains(swiperId)) {
                             Task<User> userTask = db.collection("users")
                                     .document(swiperId)
                                     .get()
-                                    .continueWith(task -> {
-                                        if (task.isSuccessful() && task.getResult().exists()) {
-                                            return task.getResult().toObject(User.class);
-                                        }
-                                        return null;
-                                    });
+                                    .continueWith(task -> task.isSuccessful() && task.getResult().exists()
+                                            ? task.getResult().toObject(User.class)
+                                            : null);
                             userLoadingTasks.add(userTask);
                         }
                     }
 
-                    // Chờ tất cả Task tải User hoàn thành
                     Tasks.whenAllSuccess(userLoadingTasks)
-                            .addOnSuccessListener(results -> {
-                                List<User> likedUsers = new ArrayList<>();
-                                for (Object result : results) {
-                                    if (result instanceof User) {
-                                        likedUsers.add((User) result);
-                                    }
+                            .addOnSuccessListener(uResults -> {
+                                List<User> users = new ArrayList<>();
+                                for (Object r : uResults) {
+                                    if (r instanceof User) users.add((User) r);
                                 }
-                                callback.onSuccess(likedUsers, null);
+                                callback.onSuccess(users, null);
                             })
-                            .addOnFailureListener(e -> callback.onFailure("Lỗi khi tải thông tin người dùng đã thích bạn: " + e.getMessage()));
+                            .addOnFailureListener(e ->
+                                    callback.onFailure("Lỗi khi tải thông tin người dùng: " + e.getMessage())
+                            );
+
                 })
-                .addOnFailureListener(e -> callback.onFailure("Lỗi khi truy vấn danh sách thích bạn: " + e.getMessage()));
+                .addOnFailureListener(e ->
+                        callback.onFailure("Lỗi truy vấn dữ liệu: " + e.getMessage())
+                );
     }
+
     public interface MatchedUsersWithIdCallback {
         void onSuccess(List<MatchedUser> matchedUsers);
         void onFailure(String error);
     }
-
-    // Trong SwipeService.java
-
-// ... (Định nghĩa MatchedUsersWithIdCallback giữ nguyên)
 
     // Trong SwipeService.java
 
@@ -303,7 +434,6 @@ public class SwipeService {
             return;
         }
 
-        // 🔥 SỬA: Bắt đầu từ collection "users" và truy vấn sub-collection "matches"
         // Đường dẫn chính xác: users/{currentUserId}/matches/{partnerId}
         db.collection("users")
                 .document(currentUserId)
@@ -354,6 +484,32 @@ public class SwipeService {
                             .addOnFailureListener(e -> callback.onFailure("Lỗi khi tải thông tin người dùng match: " + e.getMessage()));
                 })
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi truy vấn danh sách match: " + e.getMessage()));
+    }
+
+
+    //---------noti
+    // Thêm hàm này vào class của bạn
+    private void addNotification(String userId, String title, String content) {
+        // 🔥 userId: ID của người dùng sẽ nhận thông báo
+        // 🔥 title, content: Nội dung thông báo
+
+        Map<String, Object> notificationData = new HashMap<>();
+        notificationData.put("title", title);
+        notificationData.put("content", content);
+        notificationData.put("timestamp", System.currentTimeMillis());
+        notificationData.put("read", false); // Mặc định là chưa đọc
+
+        // Ghi vào collection: notifications/{userId}/userNotifications/{tự động tạo ID}
+        db.collection("notifications")
+                .document(userId)
+                .collection("userNotifications")
+                .add(notificationData)
+                .addOnSuccessListener(documentReference -> {
+                    Log.d("Firebase", "Thông báo được thêm thành công cho: " + userId);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firebase", "Lỗi khi thêm thông báo cho " + userId + ": " + e.getMessage());
+                });
     }
 }
 

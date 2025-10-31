@@ -16,7 +16,14 @@ public class AgoraRtcManager {
 
     private RtcEngine mRtcEngine;
     private Context context;
-    private final RtcListener listener; // Giao diện để truyền sự kiện về ViewModel
+    private RtcListener listener; // Giao diện để truyền sự kiện về ViewModel
+
+    public interface RtcListener {
+        void onJoinChannelSuccess(int uid);
+        void onUserJoined(int uid);
+        void onUserOffline(int uid);
+    }
+
 
     // Constructor: Bắt buộc phải truyền Context và Listener từ ViewModel
     public AgoraRtcManager(Context context, RtcListener listener) {
@@ -96,11 +103,4 @@ public class AgoraRtcManager {
             Log.d("AgoraRtc", "RTC Engine destroyed.");
         }
     }
-}
-
-// Giao diện (Interface) để truyền sự kiện về ViewModel (Bạn cần tạo file này)
-interface RtcListener {
-    void onJoinChannelSuccess(int uid);
-    void onUserJoined(int uid);
-    void onUserOffline(int uid);
 }

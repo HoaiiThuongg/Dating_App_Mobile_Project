@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 //                    initialIntent = intent,
 //                    activity = this
 //                )
-                AppRoot(
+                NavGraph(
                     // Truyền Intent ban đầu vào Composable
                     initialIntent = intent,
                     activity = this

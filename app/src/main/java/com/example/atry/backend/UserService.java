@@ -1,7 +1,5 @@
 package com.example.atry.backend;
 
-import android.util.Log;
-
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -10,7 +8,6 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.FieldValue;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 public class UserService {
     private final FirebaseAuth mAuth;

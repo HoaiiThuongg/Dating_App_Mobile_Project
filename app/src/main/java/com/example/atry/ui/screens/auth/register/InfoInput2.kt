@@ -31,10 +31,9 @@ fun InfoInput2(
     viewModel: UserInfoSetupViewModel= viewModel()
 ) {
     var selectedGender by remember { mutableStateOf<String?>(null) }
-    val user by viewModel.user.collectAsState()
     // Lấy giá trị tên hiện tại
-    val phoneNumber = user?.name ?: ""
-    val gender = user?.gender ?: ""
+    var phoneNumber by remember { mutableStateOf("") }
+    var bio by remember { mutableStateOf("") }
 
     AuthFormContainer(
         title = "Tạo tài khoản",
@@ -44,8 +43,8 @@ fun InfoInput2(
             Text("Nhập thông tin", fontSize = 24.sp, color = Color.Black)
             Spacer(modifier = Modifier.size(30.dp))
             UnderlineTextField(
-                value = "",
-                onValueChange = { },
+                value = phoneNumber,
+                onValueChange = { newPhoneNumber -> phoneNumber = newPhoneNumber },
                 label = "Số điện thoại"
             )
             CustomDropdownField(
@@ -56,14 +55,21 @@ fun InfoInput2(
                 onOptionSelected = { selectedGender = it })
             CustomTextField(
                 "Giới thiệu",
-                { navController.navigate("registerHobbiesInput") })
+                bio,
+                onValueChange = { newPhoneNumber -> phoneNumber = newPhoneNumber },
+            )
             CustomBorderButton(
                 "Quay Lại",
                 { navController.navigate("registerInfoInput1") },
                 Color.Black
             )
             CustomLinearButton(
-                "Tếp theo", { navController.navigate("registerHobbiesInput") },
+                "Tếp theo", {
+                    viewModel.updateUserProfileField("phone",phoneNumber)
+                    viewModel.updateUserProfileField("bio",bio)
+                    viewModel.updateUserField("gender",selectedGender.toString())
+                    navController.navigate("registerHobbiesInput")
+                            },
                 redOrangeLinear, Color.White
             )
 

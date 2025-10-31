@@ -1,5 +1,6 @@
 package com.example.atry.ui.screens.functionalScreens
 
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,12 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.navigation.navController
 import com.example.atry.ui.components.HeartLoading
 import com.example.atry.ui.components.nothingToLoad.NothingToLoad
 import com.example.atry.ui.screens.functionalScreens.message.MessageComponents.ChatRow
 import com.example.atry.ui.screens.functionalScreens.message.MessageComponents.MatchedPeople
 import com.example.atry.ui.theme.primaryPurple
 import com.example.atry.viewmodel.functional.MessageViewModel
+import com.google.gson.Gson
 
 @Composable
 fun MessageScreen(viewModel: MessageViewModel = viewModel()) {
@@ -32,7 +35,26 @@ fun MessageScreen(viewModel: MessageViewModel = viewModel()) {
         } else if (matchedUsers.isEmpty()) {
             NothingToLoad("Bạn chưa kết nối với ai", "Hãy đi ghép đôi với mọi người nào")
         } else {
-            MatchedPeople(matchedUsers)
+            MatchedPeople(
+                matchedUsers = matchedUsers,
+                chatList = chatList,
+                messageViewModel = viewModel,
+                onAvatarClick = { matchedUser, chatItem ->
+                    val json = Uri.encode(
+                        Gson().toJson(
+                            chatItem?.user ?: matchedUser.user
+                        )
+                    )
+                    navController.navigate("chat/$json")
+
+//                    chatItem?.let {
+//                        it.lastMessage?.isRead = true
+//                        viewModel.markChatAsRead(it.user.matchId)
+//                    }
+
+                }
+            )
+
 
             Spacer(modifier = Modifier.height(16.dp))
 

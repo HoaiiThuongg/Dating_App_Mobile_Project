@@ -14,6 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.primaryPurple
 import com.example.atry.viewmodel.functional.VoiceCallViewModel
@@ -30,6 +33,8 @@ fun IncomingCallScreen(
     callerId: String,
     voiceCallViewModel: VoiceCallViewModel = viewModel()
 ) {
+    val incoming by voiceCallViewModel.incomingCallFrom.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,7 +53,7 @@ fun IncomingCallScreen(
             IconButton(
                 onClick = {
                     // Từ chối cuộc gọi
-                    voiceCallViewModel.declineCall()
+                    voiceCallViewModel.declineCall(callerId, CurrentUser.user?.userId?:"")
                     navController.popBackStack()
                 },
                 modifier = Modifier.size(60.dp)
@@ -64,7 +69,7 @@ fun IncomingCallScreen(
             IconButton(
                 onClick = {
                     // Nhận cuộc gọi
-                    voiceCallViewModel.acceptCall(callerId)
+                    voiceCallViewModel.acceptCall(callerId,callerId)
                 },
                 modifier = Modifier.size(60.dp)
             ) {

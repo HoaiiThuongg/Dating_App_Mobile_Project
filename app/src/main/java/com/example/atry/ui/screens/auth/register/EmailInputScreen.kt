@@ -7,13 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.MainActivity
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.buttons.CustomLinearButton
 import com.example.atry.ui.components.nothingToLoad.RotatedIcon
@@ -29,7 +32,25 @@ fun EmailInputScreen(
     viewModel: RegisterViewModel =  viewModel(),
     alertViewModel: AlertViewModel=viewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+    val deepLink = remember { MainActivity.DeepLinkHandler.currentLink }
+
+        LaunchedEffect(deepLink) {
+            if (deepLink != null) {
+                viewModel.handleSignInLink(deepLink)
+                MainActivity.DeepLinkHandler.currentLink = null // reset
+            }
+        }
+
+        val state by viewModel.state.collectAsState()
+
+        LaunchedEffect(state.isSuccess) {
+            if (state.isSuccess) {
+                navController.navigate("setPassword") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }
+        }
 
     AuthFormContainer(
         title = "Tạo tài khoản",

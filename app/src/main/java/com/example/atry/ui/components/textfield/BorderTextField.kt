@@ -41,10 +41,12 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun CustomTextField(
     label: String,
-    onDone: () -> Unit
+    value:String,
+    onValueChange: (String) -> Unit,
+    imeAction: ImeAction = ImeAction.Next,
 ) {
-    var text by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
+    var text by remember { mutableStateOf(value) }
 
     Column {
         Text(
@@ -55,7 +57,10 @@ fun CustomTextField(
         Spacer(modifier = Modifier.height(4.dp))
         TextField(
             value = text,
-            onValueChange = { newText -> text = newText },
+            onValueChange = {
+                text = it
+                onValueChange(it)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp)
@@ -77,7 +82,6 @@ fun CustomTextField(
             keyboardActions = KeyboardActions(
                 onDone = {
                     keyboardController?.hide()
-                    onDone()
                 }
             ),
         )

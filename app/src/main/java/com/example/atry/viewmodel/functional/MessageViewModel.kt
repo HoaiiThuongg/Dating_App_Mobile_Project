@@ -55,6 +55,16 @@ class MessageViewModel(
                         matchedUsers = matchedUsers,
                         isLoading = false
                     )
+
+                    // ✅ Thêm tất cả match chưa chat vào chatList
+                    _chatList.value = matchedUsers.map { matchedUser ->
+                        ChatItem(
+                            user = matchedUser,
+                            lastMessage = null,
+                            isRead = true // chưa có tin nhắn thì mặc định là read
+                        )
+                    }
+
                     observeChats()
                 }
             }
@@ -69,6 +79,7 @@ class MessageViewModel(
             }
         })
     }
+
 
     private fun observeChats() {
         _state.value.matchedUsers.forEach { user ->

@@ -24,6 +24,7 @@ fun ScaffoldWithBackButton(
             .fillMaxSize()
             .imePadding()
             .windowInsetsPadding(WindowInsets.navigationBars)
+
     ) {
         Column(
             modifier = Modifier.fillMaxSize()

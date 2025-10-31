@@ -2,14 +2,18 @@ package com.example.atry.viewmodel.functional
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.atry.backend.AiService.FastAPI
 import com.example.atry.backend.MatchedUser
 import com.example.atry.backend.MessageService
 import com.example.atry.backend.Message
 import com.example.atry.backend.UserService
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -101,4 +105,8 @@ class ChatViewModel(
         super.onCleared()
         messageService.cleanup()
     }
+
+
+
+
 }
