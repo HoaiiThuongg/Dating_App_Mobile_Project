@@ -45,12 +45,13 @@
 
             <!-- 2. INTENT FILTER CHO APP LINKS (HTTPS - Tên miền Firebase Hosting) -->
             <!-- Giữ lại để đảm bảo tính ổn định và bảo mật (App Links) -->
+            <!--android:host="dating-app-6b66a.firebaseapp.com" -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https"
-                    android:host="dating-app-6b66a.firebaseapp.com"
+                    android:host="test-55618.firebaseapp.com"
                     android:pathPrefix="/__/auth/action"/>
             </intent-filter>
         </activity>
