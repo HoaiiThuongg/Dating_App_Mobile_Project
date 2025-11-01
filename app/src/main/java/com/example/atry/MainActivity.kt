@@ -73,12 +73,10 @@ class MainActivity : ComponentActivity() {
         Log.d("MainActivity", "New Intent data: ${intent.dataString}")
 
     }
-
     private fun handleDeepLink(intent: Intent?) {
         if (Intent.ACTION_VIEW == intent?.action) {
             intent.data?.let { uri ->
 
-                // Chỉ xử lý nếu đây là Custom Deeplink (do web redirect đến)
                 if (uri.scheme == "app" && uri.host == "deeplink" && uri.path?.startsWith("/setpassword") == true) {
 
                     val oobCode = uri.getQueryParameter("oobCode")

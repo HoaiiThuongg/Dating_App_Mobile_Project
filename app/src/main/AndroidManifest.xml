@@ -34,6 +34,8 @@
             </intent-filter>
 
             <!-- 1. INTENT FILTER CHO CUSTOM SCHEME (Phải khớp với JS) -->
+
+            <!--linh: này là cj đây-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -49,7 +51,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https"
                     android:host="dating-app-6b66a.firebaseapp.com"
-                    android:pathPrefix="/setpassword"/>
+                    android:pathPrefix="/__/auth/action"/>
             </intent-filter>
         </activity>
     </application>
