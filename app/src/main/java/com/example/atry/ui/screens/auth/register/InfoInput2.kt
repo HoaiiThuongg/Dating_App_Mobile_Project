@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.data.constants.AppConstants
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.CustomDropdownField
 import com.example.atry.ui.components.buttons.CustomBorderButton
@@ -50,7 +51,7 @@ fun InfoInput2(
             CustomDropdownField(
                 "Giới tính",
                 "Chọn giới tính",
-                options = listOf("Nam", "Nữ", "Khác"),
+                options = AppConstants.gender,
                 selectedOption = selectedGender,
                 onOptionSelected = { selectedGender = it })
             CustomTextField(

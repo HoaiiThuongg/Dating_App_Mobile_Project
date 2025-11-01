@@ -179,33 +179,23 @@ public class MessageService {
     private boolean isInitialListen = true;
 
     public ListenerRegistration listenForLastMessage(String matchId, LastMessageListener listener) {
+
         return getMessagesCollectionRef(matchId)
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(1)
                 .addSnapshotListener((snapshots, e) -> {
-                    if (e != null) {
-                        Log.e("MessageService", "Error last msg", e);
-                        return;
-                    }
+                    if (e != null || snapshots == null || snapshots.isEmpty()) return;
 
-                    if (snapshots != null && !snapshots.isEmpty()) {
-                        DocumentSnapshot doc = snapshots.getDocuments().get(0);
-                        Message lastMessage = doc.toObject(Message.class);
+                    DocumentSnapshot doc = snapshots.getDocuments().get(0);
+                    Message lastMessage = doc.toObject(Message.class);
 
-                        if (lastMessage != null) {
-                            lastMessage.setMessageId(doc.getId());
-
-                            // 🚧 Chặn callback lần đầu gây trùng tin nhắn
-                            if (isInitialListen) {
-                                isInitialListen = false;
-                                return;
-                            }
-
-                            listener.onLastMessageReceived(lastMessage);
-                        }
+                    if (lastMessage != null) {
+                        lastMessage.setMessageId(doc.getId());
+                        listener.onLastMessageReceived(lastMessage);
                     }
                 });
     }
+
 
 
     public void isMessageRead(String matchId, String userId, ReadCheckCallback callback) {

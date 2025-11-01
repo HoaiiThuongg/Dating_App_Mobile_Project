@@ -136,6 +136,16 @@ public class UserService {
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
     }
 
+    public void updateUserField(String uid,String field, Object value, UserCallback callback) {
+        String userId = uid;
+        if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
+
+        db.collection("users").document(userId)
+                .set(Collections.singletonMap(field, value), SetOptions.merge()) // <- merge tự tạo field nếu chưa tồn tại
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
+                .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
+    }
+
     public void updateProfileField(String field, Object value, UserCallback callback) {
         String userId = getUserId();
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
@@ -146,8 +156,28 @@ public class UserService {
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
     }
 
+    public void updateProfileField(String uid,String field, Object value, UserCallback callback) {
+        String userId = uid;
+        if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
+
+        db.collection("userProfiles").document(userId)
+                .set(Collections.singletonMap(field, value), SetOptions.merge()) // <- merge tự tạo field nếu chưa tồn tại
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
+                .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
+    }
+
     public void updateProfileDateTime(String field, Date value, UserCallback callback) {
         String userId = getUserId();
+        if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
+        Timestamp timestamp = new Timestamp(value);
+
+        db.collection("userProfiles").document(userId)
+                .set(Collections.singletonMap(field, timestamp), SetOptions.merge())
+                .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
+                .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
+    }
+    public void updateProfileDateTime(String uid,String field, Date value, UserCallback callback) {
+        String userId = uid;
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
         Timestamp timestamp = new Timestamp(value);
 
@@ -197,6 +227,37 @@ public class UserService {
     // Xóa 1 item khỏi list field, tự tạo field nếu chưa tồn tại
     public void removeFromProfileList(String field, String value, UserCallback callback) {
         String userId = getUserId();
+        if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
+
+        db.collection("userProfiles").document(userId)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        // Nếu field chưa tồn tại hoặc không phải array, tạo array rỗng trước
+                        if (!doc.contains(field)) {
+                            db.collection("userProfiles").document(userId)
+                                    .set(Collections.singletonMap(field, Collections.emptyList()), SetOptions.merge())
+                                    .addOnSuccessListener(aVoid -> callback.onSuccess("Field " + field + " chưa tồn tại, đã tạo rỗng"))
+                                    .addOnFailureListener(e -> callback.onFailure("Lỗi khi tạo field " + field + ": " + e.getMessage()));
+                        } else {
+                            // Nếu field đã tồn tại, dùng arrayRemove
+                            db.collection("userProfiles").document(userId)
+                                    .update(field, FieldValue.arrayRemove(value))
+                                    .addOnSuccessListener(aVoid -> callback.onSuccess("Xóa " + field + " thành công"))
+                                    .addOnFailureListener(e -> callback.onFailure("Lỗi khi xóa " + field + ": " + e.getMessage()));
+                        }
+                    } else {
+                        // Document chưa có => tạo document mới với array rỗng
+                        db.collection("userProfiles").document(userId)
+                                .set(Collections.singletonMap(field, Collections.emptyList()), SetOptions.merge())
+                                .addOnSuccessListener(aVoid -> callback.onSuccess("Document mới, field " + field + " tạo rỗng"))
+                                .addOnFailureListener(e -> callback.onFailure("Lỗi khi tạo document mới: " + e.getMessage()));
+                    }
+                })
+                .addOnFailureListener(e -> callback.onFailure("Lỗi khi kiểm tra userProfile: " + e.getMessage()));
+    }
+    public void removeFromProfileList(String uid,String field, String value, UserCallback callback) {
+        String userId = uid;
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
 
         db.collection("userProfiles").document(userId)

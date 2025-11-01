@@ -1,5 +1,6 @@
 package com.example.atry.ui.screens.auth.register
 
+import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -15,6 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.backend.User
+import com.example.atry.backend.UserProfile
+import com.example.atry.data.constants.AppConstants
 import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.CustomDropdownField
@@ -24,6 +28,7 @@ import com.example.atry.ui.components.textfield.UnderlineTextField
 import com.example.atry.ui.screens.auth.AuthFormContainer
 import com.example.atry.ui.theme.redOrangeLinear
 import com.example.atry.viewmodel.auth.UserInfoSetupViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -32,6 +37,26 @@ import java.util.Locale
 fun InfoInput1(
     viewModel: UserInfoSetupViewModel= viewModel()
 ) {
+    val userId = "eRs2j5bEUUVd4vlgEjrOAJaWNOW2"
+    FirebaseFirestore.getInstance().collection("users")
+        .document(userId)
+        .get()
+        .addOnSuccessListener { doc ->
+            CurrentUser.user = doc.toObject(User::class.java)
+        }
+        .addOnFailureListener { e ->
+            Log.e("User", "Lỗi khi lấy user: ${e.message}")
+        }
+    FirebaseFirestore.getInstance().collection("userProfiles")
+        .document(userId)
+        .get()
+        .addOnSuccessListener { doc ->
+            CurrentUser.userProfile = doc.toObject(UserProfile::class.java)
+        }
+        .addOnFailureListener { e ->
+            Log.e("UserProfile", "Lỗi khi lấy profile: ${e.message}")
+        }
+
     var selectedPlace by remember { mutableStateOf<String?>(null) }
     // Lấy giá trị tên hiện tại
     var name by remember { mutableStateOf("") }
@@ -58,7 +83,7 @@ fun InfoInput1(
             CustomDropdownField(
                 "Nơi ở",
                 "Chọn địa điểm",
-                options = listOf("Hà Nội", "Hồ Chí Minh", "Khác"),
+                options = AppConstants.vietnamProvinces,
                 selectedOption = selectedPlace,
                 onOptionSelected = { selectedPlace = it })
             Spacer(modifier = Modifier.size(20.dp))

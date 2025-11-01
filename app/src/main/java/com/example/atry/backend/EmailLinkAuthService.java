@@ -43,7 +43,9 @@ public class EmailLinkAuthService {
             callback.onFailure("Email không hợp lệ");
             return;
         }
-        String continueUrl = "https://dating-app-6b66a.firebaseapp.com/setpassword?email=" + email;
+//        String continueUrl = "https://dating-app-6b66a.firebaseapp.com/setpassword?email=" + email;
+        String continueUrl = "https://test-55618.firebaseapp.com/setpassword?email=" + email;
+
 
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
                 .setUrl(continueUrl) // Firebase sẽ chuyển hướng đến đây sau khi xác minh mã

@@ -1,6 +1,5 @@
 package com.example.atry.ui.screens.auth.register
 
-import ImageUploadField
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -67,7 +66,7 @@ fun PicturesInput(
 
     AuthFormContainer(
         title = "Tạo tài khoản",
-        subtitle = "Tải lên ít nhất 1 ảnh",
+        subtitle = "Tải lên ảnh đại diện",
         topContent = {},
         bottomContent = {
             Text("Thêm ảnh", fontSize = 24.sp, color = Color.Black)

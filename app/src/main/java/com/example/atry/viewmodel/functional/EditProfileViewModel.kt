@@ -156,8 +156,6 @@ class EditProfileViewModel(app: Application) : AndroidViewModel(app){
                 val path = getRealPathFromUri(context, item)
                 val url = cloudinaryService.uploadImage(path)
                 onUploaded(url)
-                val index = images.indexOf(item)
-                if (index != -1) images[index] = ImageItem.Remote(url)
                 CurrentUser.user?.defaultImage = url
                 userService.updateUserField("defaultImage", url, object : UserService.UserCallback {
                     override fun onSuccess(message: String) { Log.d("Upload", message) }

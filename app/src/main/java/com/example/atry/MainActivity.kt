@@ -19,7 +19,12 @@ import com.example.atry.ui.theme.ThemeSingleton
 import kotlinx.coroutines.launch
 import android.Manifest
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import com.example.atry.backend.EmailLinkAuthService
+import com.example.atry.backend.TestActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
 
@@ -31,9 +36,12 @@ class MainActivity : ComponentActivity() {
             Manifest.permission.CAMERA
         )
     }
-
+    companion object {
+        var currentLink: Uri? = null
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        processEmailLink(intent)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -48,57 +56,44 @@ class MainActivity : ComponentActivity() {
         // Bỏ việc gọi handleDeepLink(intent) ở đây!
         setContent {
             TryTheme {
-                // Chúng ta sẽ xử lý intent trong NavGraph
-//                NavGraph(
-//                    // Truyền Intent ban đầu vào Composable
-//                    initialIntent = intent,
-//                    activity = this
-//                )
                 NavGraph(
-                    // Truyền Intent ban đầu vào Composable
                     initialIntent = intent,
                     activity = this
                 )
             }
         }
-        // Bỏ handleDeepLink(intent) ở đây!
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        // Thay vì gọi handleDeepLink, chúng ta lưu Intent mới vào DeepLinkHandler
-        DeepLinkHandler.currentLink = intent.dataString
-        Log.d("MainActivity", "New Intent data: ${intent.dataString}")
+        processEmailLink(intent)
 
     }
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
-    private fun handleDeepLink(intent: Intent?) {
-        if (Intent.ACTION_VIEW == intent?.action) {
-            intent.data?.let { uri ->
+    private fun processEmailLink(intent: Intent?) {
+        val deepLink = intent?.data ?: return
+        val authService = EmailLinkAuthService(applicationContext)
 
-                // Chỉ xử lý nếu đây là Custom Deeplink (do web redirect đến)
-                if (uri.scheme == "app" && uri.host == "deeplink" && uri.path?.startsWith("/setpassword") == true) {
+        authService.handleVerifyEmail(deepLink, object : EmailLinkAuthService.AuthCallback {
+            override fun onSuccess(message: String) {
+                Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
 
-                    val oobCode = uri.getQueryParameter("oobCode")
-                    val email = uri.getQueryParameter("email")
-
-                    if (oobCode != null && !email.isNullOrEmpty()) {
-
-                        // TODO: GỌI HÀM FIREBASE AUTH ĐỂ HOÀN TẤT XÁC MINH/ĐĂNG NHẬP
-                        // VÍ DỤ: FirebaseAuth.getInstance().applyActionCode(oobCode)
-
-                        // SAU KHI GỌI THÀNH CÔNG:
-                        navController.navigate("passwordInput/${email}")
-
-                        // Thoát khỏi hàm xử lý deeplink
-                        return
-                    }
-                }
+                // Chuyển tới màn set password
+                val next = Intent(applicationContext, TestActivity::class.java)
+                next.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(next)
             }
-        }
+
+            override fun onFailure(error: String) {
+                Toast.makeText(applicationContext, "Lỗi: $error", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onEmailSent(message: String) {}
+        })
     }
 
-    // --- LOGIC XỬ LÝ QUYỀN ---
+
 
     private fun checkPermissions(): Boolean {
         for (permission in getRequiredPermissions()) {
@@ -108,11 +103,9 @@ class MainActivity : ComponentActivity() {
         }
         return true
     }
-
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(this, getRequiredPermissions(), PERMISSION_REQ_ID)
     }
-
     /**
      * Sửa lỗi: Đã thay đổi chữ ký 'permissions: Array<out String>' thành 'permissions: Array<String>'.
      * Đây là chữ ký chuẩn của ActivityCompat.onRequestPermissionsResult.
@@ -130,18 +123,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // --- OTHER COMPONENTS ---
-
     object DeepLinkHandler {
         // Biến này sẽ lưu trữ URI của Intent mới (từ onNewIntent)
         var currentLink: String? = null
     }
 }
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    TryTheme {
-//        NavGraph()
-//    }
-//}

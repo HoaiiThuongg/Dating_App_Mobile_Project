@@ -40,11 +40,11 @@ class UserInfoSetupViewModel () : ViewModel() {
     fun updateUserField(label: String, value: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (label) {
-                "name" -> userService.updateUserField(label,value, callback())
-                "email" -> userService.updateUserField("email", value, callback())
-                "phone" -> userService.updateProfileField("phone", value, callback())
-                "location" -> userService.updateProfileField("location", value, callback())
-                "gender" -> userService.updateProfileField(label,value, callback())
+                "name" -> userService.updateUserField(CurrentUser.user?.userId?:"",label,value, callback())
+                "email" -> userService.updateUserField(CurrentUser.user?.userId?:"","email", value, callback())
+                "phone" -> userService.updateProfileField(CurrentUser.user?.userId?:"","phone", value, callback())
+                "location" -> userService.updateProfileField(CurrentUser.user?.userId?:"","location", value, callback())
+                "gender" -> userService.updateUserField(CurrentUser.user?.userId?:"",label,value, callback())
                 else -> _updateStatus.value = "User field '$label' không tồn tại"
             }
         }
@@ -54,6 +54,7 @@ class UserInfoSetupViewModel () : ViewModel() {
             "email" -> CurrentUser.user?.email = value
             "phoneNumber" -> CurrentUser.userProfile?.phone = value
             "location" -> CurrentUser.userProfile?.location = value
+            "gender" -> CurrentUser.user?.gender = value
         }
     }
 
@@ -61,7 +62,7 @@ class UserInfoSetupViewModel () : ViewModel() {
     public fun updateDob(date: Date) {
         try {
             if (date != null) {
-                userService.updateProfileDateTime("dob", date, callback())
+                userService.updateProfileDateTime(CurrentUser.user?.userId?:"","dob", date, callback())
                 CurrentUser.userProfile?.dob = date
             } else {
                 _updateStatus.value = "Ngày sinh không hợp lệ"
@@ -75,9 +76,9 @@ class UserInfoSetupViewModel () : ViewModel() {
     fun updateUserProfileField(label: String, value: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (label) {
-                "bio" -> userService.updateProfileField(label,value, callback())
-                "lifestyle" -> userService.updateProfileField("lifestyle", value, callback())
-                "gender" -> userService.updateUserField(label,value, callback())
+                "bio" -> userService.updateProfileField(CurrentUser.user?.userId?:"",label,value, callback())
+                "lifestyle" -> userService.updateProfileField(CurrentUser.user?.userId?:"","lifestyle", value, callback())
+                "gender" -> userService.updateUserField(CurrentUser.user?.userId?:"",label,value, callback())
                 else -> _updateStatus.value = "UserProfile field '$label' không tồn tại hoặc là list"
             }
         }
@@ -108,7 +109,7 @@ class UserInfoSetupViewModel () : ViewModel() {
 
     fun removeFromProfileList(field: String, value: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            userService.removeFromProfileList(field, value, object : UserService.UserCallback {
+            userService.removeFromProfileList(CurrentUser.user?.userId?:"",field, value, object : UserService.UserCallback {
                 override fun onSuccess(message: String) { _updateStatus.value = message }
                 override fun onFailure(error: String) { _updateStatus.value = error }
             })
@@ -168,7 +169,7 @@ class UserInfoSetupViewModel () : ViewModel() {
                 CurrentUser.user?.defaultImage = url
 
                 // Cập nhật backend
-                userService.updateUserField("defaultImage", url, object : UserService.UserCallback {
+                userService.updateUserField(CurrentUser.user?.userId?:"","defaultImage", url, object : UserService.UserCallback {
                     override fun onSuccess(message: String) { Log.d("Upload", message) }
                     override fun onFailure(errorMessage: String) { Log.e("Upload", errorMessage) }
                 })

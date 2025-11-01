@@ -32,25 +32,14 @@ fun EmailInputScreen(
     viewModel: RegisterViewModel =  viewModel(),
     alertViewModel: AlertViewModel=viewModel()
 ) {
-    val context = LocalContext.current
-    val deepLink = remember { MainActivity.DeepLinkHandler.currentLink }
-
-        LaunchedEffect(deepLink) {
-            if (deepLink != null) {
-                viewModel.handleSignInLink(deepLink)
-                MainActivity.DeepLinkHandler.currentLink = null // reset
-            }
-        }
-
         val state by viewModel.state.collectAsState()
 
-        LaunchedEffect(state.isSuccess) {
-            if (state.isSuccess) {
-                navController.navigate("setPassword") {
-                    popUpTo("login") { inclusive = true }
-                }
-            }
-        }
+//        LaunchedEffect(state.isSuccess) {
+//            val email = viewModel.email // hoặc từ state
+//            navController.navigate("passwordInput/$email") {
+//                popUpTo("register") { inclusive = true }
+//            }
+//        }
 
     AuthFormContainer(
         title = "Tạo tài khoản",
@@ -93,11 +82,4 @@ fun EmailInputScreen(
         }
     )
 
-//    LaunchedEffect(state.isSuccess) {
-//        if (state.isSuccess) {
-//            navController.navigate("registerOtpInput") {
-//                popUpTo("register") { inclusive = true } // tùy chọn, remove khỏi back stack
-//            }
-//        }
-//    }
 }

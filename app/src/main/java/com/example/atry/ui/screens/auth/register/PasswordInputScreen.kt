@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.MainActivity
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.buttons.CustomLinearButton
 import com.example.atry.ui.components.textfield.UnderlineTextField
@@ -31,6 +32,15 @@ fun PasswordInputScreen(
 ) {
     var password by remember { mutableStateOf("") }
     val state by viewModel.state.collectAsState()
+
+    val deepLink = remember { MainActivity.currentLink }
+
+    LaunchedEffect(deepLink) {
+        if (deepLink != null) {
+            viewModel.handleSignInLink(deepLink)
+            MainActivity.currentLink = null
+        }
+    }
 
 
     AuthFormContainer(

@@ -17,14 +17,14 @@ import com.example.atry.viewmodel.auth.RegisterViewModel
 fun RegisterEntryScreen(
     viewModel: RegisterViewModel = viewModel()) {
     val context = LocalContext.current
-    val deepLink = remember { MainActivity.DeepLinkHandler.currentLink }
+    val deepLink = remember { MainActivity.currentLink }
 
     LaunchedEffect(deepLink) {
         if (deepLink != null) {
-            viewModel.handleSignInLink(deepLink) // Gọi Firebase xác minh link
+            viewModel.handleSignInLink(deepLink) // deepLink là Uri
+            MainActivity.currentLink = null // reset sau khi xử lý
         }
     }
-
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(state.isSuccess) {

@@ -237,11 +237,11 @@ fun NavGraph(initialIntent: Intent?,
             arguments = listOf(navArgument("email") { type = NavType.StringType })
         ) { backStackEntry ->
             val email = backStackEntry.arguments?.getString("email")
-            // Giả sử PasswordInputField nhận email để xác định tài khoản
             email?.let { PasswordInputScreen(it) }
         }
         //login
         composable("login") { Login() }
+
 
         //forget
         composable("forgetPasswordEmail") { ForgetPassword() }

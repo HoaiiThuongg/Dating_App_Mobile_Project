@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.data.constants.AppConstants
 import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.screens.functionalScreens.edit.editComponents.infomation.DateInfoField
 import com.example.atry.ui.screens.functionalScreens.edit.editComponents.infomation.EditableDropdownField
@@ -26,7 +27,6 @@ fun Information(
     viewModel: EditProfileViewModel= viewModel()
 ) {
     val updateStatus by viewModel.updateStatus.collectAsState()
-    val genderOptions = listOf("Nam", "Nữ", "Khác")
 
     LazyColumn(
         modifier = Modifier
@@ -38,9 +38,11 @@ fun Information(
         } ?: "Chưa có ngày sinh"
         item{ Spacer(Modifier.size(0.dp)) }
         item { EditableInfoField("Tên", CurrentUser.user?.name ?: "Lỗi tên", "name") }
-        item { EditableDropdownField("Giới tính", CurrentUser.user?.gender ?: "Lỗi", "gender",genderOptions) }
+        item { EditableDropdownField("Giới tính", CurrentUser.user?.gender ?: "Lỗi", "gender",
+            AppConstants.gender) }
         item { DateInfoField("Ngày sinh", dobString, "dob") }
-        item { EditableInfoField("Nơi ở", CurrentUser.userProfile?.location ?: "Lỗi", "location") }
+        item { EditableDropdownField("Nơi ở", CurrentUser.userProfile?.location ?: "Lỗi","location",
+            AppConstants.vietnamProvinces) }
         item {
             EditableInfoField(
                 "Số điện thoại",

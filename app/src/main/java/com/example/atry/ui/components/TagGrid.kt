@@ -10,22 +10,38 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.room.Update
+import com.example.atry.ui.theme.redGradientBrush
+import com.example.atry.viewmodel.auth.RegisterViewModel
+import com.example.atry.viewmodel.auth.UserInfoSetupViewModel
 
 
 @Composable
 fun TagGrid(
-        title: String,
-        tags: List<String>
+    title: String,
+    tags: List<String>,
+    selectedTags: List<String>,
+    onTagToggle: (String) -> Unit,
+    viewModel: UserInfoSetupViewModel = viewModel()
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
@@ -34,30 +50,67 @@ fun TagGrid(
             color = Color.Black,
             fontSize = 16.sp
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
-        FlowRow( // Tự động xuống dòng nếu dài
-            horizontalArrangement = Arrangement.spacedBy(8.dp), // spacing giữa cột
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             tags.forEach { tag ->
+                val isSelected = tag in selectedTags
+
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(50))
-                        .background(Color(0xFF1DB954))
-                        .clickable {  }
-                        .padding(horizontal = 20.dp, vertical = 8.dp)
+                        .background(
+                            if (isSelected) Color(0xFF7E57C2) // Đậm khi chọn
+                            else Color(0xFFD1C4E9) // Nhạt khi chưa chọn
+                        )
+                        .clickable {
+                            onTagToggle(tag)
+                            viewModel.updateUserProfileField("interests",tag)
+                        }
+                        .padding(horizontal = 20.dp, vertical = 10.dp)
                 ) {
+
                     Text(
                         text = tag,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
+                        color = if (isSelected) Color.White else Color.Black,
+                        fontWeight = FontWeight.SemiBold,
                         fontSize = 14.sp
                     )
+
+                    if (isSelected) {
+                        IconButton(
+                            onClick = {
+                                viewModel.removeFromProfileList("interests",tag)
+                            },
+                            modifier = Modifier
+                                .size(32.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Close",
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .graphicsLayer(alpha = 0.99f) // để hỗ trợ blend
+                                    .drawWithCache {
+                                        onDrawWithContent {
+                                            drawContent()
+                                            drawRect(
+                                                brush = redGradientBrush,
+                                                size = this.size, // 🩵 bắt buộc: vẽ gradient phủ toàn icon
+                                                blendMode = BlendMode.SrcAtop
+                                            )
+                                        }
+                                    },
+                                tint = Color.White
+                            )
+                        }
+                    }
                 }
             }
         }
     }
 }
-
