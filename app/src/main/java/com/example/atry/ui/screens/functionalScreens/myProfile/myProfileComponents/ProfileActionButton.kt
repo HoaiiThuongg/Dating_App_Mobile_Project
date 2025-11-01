@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Settings
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -41,10 +43,11 @@ fun ProfileActionButton() {
             Box(
                 modifier = Modifier
                     .background(Color.DarkGray, CircleShape)
-                    .clickable {
+                    .size(50.dp)
+                    .clip(RoundedCornerShape(50))
+                    .clickable() {
                         navController.navigate("settings")
                     }
-                    .size(50.dp)
                     .padding(10.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -63,10 +66,11 @@ fun ProfileActionButton() {
         ) {
             Box(
                 modifier = Modifier
+                    .background(Color.DarkGray, CircleShape)
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(50))
                     .clickable {
                         navController.navigate("editProfile")}
-                    .size(100.dp)
-                    .background(Color.DarkGray, CircleShape)
                     .padding(20.dp)
                 ,
                 contentAlignment = Alignment.Center
@@ -86,12 +90,13 @@ fun ProfileActionButton() {
         ) {
             Box(
                 modifier = Modifier
-                    .clickable {
-                        navController.navigate("support")}
-                    .size(50.dp)
                     .background(Color.DarkGray, CircleShape)
-                    .padding(10.dp)
-                ,
+                    .size(50.dp)
+                    .clip(RoundedCornerShape(50))
+                    .clickable() {
+                        navController.navigate("support")
+                    }
+                    .padding(10.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(

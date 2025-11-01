@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.atry.R
 import com.example.atry.navigation.innerNavController
+import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.TryTheme
 import com.example.atry.ui.theme.purpleHighlight
 
@@ -38,7 +39,7 @@ fun Footer(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("home")
-                    innerNavController.navigate("home")
+                    navController.navigate("home")
                 }
             ) {
                 Icon(
@@ -53,7 +54,7 @@ fun Footer(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("likeYou")
-                    innerNavController.navigate("likeYou")
+                    navController.navigate("likeYou")
                 }
             ) {
                 Icon(
@@ -68,7 +69,7 @@ fun Footer(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("message")
-                    innerNavController.navigate("message")
+                    navController.navigate("message")
                 }
             ) {
                 Icon(
@@ -83,7 +84,7 @@ fun Footer(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("profile")
-                    innerNavController.navigate("profile")
+                    navController.navigate("profile")
                 }
             ) {
                 Icon(

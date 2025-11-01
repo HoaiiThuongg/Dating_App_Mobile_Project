@@ -42,7 +42,8 @@ fun AiChatBox(){
 
         Box(
             modifier = Modifier
-                .fillMaxWidth(), // chiếm hết ngang để căn được bên phải
+                .fillMaxWidth()
+                .padding(end=50.dp), // chiếm hết ngang để căn được bên phải
             contentAlignment = Alignment.CenterStart // dính sang phải
         ) {
             Box(

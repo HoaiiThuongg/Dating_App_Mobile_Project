@@ -29,6 +29,12 @@ public class Message {
         this.timestamp = timestamp;
     }
 
+    public Message(String senderId, String content) {
+        this.senderId = senderId;
+        this.content = content;
+    }
+
+
     // --- Getter / Setter ---
     public String getMessageId() { return messageId; }
     public void setMessageId(String messageId) { this.messageId = messageId; }

@@ -176,22 +176,37 @@ public class MessageService {
     }
 
     // --- Lắng nghe tin nhắn cuối cùng ---
+    private boolean isInitialListen = true;
+
     public ListenerRegistration listenForLastMessage(String matchId, LastMessageListener listener) {
         return getMessagesCollectionRef(matchId)
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(1)
                 .addSnapshotListener((snapshots, e) -> {
-                    if (e != null) { Log.e("MessageService", "Error last msg", e); return; }
+                    if (e != null) {
+                        Log.e("MessageService", "Error last msg", e);
+                        return;
+                    }
+
                     if (snapshots != null && !snapshots.isEmpty()) {
                         DocumentSnapshot doc = snapshots.getDocuments().get(0);
                         Message lastMessage = doc.toObject(Message.class);
+
                         if (lastMessage != null) {
                             lastMessage.setMessageId(doc.getId());
+
+                            // 🚧 Chặn callback lần đầu gây trùng tin nhắn
+                            if (isInitialListen) {
+                                isInitialListen = false;
+                                return;
+                            }
+
                             listener.onLastMessageReceived(lastMessage);
                         }
                     }
                 });
     }
+
 
     public void isMessageRead(String matchId, String userId, ReadCheckCallback callback) {
         DocumentReference matchRef = db.collection("matches").document(matchId);

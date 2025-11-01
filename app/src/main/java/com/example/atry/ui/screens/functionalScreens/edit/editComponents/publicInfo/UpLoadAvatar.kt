@@ -1,4 +1,4 @@
-package com.example.atry.ui.screens.functionalScreens.edit.editComponents
+package com.example.atry.ui.screens.functionalScreens.edit.editComponents.publicInfo
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,8 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +42,7 @@ fun UploadAvatar(viewModel: EditProfileViewModel = viewModel()) {
     val context = LocalContext.current
 
     // Dùng State để Compose tự recompose khi ảnh thay đổi
-    val imageUrlState = remember { androidx.compose.runtime.mutableStateOf(CurrentUser.user?.defaultImage) }
+    val imageUrlState = remember { mutableStateOf(CurrentUser.user?.defaultImage) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -55,7 +58,7 @@ fun UploadAvatar(viewModel: EditProfileViewModel = viewModel()) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(5.dp),
+            .padding(vertical = 15.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -65,26 +68,37 @@ fun UploadAvatar(viewModel: EditProfileViewModel = viewModel()) {
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text("Ảnh đại diện", fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 16.sp)
-            Button(onClick = { launcher.launch("image/*") }) {
-                Text("Tải ảnh")
+            Text("Ảnh đại diện", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp)
+            Button(
+                onClick = { launcher.launch("image/*") },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFF4A7D) // Màu nền của nút (giá trị 0xFFFF4A7D)
+                ),
+            ) {
+                Text("Tải ảnh", color = Color.White)
             }
         }
         Box(
             modifier = Modifier
                 .weight(1f)
-                .clip(CircleShape)
-                .background(Color.LightGray),
+                .clip(CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(model = imageUrlState.value),
-                contentDescription = "Ảnh đại diện",
-                contentScale = ContentScale.Crop,
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .size(120.dp)
-            )
+                    .clip(CircleShape)
+                    .size(150.dp),
+            ){
+                Image(
+                    painter = rememberAsyncImagePainter(model = imageUrlState.value),
+                    contentDescription = "Ảnh đại diện",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.LightGray)
+                )
+            }
+
         }
 
 

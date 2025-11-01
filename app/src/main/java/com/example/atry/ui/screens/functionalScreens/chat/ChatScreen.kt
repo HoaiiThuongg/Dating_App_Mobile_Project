@@ -44,6 +44,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import com.example.atry.data.singleton.CurrentUser
+import com.example.atry.ui.screens.functionalScreens.chat.chatComponents.PartnerGameCard
+import com.example.atry.ui.screens.functionalScreens.chat.chatComponents.UserGameCard
+import com.example.atry.viewmodel.functional.ChatItem
 
 @Composable
 fun ChatScreen(
@@ -63,11 +66,12 @@ fun ChatScreen(
     val context = LocalContext.current
 
 
-    LaunchedEffect(messages.size, isImeVisible) {
-        if (messages.isNotEmpty()) {
-            listState.animateScrollToItem(messages.lastIndex)
+    LaunchedEffect(viewModel.chatItems.size, isImeVisible) {
+        if (viewModel.chatItems.isNotEmpty()) {
+            listState.animateScrollToItem(viewModel.chatItems.lastIndex)
         }
     }
+
 
     LaunchedEffect(systemUiController, isDark) {
         systemUiController.setStatusBarColor(
@@ -91,7 +95,7 @@ fun ChatScreen(
                     .background(MaterialTheme.colorScheme.surface),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                ChatScreenHeader(modifier = Modifier.padding(paddingValues), context = context)
+                ChatScreenHeader(modifier = Modifier.padding(paddingValues))
                 //main screen
                 if(messages.isEmpty()) {
                     Text("empty")
@@ -99,29 +103,49 @@ fun ChatScreen(
                 LazyColumn(
                     state = listState,
                     modifier = Modifier
-                        .weight(1f) // Chiếm hết không gian còn lại
+                        .weight(1f)
                         .padding(horizontal = 15.dp, vertical = 15.dp)
                         .padding(paddingValues),
-                    // Sắp xếp các tin nhắn từ trên xuống (cũ nhất ở trên)
                     reverseLayout = false,
-                    verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Bottom) // Gắn vào phía dưới
+                    verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Bottom)
                 ) {
-                    items(messages) { message ->
-                        if (message.senderId == CurrentUser.user?.userId) {
-                            UserChatBox(text=message.content)
-                        } else {
-                            PartnerChatBox(text=message.content)
+                    items(viewModel.chatItems) { item ->
+                        when (item) {
+                            is ChatItem.MessageItem -> {
+                                val message = item.message
+                                if (message.senderId == CurrentUser.user?.userId) {
+                                    UserChatBox(text = message.content)
+                                } else {
+                                    PartnerChatBox(text = message.content)
+                                }
+                            }
+                            is ChatItem.GameCardItem -> {
+                                val gameCard = item.card
+                                if (gameCard.startBy == CurrentUser.user?.userId) {
+                                    UserGameCard(
+                                        gameCard = item.card,
+                                        viewModel=viewModel,
+                                        otherUser = matchedUser?.user
+                                    )
+
+                                } else {
+                                    PartnerGameCard(
+                                        gameCard = item.card,
+                                        viewModel=viewModel,
+                                        otherUser = matchedUser?.user
+                                    )
+                                }
+                            }
                         }
-                        Log.d("message.senderId and current id",message.senderId + " "+ CurrentUser.user?.userId)
-
                     }
-
                 }
+
                 //texting
                 ChatScreenFooter(
                     matchedUser=matchedUser,
                     Modifier.verticalScroll(rememberScrollState())
-                        .imePadding()
+                        .imePadding(),
+                    chatViewModel=viewModel
                 )
             }
         }

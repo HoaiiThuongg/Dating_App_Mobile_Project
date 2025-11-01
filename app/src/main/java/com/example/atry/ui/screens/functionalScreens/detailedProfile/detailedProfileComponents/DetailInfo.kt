@@ -13,6 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.NightsStay
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,31 +47,35 @@ fun DetailInfo(user: User,userProfile: UserProfile?) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = user.name,
-                fontSize = 22.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = age,
-                fontSize = 22.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFFE91E63) // hồng
             )
         }
 
 
-        InfoDetailBox("Cung hoa", userProfile?.location ?: "Bí ẩn")
+        InfoDetailBox("Nơi ở", userProfile?.location ?: "Bí ẩn", Icons.Default.LocationOn)
 
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-        InfoDetailBox("Cung hoàng đạo", userProfile?.zodiacSign ?: "Bí ẩn")
+        InfoDetailBox("Cung hoàng đạo", userProfile?.zodiacSign ?: "Bí ẩn",Icons.Default.NightsStay)
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-        InfoDetailBox("Tiểu sử", userProfile?.bio ?: "Chưa muốn chia sẻ")
+        InfoDetailBox("Tiểu sử", userProfile?.bio ?: "Chưa muốn chia sẻ",Icons.Default.Person)
 
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-        InfoDetailBox("Quan điểm sống", userProfile?.lifestyle ?: "Chưa muốn chia sẻ")
+        InfoDetailBox("Quan điểm sống", userProfile?.lifestyle ?: "Chưa muốn chia sẻ",Icons.Default.Favorite)
+
+        Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+        TagsField("Sở thích", userProfile?.interests)
     }
 }

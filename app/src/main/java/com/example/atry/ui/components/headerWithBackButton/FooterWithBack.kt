@@ -39,7 +39,7 @@ fun FooterWithBack(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("home")
-                    navController.navigate("main_home")
+                    navController.navigate("home")
                 }
             ) {
                 Icon(
@@ -54,7 +54,7 @@ fun FooterWithBack(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("likeYou")
-                    navController.navigate("main_likeYou")
+                    navController.navigate("likeYou")
                 }
             ) {
                 Icon(
@@ -69,7 +69,7 @@ fun FooterWithBack(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("message")
-                    navController.navigate("main_message")
+                    navController.navigate("message")
                 }
             ) {
                 Icon(
@@ -84,7 +84,7 @@ fun FooterWithBack(selected: String, onSelect: (String) -> Unit) {
             IconButton(
                 onClick = {
                     onSelect("profile")
-                    navController.navigate("main_profile")
+                    navController.navigate("profile")
                 }
             ) {
                 Icon(

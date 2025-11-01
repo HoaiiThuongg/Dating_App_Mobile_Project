@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.R
+import com.example.atry.backend.SwipeService
 import com.example.atry.backend.User
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailInfo
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailedProfileImage
@@ -62,7 +63,10 @@ fun DetailScreen(
 
             DetailInfo(user, userProfile)
 
-            ActionButtons()
+            ActionButtons(
+                onLike = { viewModel.swipe(user.userId ?: "", SwipeService.SwipeType.LEFT)},
+                onDislike ={ viewModel.swipe(user.userId ?: "", SwipeService.SwipeType.RIGHT) }
+            )
         }
     }
 }

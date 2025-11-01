@@ -63,7 +63,7 @@ fun DrawerContent(
                     bottomStart = 0.dp
                 )
             )
-            .padding(20.dp,40.dp,20.dp,20.dp),
+            .padding(20.dp,45.dp,20.dp,20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Row(

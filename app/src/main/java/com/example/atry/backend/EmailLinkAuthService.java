@@ -16,6 +16,12 @@ public class EmailLinkAuthService {
     private final Context mContext;
     private final SharedPreferences prefs;
 
+    private static final String PREF_EMAIL_FOR_SIGN_UP = "emailForSignUp";
+    private static final String PREF_NEEDS_PASSWORD_SETUP = "needsPasswordSetup";
+    private static final String PREF_PENDING_USER_EMAIL = "pendingUserEmail";
+    private static final String PREF_RESET_OOB_CODE = "resetOobCode";
+
+
     //1. Đăng kí tài khoản bằng email: Gửi link xác thực (có thể gửi lai) -> kiểm tra -> tạo tài khoản với mật khẩu
     // trình tự: sendVerifyEmail-> handleVerifyEmail -> setPassword (hàm gửi lại link xác thực resendSignInLink)
     //2. Đặt lại mật khẩu: Gửi link reset mật khẩu qua email
@@ -71,31 +77,33 @@ public class EmailLinkAuthService {
     }
 
     public void handleVerifyEmail(Uri data, AuthCallback callback) {
-        String oobCode = data.getQueryParameter("oobCode");
-        if (oobCode != null) {
-            FirebaseAuth.getInstance()
-                    .applyActionCode(oobCode)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            // mới thêm chưa test
-                            String email = prefs.getString("emailForSignIn", null);
-                            if(email != null) {
-                                AuthCredential credential =
-                                        EmailAuthProvider.getCredentialWithLink(email, data.toString());
-                                mAuth.signInWithCredential(credential);
-                            }
-                            //
-                            callback.onSuccess("Xác thực email thành công");
-                        }
-                        else {
-                            callback.onFailure("Xác thực thất bại: " +
-                                    task.getException().getMessage());
-                        }
-                    });
+        String email = prefs.getString(PREF_EMAIL_FOR_SIGN_UP, null);
+        if (email == null) {
+            callback.onFailure("Không tìm thấy email đăng ký.");
+            return;
         }
-        else {
-            callback.onFailure("Không tìm thấy oobCode trong link!");
+        String link = data.toString();
+        if (!mAuth.isSignInWithEmailLink(link)) {
+            callback.onFailure("Link không hợp lệ hoặc đã hết hạn.");
+            return;
         }
+
+        mAuth.signInWithEmailLink(email, link)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            prefs.edit()
+                                    .putBoolean(PREF_NEEDS_PASSWORD_SETUP, true)
+                                    .putString(PREF_PENDING_USER_EMAIL, email)
+                                    .apply();
+                            callback.onSuccess("Email đã được xác thực. Vui lòng đặt mật khẩu để hoàn tất đăng ký.");
+                        }
+                    } else {
+                        callback.onFailure("Xác thực thất bại: " +
+                                task.getException().getMessage());
+                    }
+                });
     }
     public void setPassword(String password, AuthCallback callback) {
         FirebaseUser user = mAuth.getCurrentUser();
@@ -106,6 +114,11 @@ public class EmailLinkAuthService {
         user.updatePassword(password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        prefs.edit()
+                                .remove(PREF_EMAIL_FOR_SIGN_UP)
+                                .remove(PREF_NEEDS_PASSWORD_SETUP)
+                                .remove(PREF_PENDING_USER_EMAIL)
+                                .apply();
                         callback.onSuccess("Tài khoản đã được tạo thành công với mật khẩu.");
                     } else {
                         callback.onFailure("Tạo mật khẩu thất bại: " +

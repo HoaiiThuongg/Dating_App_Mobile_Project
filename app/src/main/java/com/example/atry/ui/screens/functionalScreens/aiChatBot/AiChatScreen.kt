@@ -23,49 +23,45 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.screens.functionalScreens.aiChatBot.chatComponents.AiChatBox
+import com.example.atry.ui.screens.functionalScreens.aiChatBot.chatComponents.AiChatList
 import com.example.atry.ui.screens.functionalScreens.aiChatBot.chatComponents.AiChatScreenFooter
 import com.example.atry.ui.screens.functionalScreens.aiChatBot.chatComponents.AiChatScreenHeader
 import com.example.atry.ui.screens.functionalScreens.aiChatBot.chatComponents.AiUserChatBox
+import com.example.atry.viewmodel.functional.AiViewModel
 
-@Preview
 @Composable
-fun AiChatScreen() {
+fun AiChatScreen(viewModel: AiViewModel = viewModel()) {
     var text by remember { mutableStateOf("") }
+    val messages by viewModel.messages.collectAsState()
 
-    Box(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
             .windowInsetsPadding(WindowInsets.safeDrawing),
-    ) {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            contentWindowInsets = WindowInsets(0.dp)
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
-                    .windowInsetsPadding(WindowInsets.navigationBars),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                //patner avatar and name
-                AiChatScreenHeader(Modifier.padding(paddingValues))
-                //main screen
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(5.dp)
-                ) {
-                    AiUserChatBox()
-                    AiChatBox()
+        bottomBar = {
+            AiChatScreenFooter(
+                text = text,
+                onTextChange = { text = it },
+                onSendClick = {
+                    if (text.isNotBlank()) {
+                        viewModel.sendQuestion(text, CurrentUser.user?.userId ?: "")
+                        text = ""
+                    }
                 }
-                //texting
-                AiChatScreenFooter(
-                    modifier = Modifier.verticalScroll(rememberScrollState())
-                        .imePadding())
-            }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            AiChatScreenHeader() // avatar + tên bot hoặc user
+            AiChatList(messages = messages,viewModel)
         }
     }
 }

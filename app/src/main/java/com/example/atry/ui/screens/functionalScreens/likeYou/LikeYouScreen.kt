@@ -51,7 +51,7 @@ fun LikeYouScreen(viewModel: LikeYouViewModel = viewModel()) {
             } else if(users.isEmpty()) {
                 NothingToLoad(
                     "Bạn không có ai thích cả",
-                    "Hãy đăng thêm thông tin lên hồ sơ cảu bạn để được mọi người biết tới nhé"
+                    "Hãy đăng thêm thông tin lên hồ sơ của bạn để được mọi người biết tới nhé"
                 )
             }
             Column(

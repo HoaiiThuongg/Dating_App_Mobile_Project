@@ -59,12 +59,18 @@ public class UserService {
                 .document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        User user = documentSnapshot.toObject(User.class);
-                        callback.onSuccess(user);
-                    } else {
-                        callback.onFailure("Không tìm thấy user");
+                    if (!documentSnapshot.exists()) {
+                        callback.onFailure("Không tìm thấy user profile");
+                        return;
                     }
+                    User user = documentSnapshot.toObject(User.class);
+
+                    if (user == null) {
+                        callback.onFailure("Parse profile bị lỗi");
+                        return;
+                    }
+                    user.setUserId(userId);
+                    callback.onSuccess(user);
                 })
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi tải user: " + e.getMessage()));
     }

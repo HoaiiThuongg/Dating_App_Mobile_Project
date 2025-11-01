@@ -37,6 +37,7 @@ sealed class ImageItem {
 fun ImageUploadField(
     images: List<ImageItem>,
     onAddClick: (Uri) -> Unit,
+    maxImages: Int=9,
     onRemoveClick: (Int) -> Unit
 ) {
     val launcher = rememberLauncherForActivityResult(
@@ -53,7 +54,7 @@ fun ImageUploadField(
         images.forEachIndexed { index, item ->
             Box(
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(110.dp)
                     .clip(RoundedCornerShape(12.dp))
             ) {
                 val painter = when(item) {
@@ -84,21 +85,23 @@ fun ImageUploadField(
             }
         }
 
-        // Ô thêm ảnh
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .border(1.dp, Color.Gray, RoundedCornerShape(12.dp))
-                .clickable { launcher.launch("image/*") },
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Add",
-                tint = Color.Gray,
-                modifier = Modifier.size(32.dp)
-            )
+        if (images.size < maxImages) {
+            // Ô thêm ảnh
+            Box(
+                modifier = Modifier
+                    .size(110.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .border(1.dp, Color.Gray, RoundedCornerShape(12.dp))
+                    .clickable { launcher.launch("image/*") },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(32.dp)
+                )
+            }
         }
     }
 }

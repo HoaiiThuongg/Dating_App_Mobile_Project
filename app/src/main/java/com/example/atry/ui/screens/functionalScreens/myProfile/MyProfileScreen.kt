@@ -14,15 +14,17 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.ui.screens.functionalScreens.myProfile.myProfileComponents.DatingButton
 import com.example.atry.ui.screens.functionalScreens.myProfile.myProfileComponents.MyProfileContent
 import com.example.atry.ui.theme.DarkGradientProfileContainer
 import com.example.atry.ui.theme.LightGradientProfileContainer
 import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.viewmodel.functional.MyProfileViewModel
 
 @Composable
 @Preview
-fun MyProfileScreen() {
+fun MyProfileScreen(myProfileViewModel: MyProfileViewModel= viewModel()) {
 
     Column(
         modifier = Modifier

@@ -38,7 +38,7 @@ class EditProfileViewModel(app: Application) : AndroidViewModel(app){
                 "email" -> userService.updateUserField("email", value, callback())
                 "phone" -> userService.updateProfileField("phone", value, callback())
                 "location" -> userService.updateProfileField("location", value, callback())
-                "gender" -> userService.updateProfileField(label,value, callback())
+                "gender" -> userService.updateUserField(label,value, callback())
                 else -> _updateStatus.value = "User field '$label' không tồn tại"
             }
         }
@@ -46,8 +46,9 @@ class EditProfileViewModel(app: Application) : AndroidViewModel(app){
         when (label) {
             "name" -> CurrentUser.user?.name = value
             "email" -> CurrentUser.user?.email = value
-            "phoneNumber" -> CurrentUser.userProfile?.phone = value
+            "phone" -> CurrentUser.userProfile?.phone = value
             "location" -> CurrentUser.userProfile?.location = value
+            "gender"->CurrentUser.user?.gender=value
         }
     }
 

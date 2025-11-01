@@ -97,13 +97,13 @@ fun WarningCard(
                 ) {
                     Box(
                         modifier = Modifier
+                            .clickable{viewModel.hideWarning()}
                             .weight(1f)
                             .background(
                                 Color.Black,
                                 shape = RoundedCornerShape(10.dp)
                             )
-                            .padding(10.dp)
-                            .clickable{viewModel.hideWarning()},
+                            .padding(10.dp),
                         contentAlignment = Alignment.Center,
 
                     ){
@@ -115,13 +115,13 @@ fun WarningCard(
                     Spacer(Modifier.size(20.dp))
                     Box(
                         modifier = Modifier
+                            .clickable{navController.navigate("splash")}
                             .weight(1f)
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(10.dp)
                             )
-                            .padding(10.dp)
-                            .clickable{navController.navigate("splash")},
+                            .padding(10.dp),
                         contentAlignment = Alignment.Center
                     ){
                         Text(

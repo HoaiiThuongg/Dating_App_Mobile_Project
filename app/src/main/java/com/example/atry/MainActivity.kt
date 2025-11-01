@@ -17,11 +17,9 @@ import com.example.atry.navigation.NavGraph
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.ThemeSingleton
 import kotlinx.coroutines.launch
-import io.agora.rtc2.Constants
 import android.Manifest
 import android.content.Intent
 import android.util.Log
-import com.example.atry.navigation.AppRoot
 
 class MainActivity : ComponentActivity() {
 

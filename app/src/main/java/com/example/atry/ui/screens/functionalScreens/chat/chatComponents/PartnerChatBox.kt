@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,26 +36,28 @@ fun PartnerChatBox(
     val state by viewModel.uiState.collectAsState()
     val matchedUser = state.matchedUser
 
-//    val imageUrl = matchedUser?.user?.profileImageUrl
+    val imageUrl = matchedUser?.user?.defaultImage
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterHorizontally)
 
     ) {
-//        Image(
-//            painter = rememberAsyncImagePainter(model = imageUrl),
-//            contentDescription = "parter avatar",
-//            modifier = Modifier
-//                .size(40.dp)
-//                .clip(RoundedCornerShape(20.dp))
-//                .background(Color.LightGray),
-//            contentScale = ContentScale.Crop
-//        )
+        Image(
+            painter = rememberAsyncImagePainter(model = imageUrl),
+            contentDescription = "parter avatar",
+            modifier = Modifier
+                .size(40.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(Color.LightGray)
+                .align(Alignment.Bottom),
+            contentScale = ContentScale.Crop
+        )
 
         Box(
             modifier = Modifier
-                .fillMaxWidth(), // chiếm hết ngang để căn được bên phải
+                .fillMaxWidth()
+                .padding(end=50.dp), // chiếm hết ngang để căn được bên phải
             contentAlignment = Alignment.CenterStart // dính sang phải
         ) {
             Box(

@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +41,7 @@ fun NothingToLoad (
         animationSpec = tween(durationMillis = 1000, easing = LinearEasing),
         finishedListener = { isRotating = false }
     )
+    val interactionSource = remember { MutableInteractionSource() }
 
     Column(
         modifier = Modifier
@@ -49,14 +51,7 @@ fun NothingToLoad (
         verticalArrangement = Arrangement.spacedBy(10.dp, alignment = Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Image(
-            painter = painterResource(id = R.drawable.nothing_to_load), // đổi ảnh ở đây
-            contentDescription = null,
-            modifier = Modifier
-                .size(150.dp)
-                .graphicsLayer { rotationZ = rotation }
-                .clickable { isRotating = true }
-        )
+        RotatedIcon(id = R.drawable.nothing_to_load)
         Text(
             message,
             color = MaterialTheme.colorScheme.onBackground,

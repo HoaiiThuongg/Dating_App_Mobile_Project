@@ -13,6 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,19 +26,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.atry.R
 import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.viewmodel.functional.MyProfileViewModel
 import java.io.File
 
 @Composable
-@Preview
-fun UserInformation() {
+fun UserInformation(
+    myProfileViewModel: MyProfileViewModel= viewModel()
+) {
     val highlightColor =
         if (ThemeSingleton.isDark.value) Color.Black
         else Color(0xFFE270C9)
     val imageUrl = CurrentUser.user?.defaultImage
+    val matchCount by myProfileViewModel.matchCount.observeAsState()
 
     Box(contentAlignment = Alignment.Center) {
         Box(
@@ -86,7 +92,7 @@ fun UserInformation() {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
-        Text("23 kết nối", fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
+        Text("${matchCount ?: 0} kết nối", fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
     }
 
 }

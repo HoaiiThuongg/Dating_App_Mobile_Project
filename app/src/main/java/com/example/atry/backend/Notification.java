@@ -1,23 +1,23 @@
 package com.example.atry.backend;
 
-// Notification.java
 public class Notification {
     private String title;
     private String content;
     private long timestamp;
     private boolean read;
+    private String id; // ID của document trên Firestore
+    private String partnerId; // thêm partnerId để liên kết người liên quan
 
-    // Cần có constructor mặc định cho Firestore
-    public Notification() {}
+    public Notification() {} // Firestore cần
 
-    public Notification(String title, String content, long timestamp, boolean read) {
+    public Notification(String title, String content, long timestamp, boolean read, String partnerId) {
         this.title = title;
         this.content = content;
         this.timestamp = timestamp;
         this.read = read;
+        this.partnerId = partnerId;
     }
 
-    // Getters and Setters
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
@@ -29,4 +29,10 @@ public class Notification {
 
     public boolean isRead() { return read; }
     public void setRead(boolean read) { this.read = read; }
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getPartnerId() { return partnerId; }
+    public void setPartnerId(String partnerId) { this.partnerId = partnerId; }
 }

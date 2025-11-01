@@ -1,4 +1,4 @@
-package com.example.atry.ui.screens.functionalScreens.edit.editComponents
+package com.example.atry.ui.screens.functionalScreens.edit.editComponents.publicInfo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,19 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.atry.ui.components.textfield.GrayBorderTextField
 import com.example.atry.ui.theme.ThemeSingleton
-import com.example.atry.ui.theme.logoGradientBrush
 import com.example.atry.viewmodel.functional.EditProfileViewModel
 
 @Composable
@@ -96,15 +90,15 @@ fun WriteBox(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(20.dp))
-                    .border(1.dp, Color.Black, RoundedCornerShape(20.dp))
-                    .background(Color.White)
+                    .border(1.dp,MaterialTheme.colorScheme.onBackground, RoundedCornerShape(20.dp))
+                    .background(Color.Transparent)
                     .padding(horizontal = 16.dp, vertical = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 if (isEditing) {
                     BasicTextField(value = currentValue, onValueChange = { currentValue = it }, textStyle = TextStyle(
-                            color = Color(0xFF6A1B9A),
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontSize = 18.sp
                         ), modifier = Modifier.focusRequester(focusRequester))
                     LaunchedEffect(Unit) { focusRequester.requestFocus() }
@@ -112,7 +106,7 @@ fun WriteBox(
                     Text(
                         text = currentValue,
                         fontSize = 18.sp,
-                        color = Color(0xFF6A1B9A)
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
 
@@ -120,7 +114,7 @@ fun WriteBox(
                     Icon(
                         imageVector = if (isEditing) Icons.Filled.Check else Icons.Filled.Edit,
                         contentDescription = if (isEditing) "Lưu" else "Chỉnh sửa",
-                        tint = if (isEditing) MaterialTheme.colorScheme.primary else Color.Black
+                        tint = if (isEditing) MaterialTheme.colorScheme.onBackground else Color.LightGray
                     )
                 }
             }

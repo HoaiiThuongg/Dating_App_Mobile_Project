@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // Data class mới, gắn isRead với từng user
-data class ChatItem(
+data class MessageItem(
     val user: MatchedUser,
     val lastMessage: Message?,
     var isRead: Boolean = true
@@ -36,8 +36,8 @@ class MessageViewModel(
     private val _state = MutableStateFlow(MatchState())
     val state: StateFlow<MatchState> = _state.asStateFlow()
 
-    private val _chatList = MutableStateFlow<List<ChatItem>>(emptyList())
-    val chatList: StateFlow<List<ChatItem>> = _chatList.asStateFlow()
+    private val _chatList = MutableStateFlow<List<MessageItem>>(emptyList())
+    val chatList: StateFlow<List<MessageItem>> = _chatList.asStateFlow()
 
     private val listeners = mutableListOf<ListenerRegistration>()
 
@@ -56,9 +56,9 @@ class MessageViewModel(
                         isLoading = false
                     )
 
-                    // ✅ Thêm tất cả match chưa chat vào chatList
+                    // Thêm tất cả match chưa chat vào chatList
                     _chatList.value = matchedUsers.map { matchedUser ->
-                        ChatItem(
+                        MessageItem(
                             user = matchedUser,
                             lastMessage = null,
                             isRead = true // chưa có tin nhắn thì mặc định là read
@@ -92,7 +92,7 @@ class MessageViewModel(
 
                             val myId = CurrentUser.user?.userId
 
-                            val chatItem = ChatItem(
+                            val chatItem = MessageItem(
                                 user = user,
                                 lastMessage = lastMessage,
                                 isRead = readByList.contains(myId)

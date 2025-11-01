@@ -31,7 +31,6 @@ import com.example.atry.ui.screens.functionalScreens.MyProfileScreen
 import com.example.atry.ui.screens.functionalScreens.home.HomeScreen
 import com.example.atry.ui.theme.ThemeSingleton
 import com.example.atry.viewmodel.composal.WarningCardViewModel
-import com.example.atry.viewmodel.functional.VoiceCallViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -40,30 +39,18 @@ fun MainScaffold(
     screenHeaderTitle: String,
     iconRes: Int,
     viewModel: WarningCardViewModel = viewModel(),
-    voiceCallViewModel: VoiceCallViewModel = viewModel()
 ) {
     innerNavController = rememberNavController()
     var selected by remember { mutableStateOf(screenName) }
-    if(selected=="main_home") selected = "home"
 
-    var showSwipeTutorial by remember { mutableStateOf(screenName=="main_home") }
+    var showSwipeTutorial by remember { mutableStateOf(selected=="main_home") }
+
+    if(selected=="main_home") selected = "home"
 
     val systemUiController = rememberSystemUiController()
     val isDark = ThemeSingleton.isDark.value // <-- Đọc giá trị State ở đây
-    val incomingCallFrom by voiceCallViewModel.incomingCallFrom.collectAsState()
     val navController = rememberNavController()
 
-    // Giả sử user hiện tại là "userB"
-    LaunchedEffect(Unit) {
-        voiceCallViewModel.startCheckingIncomingCall(CurrentUser.user?.userId?:"")
-    }
-
-    // 👉 Khi có cuộc gọi đến -> điều hướng sang màn Incoming
-    LaunchedEffect(incomingCallFrom) {
-        incomingCallFrom?.let { callerId ->
-            navController.navigate("incoming_call/$callerId")
-        }
-    }
 
     LaunchedEffect(systemUiController, isDark) { // <-- THÊM 'isDark' VÀO DANH SÁCH KEYS
         systemUiController.setStatusBarColor(

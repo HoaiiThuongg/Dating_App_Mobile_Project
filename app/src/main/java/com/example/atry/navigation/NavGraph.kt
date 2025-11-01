@@ -42,9 +42,8 @@ import com.example.atry.ui.screens.functionalScreens.SettingsScreen
 import com.example.atry.ui.screens.functionalScreens.SupportScreen
 import com.example.atry.ui.screens.functionalScreens.aiChatBot.AiChatScreen
 import com.example.atry.ui.screens.functionalScreens.chat.ChatScreen
-import com.example.atry.ui.screens.functionalScreens.chat.chatComponents.IncomingCallScreen
-import com.example.atry.ui.screens.functionalScreens.chat.chatComponents.VoiceCallScreen
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.DetailScreen
+import com.example.atry.ui.screens.functionalScreens.matchedDetailedProfile.MatchedDetailedProfile
 import com.example.atry.viewmodel.functional.ChatViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -126,21 +125,6 @@ fun NavGraph(initialIntent: Intent?,
 //        composable("draft") {
 //            IcebreakerSection("Hà Nội")
 //        }
-        composable(
-            route = "incoming_call/{callerId}",
-            arguments = listOf(navArgument("callerId") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val callerId = backStackEntry.arguments?.getString("callerId") ?: ""
-            IncomingCallScreen(callerId = callerId)
-        }
-
-        composable(
-            route = "voice_call?token={token}",
-            arguments = listOf(navArgument("token") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val token = backStackEntry.arguments?.getString("token") ?: ""
-            VoiceCallScreen(token = token, navController = navController)
-        }
 
         composable("splash") {
             SplashScreen()
@@ -149,33 +133,33 @@ fun NavGraph(initialIntent: Intent?,
         composable("main") {
             MainScaffold("main_home", "Humble", R.drawable.humble_logo)
         }
-        composable("main_home") {
+        composable("home") {
             MainScaffold("home", "Humble", R.drawable.humble_logo)
         }
-        composable("main_profile") {
-            MainScaffold("profile", "Humble", R.drawable.humble_logo)
+        composable("profile") {
+            MainScaffold("profile", "Hồ sơ", R.drawable.humble_logo)
         }
 
-        composable("main_message") {
-            MainScaffold("message", "Humble", R.drawable.humble_logo)
+        composable("message") {
+            MainScaffold("message", "Nhắn tin", R.drawable.messagelove)
         }
-        composable("main_likeYou") {
-            MainScaffold("likeYou", "Humble", R.drawable.humble_logo)
+        composable("likeYou") {
+            MainScaffold("likeYou", "Thích bạn", R.drawable.like)
         }
 
 
         composable("settings") {
-            ScaffoldWithBackButton("settings", "Cài đặt", R.drawable.humble_logo,"main_profile"){
+            ScaffoldWithBackButton("settings", "Cài đặt", R.drawable.humble_logo,"profile"){
                 SettingsScreen()
             }
         }
         composable("editProfile") {
-            ScaffoldWithBackButton("edit", "Sửa hồ sơ", R.drawable.humble_logo,"main_profile"){
+            ScaffoldWithBackButton("edit", "Sửa hồ sơ", R.drawable.humble_logo,"profile"){
                 EditProfileScreen()
             }
         }
         composable("support")  {
-            ScaffoldWithBackButton("support", "Hỗ trợ", R.drawable.humble_logo,"main_profile"){
+            ScaffoldWithBackButton("support", "Hỗ trợ", R.drawable.humble_logo,"profile"){
                 SupportScreen()
             }
         }
@@ -187,6 +171,15 @@ fun NavGraph(initialIntent: Intent?,
             val user = Gson().fromJson(userJson, User::class.java)
 
             DetailScreen(user = user)
+        }
+        composable(
+            route = "matched_detailed_profile/{userJson}",
+            arguments = listOf(navArgument("userJson") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userJson = backStackEntry.arguments?.getString("userJson")
+            val user = Gson().fromJson(userJson, User::class.java)
+
+            MatchedDetailedProfile(user = user)
         }
         composable("donate") { DevelopingScreen() }
 

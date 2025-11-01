@@ -47,11 +47,6 @@ fun MessageScreen(viewModel: MessageViewModel = viewModel()) {
                     )
                     navController.navigate("chat/$json")
 
-//                    chatItem?.let {
-//                        it.lastMessage?.isRead = true
-//                        viewModel.markChatAsRead(it.user.matchId)
-//                    }
-
                 }
             )
 

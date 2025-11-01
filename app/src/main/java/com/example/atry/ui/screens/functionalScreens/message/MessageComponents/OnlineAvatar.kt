@@ -27,14 +27,16 @@ import com.example.atry.backend.User
 import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.functional.ChatItem
+import com.example.atry.viewmodel.functional.MessageItem
 import com.example.atry.viewmodel.functional.MessageViewModel
 import com.google.gson.Gson
 
 @Composable
 fun OnlineAvatar(
-    chatItem: ChatItem
+    chatItem: MessageItem
 ) {
-    val imageUrl ="https://res.cloudinary.com/dosnqohav/image/upload/v1760214495/ugoo3xchm0nru92na1kh.jpg"
+    val imageUrl = chatItem.user.user.defaultImage
+        ?: "https://res.cloudinary.com/dosnqohav/image/upload/v1760214495/ugoo3xchm0nru92na1kh.jpg"
     Column(
         verticalArrangement = Arrangement
             .spacedBy(10.dp),
@@ -59,9 +61,17 @@ fun OnlineAvatar(
             Box(
                 modifier = Modifier
                     .size(20.dp) // width + height = 30.dp
-                    .background(Color.Green, CircleShape)
                     .align(Alignment.BottomEnd)
-            )
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.humble_logo),
+                    contentDescription = "default_avatar",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                )
+            }
 
         }
         Text(chatItem.user.user.name, color = MaterialTheme.colorScheme.onSurface)

@@ -1,11 +1,13 @@
-package com.example.atry.ui.screens.functionalScreens.edit.editComponents
+package com.example.atry.ui.screens.functionalScreens.edit.editComponents.publicInfo
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +17,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -70,13 +73,20 @@ fun SelectionBox(
         // Hiển thị các tag
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp), // Khoảng cách ngang
-            verticalArrangement = Arrangement.spacedBy(8.dp)    // Khoảng cách dọc
+            verticalArrangement = Arrangement.spacedBy(8.dp) ,   // Khoảng cách dọc
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = Color.LightGray,
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .padding(10.dp)
         ) {
             currentItems.forEach { item ->
                 TagItem(
                     text = item,
                     onRemove = {
-                        // Xóa tag
                         currentItems = currentItems - item
                         viewModel.removeFromProfileList(labelDB, item)
                     }
@@ -103,11 +113,11 @@ fun SelectionBox(
 fun TagItem(text: String, onRemove: () -> Unit) {
     Box(
         modifier = Modifier
-            .border(1.dp, Color.Gray, RoundedCornerShape(12.dp))
+            .background(Color.Gray, RoundedCornerShape(12.dp))
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = text, fontSize = 14.sp, color = Color.Black)
+            Text(text = text, fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
             IconButton(onClick = onRemove, modifier = Modifier.size(16.dp)) {
                 Icon(imageVector = Icons.Default.Close, contentDescription = "Remove", tint = Color.Red)
             }
@@ -128,7 +138,7 @@ fun TagInputField(value: String = "", onValueChange: (String) -> Unit, onAdd: ()
             value = value,
             onValueChange = onValueChange,
             singleLine = true,
-            textStyle = TextStyle(color = Color.Black)
+            textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground)
         )
         IconButton(onClick = onAdd, modifier = Modifier.size(20.dp)) {
             Icon(imageVector = Icons.Default.Check, contentDescription = "Add Tag", tint = Color.Green)

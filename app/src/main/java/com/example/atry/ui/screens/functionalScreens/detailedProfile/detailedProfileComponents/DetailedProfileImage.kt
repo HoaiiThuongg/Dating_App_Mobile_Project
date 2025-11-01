@@ -43,29 +43,35 @@ fun DetailedProfileImage(
     user: User,
     userProfile: UserProfile?
 ) {
-    // ✅ lấy list ảnh từ userProfile
     val source = userProfile?.images ?: emptyList()
     val imageUrl = user.defaultImage
 
-    // ✅ tạo list mới một lần
+    // ==============================
+    // Tạo danh sách ảnh, loại trùng
+    // ==============================
     val images = remember(source, imageUrl) {
         (source + imageUrl).distinct()
     }
 
-    // index hiện tại
     var currentIndex by remember { mutableStateOf(0) }
+    var direction by remember { mutableStateOf(0) } // -1: left, 1: right
 
-    // ✅ transition dựa trên index
-    val transition = updateTransition(targetState = currentIndex, label = "imageSlide")
-
-    val alpha by transition.animateFloat(label = "alpha") { state ->
-        if (state == currentIndex) 1f else 0f
-    }
+    // ==============================
+    // Transition dùng cho animation
+    // ==============================
+    val transition = updateTransition(currentIndex, label = "imageSlide")
 
     val offsetX by transition.animateFloat(label = "offsetX") { state ->
-        state * -50f // càng index cao càng dịch trái
+        when {
+            state > currentIndex -> 500f  // slide từ phải sang
+            state < currentIndex -> -500f // slide từ trái sang
+            else -> 0f
+        }
     }
 
+    val alpha by transition.animateFloat(label = "alpha") { state ->
+        1f // giữ fade nguyên, cũng có thể thêm hiệu ứng nếu muốn
+    }
 
     Box(
         modifier = Modifier
@@ -75,11 +81,11 @@ fun DetailedProfileImage(
             .clip(RoundedCornerShape(20.dp))
     ) {
         // ==============================
-        // Ảnh có fade + slide animation ⚡
+        // Ảnh slide + fade
         // ==============================
         Image(
             painter = rememberAsyncImagePainter(model = images[currentIndex]),
-            contentDescription = null,
+            contentDescription = "detail user",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
@@ -90,7 +96,7 @@ fun DetailedProfileImage(
         )
 
         // ==============================
-        // Nút sang trái/phải
+        // Nút trái/phải
         // ==============================
         Row(
             modifier = Modifier
@@ -101,7 +107,8 @@ fun DetailedProfileImage(
         ) {
             IconButton(
                 onClick = {
-                    if (currentIndex > 0) currentIndex-- else currentIndex = images.size - 1
+                    direction = -1
+                    currentIndex = if (currentIndex > 0) currentIndex - 1 else images.size - 1
                 },
                 modifier = Modifier
                     .padding(3.dp)
@@ -118,7 +125,8 @@ fun DetailedProfileImage(
 
             IconButton(
                 onClick = {
-                    if (currentIndex == images.size - 1) currentIndex = 0 else currentIndex++
+                    direction = 1
+                    currentIndex = if (currentIndex == images.size - 1) 0 else currentIndex + 1
                 },
                 modifier = Modifier
                     .padding(3.dp)
@@ -135,7 +143,7 @@ fun DetailedProfileImage(
         }
 
         // ==============================
-        // Dot indicator 🍡
+        // Dot indicator
         // ==============================
         Row(
             modifier = Modifier

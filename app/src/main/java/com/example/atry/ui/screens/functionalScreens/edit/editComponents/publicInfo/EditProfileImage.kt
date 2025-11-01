@@ -1,6 +1,8 @@
-package com.example.atry.ui.screens.functionalScreens.edit.editComponents
+package com.example.atry.ui.screens.functionalScreens.edit.editComponents.publicInfo
 
 import ImageUploadField
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,6 +13,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.data.singleton.CurrentUser
@@ -35,18 +38,28 @@ fun EditProfileImage(viewModel: EditProfileViewModel = viewModel()) {
     ) else logoGradientBrush
     val subTitleColor = if (!ThemeSingleton.isDark.value) Color(0xFF626262) else Color.White
 
-    Text(
-        text = buildAnnotatedString {
-            withStyle(SpanStyle(brush = titleBrush, fontWeight = FontWeight.Bold, fontSize = 20.sp)) {
-                append("Ảnh của bạn")
+    Column(
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
+                        brush = titleBrush,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                ) {
+                    append("Ảnh của bạn")
+                }
             }
-        }
-    )
-    Text("Ảnh này sẽ hiển thị trên hồ sơ của bạn", fontSize = 16.sp, color = subTitleColor)
+        )
+        Text("Ảnh này sẽ hiển thị trên hồ sơ của bạn", fontSize = 16.sp, color = subTitleColor)
 
-    ImageUploadField(
-        images = viewModel.images,
-        onAddClick = { uri -> viewModel.addImage(context, uri) },
-        onRemoveClick = { index -> viewModel.removeImage(index) }
-    )
+        ImageUploadField(
+            images = viewModel.images,
+            onAddClick = { uri -> viewModel.addImage(context, uri) },
+            onRemoveClick = { index -> viewModel.removeImage(index) }
+        )
+    }
 }

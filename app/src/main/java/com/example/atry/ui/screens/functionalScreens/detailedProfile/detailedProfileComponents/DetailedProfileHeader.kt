@@ -29,7 +29,7 @@ fun DetailedProfileHeader(user: User) {
             .padding(20.dp,50.dp,20.dp,20.dp)
     ){
         IconButton(
-            onClick = { navController.navigate("main_likeYou") },
+            onClick = { navController.navigate("likeYou") },
             modifier = Modifier
                 .size(32.dp)
                 .align(Alignment.CenterStart)

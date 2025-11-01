@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
@@ -20,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class SwipeService {
     public enum SwipeType {
@@ -189,7 +191,7 @@ public class SwipeService {
                                         // 2. Gửi thông báo "Bạn được thích" cho targetUserId
                                         String title = "Bạn được thích";
                                         String content = currentUserName + " đã thích bạn";
-                                        addNotification(targetUserId, title, content);
+                                        addNotification(targetUserId, title, content,currentUserId);
                                     }
                                     // 3. Tiếp tục kiểm tra Match
                                     checkForMatch(currentUserId, targetUserId, callback);
@@ -320,11 +322,11 @@ public class SwipeService {
                                 String title = "Matched";
                                 // Thông báo cho User A
                                 String contentA = "Bạn và " + (nameB != null ? nameB : "một người dùng") + " đã match nhau";
-                                addNotification(userA, title, contentA);
+                                addNotification(userA, title, contentA,userB);
 
                                 // Thông báo cho User B
                                 String contentB = "Bạn và " + (nameA != null ? nameA : "một người dùng") + " đã match nhau";
-                                addNotification(userB, title, contentB);
+                                addNotification(userB, title, contentB,userA);
                             })
                             .addOnFailureListener(e -> {
                                 Log.e("Firebase", "Không thể lấy tên người dùng để tạo thông báo Match.");
@@ -489,17 +491,14 @@ public class SwipeService {
 
     //---------noti
     // Thêm hàm này vào class của bạn
-    private void addNotification(String userId, String title, String content) {
-        // 🔥 userId: ID của người dùng sẽ nhận thông báo
-        // 🔥 title, content: Nội dung thông báo
-
+    private void addNotification(String userId, String title, String content, String partnerId) {
         Map<String, Object> notificationData = new HashMap<>();
         notificationData.put("title", title);
         notificationData.put("content", content);
         notificationData.put("timestamp", System.currentTimeMillis());
         notificationData.put("read", false); // Mặc định là chưa đọc
+        notificationData.put("partnerId", partnerId); // thêm partnerId
 
-        // Ghi vào collection: notifications/{userId}/userNotifications/{tự động tạo ID}
         db.collection("notifications")
                 .document(userId)
                 .collection("userNotifications")
@@ -511,5 +510,106 @@ public class SwipeService {
                     Log.e("Firebase", "Lỗi khi thêm thông báo cho " + userId + ": " + e.getMessage());
                 });
     }
+
+    //---số người đã match
+    // Trong class SwipeService.java
+
+    public interface CountCallback {
+        void onSuccess(int count);
+        void onFailure(String error);
+    }
+    public void getTotalMatchesCount(CountCallback callback) {
+        String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+
+        if (currentUserId == null) {
+            callback.onFailure("Người dùng chưa đăng nhập");
+            return;
+        }
+
+        // Truy vấn sub-collection "matches" của người dùng hiện tại
+        db.collection("users")
+                .document(currentUserId)
+                .collection("matches")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    int totalMatches = querySnapshot.size();
+                    callback.onSuccess(totalMatches);
+                })
+                .addOnFailureListener(e -> callback.onFailure("Lỗi khi đếm số lượng match: " + e.getMessage()));
+    }
+
+
+    //-----xóa match và tính số này matched
+    public interface UnmatchCallback {
+        void onSuccess(String message);
+        void onFailure(String error);
+    }
+
+    public interface DaysMatchedCallback {
+        void onSuccess(long days);
+        void onFailure(String error);
+    }
+
+    // Lấy số ngày match
+    public void getDaysMatched(String userId, String partnerId, DaysMatchedCallback callback) {
+        db.collection("users")
+                .document(userId)
+                .collection("matches")
+                .document(partnerId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    Timestamp matchedAt = documentSnapshot.getTimestamp("matchedAt");
+                    long days = 0;
+                    if (matchedAt != null) {
+                        long nowMillis = System.currentTimeMillis();
+                        long matchedMillis = matchedAt.toDate().getTime();
+                        days = TimeUnit.MILLISECONDS.toDays(nowMillis - matchedMillis);
+                    }
+                    callback.onSuccess(days);
+                })
+                .addOnFailureListener(e -> callback.onFailure("Lỗi lấy ngày match: " + e.getMessage()));
+    }
+
+    // Unmatch user
+    public void unmatchUser(String currentUserId, String partnerId, UnmatchCallback callback) {
+        if (currentUserId == null || currentUserId.isEmpty()
+                || partnerId == null || partnerId.isEmpty()) {
+            callback.onFailure("ID không hợp lệ");
+            return;
+        }
+
+        // Xóa document partnerId trong matches của currentUser
+        // và xóa document currentUserId trong matches của partner
+        Tasks.whenAll(
+                        db.collection("users").document(currentUserId)
+                                .collection("matches").document(partnerId).delete(),
+                        db.collection("users").document(partnerId)
+                                .collection("matches").document(currentUserId).delete()
+                ).addOnSuccessListener(aVoid -> callback.onSuccess("Đã unmatch thành công"))
+                .addOnFailureListener(e -> callback.onFailure("Lỗi khi unmatch: " + e.getMessage()));
+    }
+    public interface MatchCheckCallback {
+        void onResult(boolean isMatched);
+        void onFailure(String error);
+    }
+
+    public interface MatchCallback {
+        void onResult(boolean matched); // public abstract by default
+        void onError(String error);
+    }
+
+    public void isMatched(String userA, String userB, MatchCallback callback) {
+        db.collection("users").document(userA)
+                .collection("matches").document(userB)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    callback.onResult(doc.exists());
+                })
+                .addOnFailureListener(e -> {
+                    callback.onError(e.getMessage() != null ? e.getMessage() : "Lỗi");
+                });
+    }
+
+
 }
 

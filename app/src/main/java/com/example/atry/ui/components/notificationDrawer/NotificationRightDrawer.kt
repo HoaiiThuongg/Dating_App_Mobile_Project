@@ -27,7 +27,7 @@ fun NotificationRightDrawer(isNotificationDrawerOpen:Boolean,closeNotification:(
                     interactionSource = remember { MutableInteractionSource() }
                 ) {  }
         ) {
-            NotificationContent(Modifier.align(Alignment.CenterEnd),closeNotification)
+            NotificationContent(Modifier.align(Alignment.CenterEnd), onCloseNotification = closeNotification)
         }
     }
 }

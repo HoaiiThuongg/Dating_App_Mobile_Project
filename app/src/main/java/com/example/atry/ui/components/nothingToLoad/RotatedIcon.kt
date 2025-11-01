@@ -19,7 +19,8 @@ import kotlin.math.sin
 
 @Composable
 fun RotatedIcon(
-    size : Float = 150f
+    size : Float = 150f,
+    id :Int=R.drawable.humble_logo
 ) {
     var isAnimating by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -29,7 +30,7 @@ fun RotatedIcon(
     val offsetY = remember { Animatable(0f) }
 
     Image(
-        painter = painterResource(id = R.drawable.humble_logo),
+        painter = painterResource(id = id),
         contentDescription = null,
         modifier = Modifier
             .size(size.dp)

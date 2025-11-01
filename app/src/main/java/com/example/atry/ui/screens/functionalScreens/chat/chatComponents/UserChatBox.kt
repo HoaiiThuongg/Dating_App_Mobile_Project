@@ -24,7 +24,8 @@ fun UserChatBox(
 ){
     Box(
         modifier = Modifier
-            .fillMaxWidth(), // chiếm hết ngang để căn được bên phải
+            .fillMaxWidth()
+            .padding(start =50.dp), // chiếm hết ngang để căn được bên phải
         contentAlignment = Alignment.CenterEnd // dính sang phải
     ) {
         Box(

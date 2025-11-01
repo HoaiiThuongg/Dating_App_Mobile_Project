@@ -1,7 +1,6 @@
 package com.example.atry.ui.screens.functionalScreens.likeYou.likeYouComponents
 
 import android.net.Uri
-import android.text.style.BackgroundColorSpan
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -63,7 +62,8 @@ fun LikeYouCard(
             .aspectRatio(1f)
             .clickable {
                 val userJson = gson.toJson(user)
-                navController.navigate("detailed_profile/${Uri.encode(userJson)}")            }
+                navController.navigate("detailed_profile/${Uri.encode(userJson)}")
+            }
 
     ) {
 

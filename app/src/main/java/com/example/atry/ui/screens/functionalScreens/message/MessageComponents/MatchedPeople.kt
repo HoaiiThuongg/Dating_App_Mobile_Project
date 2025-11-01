@@ -17,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.backend.MatchedUser
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.functional.ChatItem
+import com.example.atry.viewmodel.functional.MessageItem
 import com.example.atry.viewmodel.functional.MessageViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.StateFlow
@@ -24,9 +25,9 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun MatchedPeople(
     matchedUsers: List<MatchedUser>,
-    chatList: List<ChatItem>,
+    chatList: List<MessageItem>,
     messageViewModel: MessageViewModel,
-    onAvatarClick: (MatchedUser, ChatItem?) -> Unit
+    onAvatarClick: (MatchedUser, MessageItem?) -> Unit
 ) {
 
     if (matchedUsers.isEmpty()) return

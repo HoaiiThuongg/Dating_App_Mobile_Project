@@ -21,10 +21,9 @@ import androidx.compose.ui.unit.dp
 import com.example.atry.ui.theme.redGradientBrush
 
 @Composable
-@Preview
 fun ActionButtons(
-//    onDislike: () -> Unit,
-//    onLike: () -> Unit
+    onDislike: () -> Unit,
+    onLike: () -> Unit
 ) = Row(
     horizontalArrangement = Arrangement.SpaceEvenly,
     verticalAlignment = Alignment.CenterVertically,
@@ -33,7 +32,7 @@ fun ActionButtons(
         .padding(vertical = 20.dp)
 ) {
     IconButton(
-        onClick = {},
+        onClick = onDislike,
         modifier = Modifier
             .size(80.dp)
             .background(Color(0xFF2E2E2E), shape = CircleShape)
@@ -47,7 +46,7 @@ fun ActionButtons(
     }
 
     IconButton(
-        onClick = {},
+        onClick = onLike,
         modifier = Modifier
             .size(80.dp)
             .background(

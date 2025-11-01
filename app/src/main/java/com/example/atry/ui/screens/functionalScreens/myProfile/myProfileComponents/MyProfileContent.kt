@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.atry.R
+import com.example.atry.viewmodel.functional.MyProfileViewModel
 
 @Composable
 fun MyProfileContent() {

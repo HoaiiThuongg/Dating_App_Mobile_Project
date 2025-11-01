@@ -1,5 +1,6 @@
 package com.example.atry.ui.components.notificationDrawer
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +19,11 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
@@ -26,11 +31,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.R
+import com.example.atry.backend.Notification
+import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.redGradientBrush
+import com.example.atry.viewmodel.composal.NotificationViewModel
+import com.google.gson.Gson
 
 @Composable
-fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
+fun NotificationContent(
+    modifier: Modifier = Modifier,
+    viewModel: NotificationViewModel = viewModel(),
+    onCloseNotification: () -> Unit
+) {
+    val notifications by viewModel.notifications.collectAsState()
+
     Column(
         modifier = modifier
             .fillMaxHeight()
@@ -44,17 +61,7 @@ fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
                     bottomStart = 20.dp
                 )
             )
-//            .border(
-//                width = 2.dp,
-//                color = Color.White,
-//                shape = RoundedCornerShape(
-//                    topStart = 20.dp,
-//                    topEnd = 0.dp,
-//                    bottomEnd = 0.dp,
-//                    bottomStart = 20.dp
-//                )
-//            )
-            .padding(20.dp,40.dp,20.dp,20.dp),
+            .padding(20.dp, 45.dp, 20.dp, 20.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         Row(
@@ -62,66 +69,52 @@ fun NotificationContent(modifier: Modifier,onCloseNotification:()->Unit){
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
-                onClick = {onCloseNotification() },
-                modifier = Modifier
-                    .size(32.dp)
+                onClick = { onCloseNotification() },
+                modifier = Modifier.size(32.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Close",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .graphicsLayer(alpha = 0.99f)
-                        .drawWithCache {
-                            onDrawWithContent {
-                                drawContent()
-                                drawRect(
-                                    brush = redGradientBrush,
-                                    size = this.size,
-                                    blendMode = BlendMode.SrcAtop
-                                )
-                            }
-                        },
+                    modifier = Modifier.size(32.dp),
                     tint = Color.White
                 )
             }
+
             IconButton(
-                onClick = { },
-                modifier = Modifier
-                    .size(32.dp)
+                onClick = { /* có thể dùng để mark all read */ },
+                modifier = Modifier.size(32.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Notifications,
-                    contentDescription = "Close",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .graphicsLayer(alpha = 0.99f)
-                        .drawWithCache {
-                            onDrawWithContent {
-                                drawContent()
-                                drawRect(
-                                    brush = redGradientBrush,
-                                    size = this.size,
-                                    blendMode = BlendMode.SrcAtop
-                                )
-                            }
-                        },
+                    contentDescription = "Notifications",
+                    modifier = Modifier.size(32.dp),
                     tint = Color.White
                 )
             }
         }
-        Spacer(modifier= Modifier.size(10.dp))
-        NotificationCard(
-            name = "Justin Bieber",
-            message = "vừa thích bạn",
-            date = "23/02/2025",
-            imageRes = R.drawable.humble_logo
-        )
-        NotificationCard(
-            name = "Justin Bieber",
-            message = "vừa thích bạn",
-            date = "23/02/2025",
-            imageRes = R.drawable.humble_logo
-        )
+
+        Spacer(modifier = Modifier.size(10.dp))
+
+        if (notifications.isEmpty()) {
+            Text(
+                text = "Chưa có thông báo mới",
+                color = Color.Gray,
+                fontSize = 14.sp
+            )
+        } else {
+            notifications.forEach { n: Notification ->
+                NotificationCard(
+                    notification=n,
+                    imageRes = R.drawable.humble_logo,
+                    onClick = {
+                        if (!n.isRead) {
+                            viewModel.markNotificationAsRead(n.id)
+                        }
+                    },
+                    viewModel = viewModel
+                )
+            }
+
+        }
     }
 }

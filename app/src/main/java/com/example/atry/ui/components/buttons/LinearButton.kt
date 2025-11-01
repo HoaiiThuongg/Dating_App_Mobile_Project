@@ -52,10 +52,7 @@ fun CustomLinearButton(
             .height(50.dp)
             .clip(RoundedCornerShape(50))
             .background(brush) // 🩵 gradient background nè
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null
-            ) { onClick() },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Text(
