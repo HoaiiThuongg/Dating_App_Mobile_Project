@@ -1,0 +1,8 @@
+plugins {
+    id 'com.android.application' apply false
+    id 'com.android.library' apply false
+}
+
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
+}
