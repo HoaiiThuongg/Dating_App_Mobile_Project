@@ -145,7 +145,7 @@ fun QrCamScannerScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             IconButton(
-                onClick = { navController.navigate("main_profile") },
+                onClick = { navController.navigate("home") },
                 modifier = Modifier
                     .size(32.dp)
                     .offset(x = 20.dp, y = 50.dp)

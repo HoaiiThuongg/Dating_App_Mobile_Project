@@ -16,7 +16,11 @@ public class UserProfile {
     private Date dob;               // ngày sinh
     private String phone;
     private String location;
-    public UserProfile() {}
+    public UserProfile(){}
+
+    public UserProfile(String userId) {
+        this.userId = userId;
+    }
 
     public UserProfile(String userId, String bio, List<String> interests, List<String> partnerPreferences, List<String> religions, List<String> images, String lifestyle, Date dob, String phone, String location) {
         this.userId = userId;

@@ -67,7 +67,6 @@ class LikeYouViewModel (
      */
     fun swipe(targetUser: User, type: SwipeService.SwipeType) {
         val targetUserId = targetUser.userId ?: return
-        val currentUserId = auth.currentUser?.uid ?: return
 
         // Cập nhật UI ngay lập tức: Xóa người dùng vừa vuốt khỏi danh sách
         _state.value = _state.value.copy(
@@ -78,14 +77,6 @@ class LikeYouViewModel (
             override fun onSuccess(message: String) {
                 Log.d("Swipe", "Success: $message")
 
-                // Nếu swipeType là RIGHT/SUPER, logic Match đã được xử lý trong SwipeService
-                // (vì hàm checkForMatch nằm trong swipeType)
-                // Tuy nhiên, vì bạn muốn cập nhật trạng thái MatchedUser trong ViewModel,
-                // chúng ta cần kiểm tra lại logic trong hàm onSuccess của SwipeService.
-                // Nếu SwipeService trả về thông báo "Bạn đã match với người dùng này!",
-                // thì ta mới cập nhật matchedUser.
-
-                // Giả định SwipeService trả về thông báo "Bạn đã match với người dùng này!" khi match thành công
                 if (message.contains("match")) {
                     // Cập nhật trạng thái MatchedUser
                     _state.value = _state.value.copy(
@@ -93,9 +84,7 @@ class LikeYouViewModel (
                     )
                 }
             }
-
             override fun onFailure(error: String) {
-                // Xử lý lỗi, có thể thêm lại user vào danh sách nếu muốn rollback
                 Log.e("SwipeError", error)
             }
         })

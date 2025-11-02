@@ -26,8 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.atry.R
 import com.example.atry.navigation.innerNavController
 import com.example.atry.navigation.navController
 
@@ -59,7 +61,7 @@ fun ProfileActionButton() {
                 )
             }
             Spacer(Modifier.height(6.dp))
-            Text("Cài đặt", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
+            Text(stringResource(id = R.string.settings), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -83,7 +85,7 @@ fun ProfileActionButton() {
                 )
             }
             Spacer(Modifier.height(6.dp))
-            Text("Sửa hồ sơ", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
+            Text(stringResource(id = R.string.edit_profile), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -107,7 +109,7 @@ fun ProfileActionButton() {
                 )
             }
             Spacer(Modifier.height(6.dp))
-            Text("Hỗ trợ", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
+            Text(stringResource(id = R.string.support), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
         }
     }
 }

@@ -18,6 +18,9 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.NightsStay
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Female
+import androidx.compose.material.icons.outlined.Male
+import androidx.compose.material.icons.outlined.Transgender
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,25 +44,54 @@ import com.example.atry.ui.theme.purpleGradientBrush
 fun DetailInfo(user: User,userProfile: UserProfile?) {
     val age = if (userProfile?.age == null) "Giấu tuổi" else userProfile.age.toString()
 
+    val genderIcon: @Composable () -> Unit = {
+        when (user.gender) {
+            "Nam" -> Icon(
+                imageVector = Icons.Outlined.Male,
+                contentDescription = "Nam",
+                tint = Color(0xFF2196F3), // xanh dương
+                modifier = Modifier.size(22.dp)
+            )
+
+            "Nữ" -> Icon(
+                imageVector = Icons.Outlined.Female,
+                contentDescription = "Nữ",
+                tint = Color(0xFFE91E63), // hồng
+                modifier = Modifier.size(22.dp)
+            )
+
+            else -> Icon(
+                imageVector = Icons.Outlined.Transgender,
+                contentDescription = "Giới tính khác",
+                tint = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+    }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
+        Spacer(modifier = Modifier.width(6.dp))
+
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = user.name,
-                fontSize = 24.sp,
+                fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = age,
-                fontSize = 20.sp,
+                fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFE91E63) // hồng
+                color = Color(0xFFE91E63)
             )
+            Spacer(modifier = Modifier.width(4.dp))
+            genderIcon()
         }
-
+        Spacer(modifier = Modifier.width(3.dp))
 
         InfoDetailBox("Nơi ở", userProfile?.location ?: "Bí ẩn", Icons.Default.LocationOn)
 
@@ -77,5 +109,13 @@ fun DetailInfo(user: User,userProfile: UserProfile?) {
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
         TagsField("Sở thích", userProfile?.interests)
+
+        Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+        TagsField("Gu người yêu", userProfile?.partnerPreferences)
+
+        Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+        TagsField("Tôn giáo", userProfile?.religions)
     }
 }

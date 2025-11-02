@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.navigation.navController
 import com.example.atry.ui.components.buttons.CustomBorderButton
 import com.example.atry.ui.components.buttons.CustomLinearButton
+import com.example.atry.ui.components.nothingToLoad.RotatedIcon
 import com.example.atry.ui.components.textfield.UnderlineTextField
 import com.example.atry.ui.screens.auth.AuthFormContainer
 import com.example.atry.ui.theme.redOrangeLinear
@@ -33,7 +34,9 @@ fun Login(
     AuthFormContainer(
         title = "Đăng nhập",
         subtitle = "Nhập email và mật khẩu",
-        topContent = {},
+        topContent = {
+            RotatedIcon()
+        },
         bottomContent = {
             UnderlineTextField(
                 value = email,
@@ -49,11 +52,6 @@ fun Login(
 
                 isPassword = true
             )
-            CustomBorderButton(
-                "Đăng kí",
-                { navController.navigate("registerEmailInput") },
-                Color.Black
-            )
             CustomLinearButton(
                 "Đăng nhập",
                 {
@@ -63,6 +61,12 @@ fun Login(
                 redOrangeLinear,
                 Color.White
             )
+            CustomBorderButton(
+                "Đăng kí",
+                { navController.navigate("authEntry") },
+                Color.Black
+            )
+
         },
         alertMessage = when {
             state.isLoading -> "Đang xác thực..."

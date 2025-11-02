@@ -1,4 +1,4 @@
-package com.example.atry.ui.screens.functionalScreens.likeYou.likeYouComponents
+package com.example.atry.ui.components.alert
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,7 +42,7 @@ fun MatchSuccessfullyCard(
     onClose: () -> Unit
 ) {
     val imageUrl1 = CurrentUser.user?.defaultImage
-    val imageUrl2 = "https://res.cloudinary.com/dosnqohav/image/upload/v1760911882/jfurguzxnawoif3imdft.png"
+    val imageUrl2 = matchedUser?.defaultImage
 
 
     Box(

@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -71,7 +72,7 @@ fun SupportScreen() {
                     .alpha(0.6f)
             )
             Text(
-                text = "Chúng tôi luôn ở đây\nđể hỗ trợ bạn",
+                text = stringResource(id = R.string.support_text),
                 fontWeight = FontWeight.Bold,
                 style = TextStyle(
                     fontSize = 32.sp,
@@ -82,7 +83,7 @@ fun SupportScreen() {
         }
         // ✨ Mô tả
         Text(
-            text = "Nếu bạn có bất cứ thắc mắc, phản ánh nào, hãy liên lạc với chúng tôi, chúng tôi luôn sẵn sàng hỗ trợ hết mình!",
+            text = stringResource(id= R.string.we_are_always_ready) + " "+ stringResource(id= R.string.contact_us_if_issue),
             style = TextStyle(
                 fontSize = 20.sp,
                 brush = dynamicGradientBrush()

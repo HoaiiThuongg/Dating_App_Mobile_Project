@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +32,7 @@ import com.example.atry.viewmodel.auth.UserInfoSetupViewModel
 fun InfoInput2(
     viewModel: UserInfoSetupViewModel= viewModel()
 ) {
-    var selectedGender by remember { mutableStateOf<String?>(null) }
+    var selectedGender by remember { mutableStateOf<String?>("") }
     // Lấy giá trị tên hiện tại
     var phoneNumber by remember { mutableStateOf("") }
     var bio by remember { mutableStateOf("") }
@@ -45,8 +46,9 @@ fun InfoInput2(
             Spacer(modifier = Modifier.size(30.dp))
             UnderlineTextField(
                 value = phoneNumber,
-                onValueChange = { newPhoneNumber -> phoneNumber = newPhoneNumber },
-                label = "Số điện thoại"
+                onValueChange = { phoneNumber = it },
+                label = "Số điện thoại",
+                imeAction=ImeAction.Done
             )
             CustomDropdownField(
                 "Giới tính",
@@ -55,10 +57,11 @@ fun InfoInput2(
                 selectedOption = selectedGender,
                 onOptionSelected = { selectedGender = it })
             CustomTextField(
-                "Giới thiệu",
-                bio,
-                onValueChange = { newPhoneNumber -> phoneNumber = newPhoneNumber },
+                label = "Giới thiệu",
+                value = bio,
+                onValueChange = { bio = it },
             )
+
             CustomBorderButton(
                 "Quay Lại",
                 { navController.navigate("registerInfoInput1") },
@@ -66,9 +69,9 @@ fun InfoInput2(
             )
             CustomLinearButton(
                 "Tếp theo", {
-                    viewModel.updateUserProfileField("phone",phoneNumber)
-                    viewModel.updateUserProfileField("bio",bio)
-                    viewModel.updateUserField("gender",selectedGender.toString())
+                    viewModel.updateUserField("phone",phoneNumber)
+                    viewModel.updateUserField("bio",bio)
+                    viewModel.updateUserField("gender",selectedGender!!)
                     navController.navigate("registerHobbiesInput")
                             },
                 redOrangeLinear, Color.White

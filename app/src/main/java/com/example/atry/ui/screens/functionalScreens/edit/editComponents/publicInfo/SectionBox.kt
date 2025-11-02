@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -36,7 +37,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.data.singleton.ThemeSingleton
 import com.example.atry.ui.theme.logoGradientBrush
 import com.example.atry.viewmodel.functional.EditProfileViewModel
 
@@ -119,7 +120,7 @@ fun TagItem(text: String, onRemove: () -> Unit) {
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(text = text, fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
             IconButton(onClick = onRemove, modifier = Modifier.size(16.dp)) {
-                Icon(imageVector = Icons.Default.Close, contentDescription = "Remove", tint = Color.Red)
+                Icon(imageVector = Icons.Default.Close, contentDescription = "Remove", tint = Color(0xFFF94747))
             }
         }
     }
@@ -138,10 +139,11 @@ fun TagInputField(value: String = "", onValueChange: (String) -> Unit, onAdd: ()
             value = value,
             onValueChange = onValueChange,
             singleLine = true,
-            textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground)
+            textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
+            modifier = Modifier.width(30.dp)
         )
-        IconButton(onClick = onAdd, modifier = Modifier.size(20.dp)) {
-            Icon(imageVector = Icons.Default.Check, contentDescription = "Add Tag", tint = Color.Green)
+        IconButton(onClick = onAdd, modifier = Modifier.size(24.dp)) {
+            Icon(imageVector = Icons.Default.Check, contentDescription = "Add Tag", tint = Color(0xFF2BFEA2))
         }
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
@@ -38,55 +39,71 @@ fun PartnerGameCard(
 ) {
     val currentUser = CurrentUser.user ?: return
     val currentUserId = currentUser.userId
+    val imageUrl = otherUser?.defaultImage
 
     val alreadySelected = gameCard.pickedByAns1.contains(currentUserId) ||
             gameCard.pickedByAns2.contains(currentUserId)
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.CenterHorizontally)
 
-    Column(
-        modifier = modifier
-            .padding(end = 50.dp)
-            .fillMaxWidth()
-            .background(Color(0xFFDBBEFF), RoundedCornerShape(16.dp))
-            .padding(12.dp)
     ) {
-
-        Text(
-            text = gameCard.question ?: "",
-            color = Color.Black,
-            style = MaterialTheme.typography.bodyMedium
+        Image(
+            painter = rememberAsyncImagePainter(model = imageUrl),
+            contentDescription = "parter avatar",
+            modifier = Modifier
+                .size(40.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(Color.LightGray)
+                .align(Alignment.Bottom),
+            contentScale = ContentScale.Crop
         )
-
-        Spacer(Modifier.height(10.dp))
-
-
-        GameOption(
-            text = gameCard.ans1,
-            pickedBy = gameCard.pickedByAns1,
-            currentUser = currentUser,
-            otherUser = otherUser,
-            enabled = !alreadySelected
+        Column(
+            modifier = modifier
+                .padding(end = 50.dp)
+                .fillMaxWidth()
+                .background(Color(0xFFDBBEFF), RoundedCornerShape(16.dp))
+                .padding(12.dp)
         ) {
-            viewModel.updateUserChoice(
-                gameCard.id.toString(),
-                currentUserId,
-                1
-            )
-        }
 
-        Spacer(Modifier.height(8.dp))
-
-        GameOption(
-            text = gameCard.ans2,
-            pickedBy = gameCard.pickedByAns2,
-            currentUser = currentUser,
-            otherUser = otherUser,
-            enabled = !alreadySelected
-        ) {
-            viewModel.updateUserChoice(
-                gameCard.id.toString(),
-                currentUserId,
-                2
+            Text(
+                text = gameCard.question ?: "",
+                color = Color.Black,
+                style = MaterialTheme.typography.bodyMedium
             )
+
+            Spacer(Modifier.height(10.dp))
+
+
+            GameOption(
+                text = gameCard.ans1,
+                pickedBy = gameCard.pickedByAns1,
+                currentUser = currentUser,
+                otherUser = otherUser,
+                enabled = !alreadySelected
+            ) {
+                viewModel.updateUserChoice(
+                    gameCard.id.toString(),
+                    currentUserId,
+                    1
+                )
+            }
+
+            Spacer(Modifier.height(8.dp))
+
+            GameOption(
+                text = gameCard.ans2,
+                pickedBy = gameCard.pickedByAns2,
+                currentUser = currentUser,
+                otherUser = otherUser,
+                enabled = !alreadySelected
+            ) {
+                viewModel.updateUserChoice(
+                    gameCard.id.toString(),
+                    currentUserId,
+                    2
+                )
+            }
         }
     }
 }

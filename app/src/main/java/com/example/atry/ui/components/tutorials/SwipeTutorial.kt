@@ -23,10 +23,12 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.atry.R
 import com.example.atry.ui.theme.redOrangeLinearBrush
 import com.example.atry.ui.theme.redPinkGradientBrush
 
@@ -73,7 +75,7 @@ fun SwipeTutorial(onClose:()->Unit) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Hướng dẫn",
+                        text = stringResource(id = R.string.guide),
                         fontWeight = FontWeight.Bold,
                         style = TextStyle(
                             color = Color.White,

@@ -25,11 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.R
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.grayBlurBackground
 import com.example.atry.ui.theme.redLinear
@@ -84,7 +86,7 @@ fun WarningCard(
             ) {
 
                 Text(
-                    "Bạn có chắc là muốn thoát không",
+                    stringResource(id= R.string.confirm_exit),
                     color = Color.White, fontSize = 20.sp,
                     textAlign = TextAlign.Center
                 )

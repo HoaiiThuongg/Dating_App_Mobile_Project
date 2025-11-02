@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -29,6 +31,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -97,23 +100,33 @@ fun NotificationContent(
 
         if (notifications.isEmpty()) {
             Text(
-                text = "Chưa có thông báo mới",
+                text = stringResource(id= R.string.no_notifications),
                 color = Color.Gray,
                 fontSize = 14.sp
             )
         } else {
-            notifications.forEach { n: Notification ->
-                NotificationCard(
-                    notification=n,
-                    imageRes = R.drawable.humble_logo,
-                    onClick = {
-                        if (!n.isRead) {
-                            viewModel.markNotificationAsRead(n.id)
-                        }
-                    },
-                    viewModel = viewModel
-                )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+                    .padding(end = 4.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(notifications) { n ->
+                    val r = if (n.title=="Matched") R.drawable.wedding else R.drawable.rose
+                    NotificationCard(
+                        notification = n,
+                        imageRes =r,
+                        onClick = {
+                            if (!n.isRead) {
+                                viewModel.markNotificationAsRead(n.id)
+                            }
+                        },
+                        viewModel = viewModel
+                    )
+                }
             }
+
 
         }
     }

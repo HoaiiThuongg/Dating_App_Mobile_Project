@@ -29,13 +29,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.data.singleton.ThemeSingleton
+import com.example.atry.ui.theme.logoGradientBrush
 import com.example.atry.viewmodel.functional.EditProfileViewModel
 
 @Composable
@@ -48,6 +53,10 @@ fun WriteBox(
     viewModel: EditProfileViewModel = viewModel()
 ) {
     val updateStatus by viewModel.updateStatus.collectAsState()
+    val subTitleColor = if (!ThemeSingleton.isDark.value) Color(0xFF626262) else Color.White
+    val titleBrush = if (!ThemeSingleton.isDark.value) Brush.linearGradient(
+        colorStops = arrayOf(0.41f to Color.Black, 1f to Color.Black)
+    ) else logoGradientBrush
 
     var isEditing by remember { mutableStateOf(false) }
     var currentValue by remember { mutableStateOf(initialValue) }
@@ -69,15 +78,22 @@ fun WriteBox(
 
     Column(modifier = modifier) {
         Text(
-            text = title,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            color = if (!ThemeSingleton.isDark.value) Color.Black else Color.White
+            text = buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
+                        brush = titleBrush,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                ) {
+                    append(title)
+                }
+            }
         )
         Text(
             text = hint,
             fontSize = 16.sp,
-            color = if (!ThemeSingleton.isDark.value) Color(0xFF626262) else Color.White
+            color = subTitleColor
         )
 
         Row(
@@ -90,27 +106,37 @@ fun WriteBox(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(20.dp))
-                    .border(1.dp,MaterialTheme.colorScheme.onBackground, RoundedCornerShape(20.dp))
+                    .border(1.dp, MaterialTheme.colorScheme.onBackground, RoundedCornerShape(20.dp))
                     .background(Color.Transparent)
                     .padding(horizontal = 16.dp, vertical = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 if (isEditing) {
-                    BasicTextField(value = currentValue, onValueChange = { currentValue = it }, textStyle = TextStyle(
+                    BasicTextField(
+                        value = currentValue,
+                        onValueChange = { currentValue = it },
+                        textStyle = TextStyle(
                             color = MaterialTheme.colorScheme.onBackground,
                             fontSize = 18.sp
-                        ), modifier = Modifier.focusRequester(focusRequester))
+                        ),
+                        modifier = Modifier
+                            .weight(1f)  // ← chiếm hết chỗ còn lại, nhưng ko đẩy button
+                    )
                     LaunchedEffect(Unit) { focusRequester.requestFocus() }
                 } else {
                     Text(
                         text = currentValue,
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.weight(1f) // ← text cũng chỉ chiếm phần còn lại
                     )
                 }
 
-                IconButton(onClick = onToggleEdit, modifier = Modifier.size(48.dp)) {
+                IconButton(
+                    onClick = onToggleEdit,
+                    modifier = Modifier.size(48.dp) // ← giữ size cố định
+                ) {
                     Icon(
                         imageVector = if (isEditing) Icons.Filled.Check else Icons.Filled.Edit,
                         contentDescription = if (isEditing) "Lưu" else "Chỉnh sửa",
@@ -118,6 +144,7 @@ fun WriteBox(
                     )
                 }
             }
+
         }
     }
 }

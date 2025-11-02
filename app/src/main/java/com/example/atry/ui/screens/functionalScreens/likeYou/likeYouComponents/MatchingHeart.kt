@@ -33,16 +33,13 @@ fun MatchingHeart(
     var liked by remember { mutableStateOf(initialLiked) }
     val scope = rememberCoroutineScope()
 
-    // scale anim (bounce): we control sequence in coroutine using Animatable
     val scaleAnim = remember { Animatable(1f) }
 
-    // fill color anim: transparent <-> pink
     val fillColor by animateColorAsState(
-        targetValue = if (liked) Color(0xFFFF4D8E) else Color.Transparent,
+        targetValue = if (liked) Color(0xFFFF4D8E) else Color(0xFFFF4D8E),
         animationSpec = tween(durationMillis = 220)
-    )
+    ) // đang bug
 
-    // fill alpha for smooth fade (0 -> 1)
     val fillAlpha by animateFloatAsState(
         targetValue = if (liked) 1f else 0f,
         animationSpec = tween(220)

@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -16,8 +17,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.R
 import com.example.atry.data.singleton.CurrentUser
-import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.data.singleton.ThemeSingleton
 import com.example.atry.ui.theme.logoGradientBrush
 import com.example.atry.viewmodel.functional.EditProfileViewModel
 
@@ -50,11 +52,11 @@ fun EditProfileImage(viewModel: EditProfileViewModel = viewModel()) {
                         fontSize = 20.sp
                     )
                 ) {
-                    append("Ảnh của bạn")
+                    stringResource(id= R.string.your_photos)
                 }
             }
         )
-        Text("Ảnh này sẽ hiển thị trên hồ sơ của bạn", fontSize = 16.sp, color = subTitleColor)
+        Text(stringResource(id= R.string.photos_display_notice), fontSize = 16.sp, color = subTitleColor)
 
         ImageUploadField(
             images = viewModel.images,

@@ -14,12 +14,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.atry.R
 import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.DarkGradientProfileContainer
-import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.data.singleton.ThemeSingleton
 import com.example.atry.ui.theme.primaryPurple
 
 @Composable
@@ -28,7 +30,7 @@ fun DatingButton() {
         if(ThemeSingleton.isDark.value) DarkGradientProfileContainer
         else listOf(Color(0xFFE270C9), primaryPurple)
     Button(
-        onClick = { navController.navigate("main_home") },
+        onClick = { navController.navigate("home") },
         modifier = Modifier
             .fillMaxWidth(0.6f)
             .height(50.dp)
@@ -48,7 +50,7 @@ fun DatingButton() {
         elevation = ButtonDefaults.buttonElevation(6.dp)
     ) {
         Text(
-            "Hẹn hò thôi",
+            stringResource(id = R.string.just_dating),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.surfaceVariant

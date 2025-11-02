@@ -75,7 +75,7 @@ fun EmailInputScreen(
 
         onAlertAction = {
             if (state.isSuccess) {
-                alertViewModel.hideAlert() // chuyển trang khi login thành công
+                alertViewModel.hideAlert()
             } else {
                 alertViewModel.hideAlert()
             }

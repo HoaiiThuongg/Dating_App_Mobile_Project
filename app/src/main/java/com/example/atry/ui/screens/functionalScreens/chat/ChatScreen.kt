@@ -1,6 +1,5 @@
 package com.example.atry.ui.screens.functionalScreens.chat
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -23,7 +21,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,16 +28,13 @@ import com.example.atry.ui.screens.functionalScreens.chat.chatComponents.ChatScr
 import com.example.atry.ui.screens.functionalScreens.chat.chatComponents.ChatScreenFooter
 import com.example.atry.ui.screens.functionalScreens.chat.chatComponents.UserChatBox
 import com.example.atry.ui.screens.functionalScreens.chat.chatComponents.PartnerChatBox
-import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.data.singleton.ThemeSingleton
 import com.example.atry.viewmodel.functional.ChatViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import com.example.atry.data.singleton.CurrentUser
@@ -97,9 +91,9 @@ fun ChatScreen(
             ) {
                 ChatScreenHeader(modifier = Modifier.padding(paddingValues))
                 //main screen
-                if(messages.isEmpty()) {
-                    Text("empty")
-                }
+//                if(messages.isEmpty()) {
+//                    Text("empty")
+//                }
                 LazyColumn(
                     state = listState,
                     modifier = Modifier

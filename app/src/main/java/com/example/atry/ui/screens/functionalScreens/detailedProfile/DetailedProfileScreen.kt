@@ -25,16 +25,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.R
 import com.example.atry.backend.SwipeService
 import com.example.atry.backend.User
+import com.example.atry.navigation.navController
+import com.example.atry.ui.components.alert.MatchSuccessfullyCard
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailInfo
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailedProfileImage
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.ActionButtons
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.detailedProfileComponents.DetailedProfileHeader
+import com.example.atry.viewmodel.composal.AlertViewModel
 import com.example.atry.viewmodel.functional.DetailedProfileViewModel
 
 @Composable
 fun DetailScreen(
     user: User,
-    viewModel: DetailedProfileViewModel = viewModel()
+    viewModel: DetailedProfileViewModel = viewModel(),
+    alertViewModel: AlertViewModel
 ){
     val scrollState = rememberScrollState()
     LaunchedEffect(user.userId) {
@@ -42,30 +46,51 @@ fun DetailScreen(
     }
     val userProfile by viewModel.user.observeAsState()
 
-    Column(modifier = Modifier
+    Box(
+        modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.surface)
         .windowInsetsPadding(WindowInsets.navigationBars)
     ) {
-        DetailedProfileHeader(user)
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(horizontal = 20.dp)
-                .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-
+                .fillMaxSize()
         ) {
+            DetailedProfileHeader(user)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(horizontal = 20.dp)
+                    .verticalScroll(scrollState),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
 
-            DetailedProfileImage(user,userProfile)
+                ) {
 
-            DetailInfo(user, userProfile)
+                DetailedProfileImage(user, userProfile)
 
-            ActionButtons(
-                onLike = { viewModel.swipe(user.userId ?: "", SwipeService.SwipeType.LEFT)},
-                onDislike ={ viewModel.swipe(user.userId ?: "", SwipeService.SwipeType.RIGHT) }
+                DetailInfo(user, userProfile)
+
+                ActionButtons(
+                    onLike = {
+                        viewModel.swipe(
+                            user.userId,
+                            SwipeService.SwipeType.RIGHT
+                        )
+                    },
+                    user = user,
+                    alertViewModel = alertViewModel
+                )
+            }
+        }
+
+        if(alertViewModel.isMatchSuccessfullyCard) {
+            MatchSuccessfullyCard(alertViewModel.matchedUser,
+                onClose = {
+                    alertViewModel.hideMatchSuccessfullyCard()
+                    navController.navigate("likeYou")
+                }
             )
         }
     }

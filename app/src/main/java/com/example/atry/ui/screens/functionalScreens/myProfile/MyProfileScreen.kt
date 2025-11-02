@@ -19,7 +19,7 @@ import com.example.atry.ui.screens.functionalScreens.myProfile.myProfileComponen
 import com.example.atry.ui.screens.functionalScreens.myProfile.myProfileComponents.MyProfileContent
 import com.example.atry.ui.theme.DarkGradientProfileContainer
 import com.example.atry.ui.theme.LightGradientProfileContainer
-import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.data.singleton.ThemeSingleton
 import com.example.atry.viewmodel.functional.MyProfileViewModel
 
 @Composable

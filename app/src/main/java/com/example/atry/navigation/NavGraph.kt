@@ -9,6 +9,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -44,6 +46,7 @@ import com.example.atry.ui.screens.functionalScreens.aiChatBot.AiChatScreen
 import com.example.atry.ui.screens.functionalScreens.chat.ChatScreen
 import com.example.atry.ui.screens.functionalScreens.detailedProfile.DetailScreen
 import com.example.atry.ui.screens.functionalScreens.matchedDetailedProfile.MatchedDetailedProfile
+import com.example.atry.viewmodel.composal.AlertViewModel
 import com.example.atry.viewmodel.functional.ChatViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -52,15 +55,14 @@ import kotlin.jvm.java
 
 
 @Composable
-fun NavGraph(initialIntent: Intent?,
-             activity: MainActivity) {
+fun NavGraph() {
     navController = rememberNavController()
     val focusManager = LocalFocusManager.current
+    val alertViewModel: AlertViewModel = viewModel()
 
     // Lắng nghe sự thay đổi của trang hiện tại
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    // Sử dụng DisposableEffect để chạy code mỗi khi trang thay đổi
     DisposableEffect(navBackStackEntry) {
         // Ẩn bàn phím mỗi khi route thay đổi (chuyển trang)
         focusManager.clearFocus()
@@ -69,53 +71,6 @@ fun NavGraph(initialIntent: Intent?,
             // Không làm gì khi Composable bị hủy
         }
     }
-
-    val deepLinkUri = activity.intent.data
-
-    val PLACEHOLDER_EMAIL = ""
-    LaunchedEffect(initialIntent) {
-        initialIntent?.data?.let { uri -> // LẤY TRỰC TIẾP data (URI) TỪ INTENT
-            handleDeepLinkNavigation(
-                navController = navController,
-                deepLinkUri = uri, // TRUYỀN URI ĐÃ TRÍCH XUẤT
-                auth = FirebaseAuth.getInstance(),
-                email = PLACEHOLDER_EMAIL
-            )
-        }
-    }
-
-    // Khởi chạy Effect để lắng nghe Intent mới (từ onNewIntent)
-    LaunchedEffect(Unit) {
-        // Lắng nghe sự thay đổi của currentLink
-        while (true) {
-            val linkString = MainActivity.DeepLinkHandler.currentLink // Lấy giá trị dưới dạng String
-            if (linkString != null) {
-
-                // ************ ĐÃ SỬA LỖI TRUYỀN KIỂU DỮ LIỆU ************
-                // Chuyển String thành đối tượng Uri
-                val linkUri = try {
-                    Uri.parse(linkString)
-                } catch (e: Exception) {
-                    Log.e("NavGraph", "Lỗi parse URI từ DeepLinkHandler: ${e.message}")
-                    null
-                }
-                // *******************************************************
-
-                if (linkUri != null) {
-                    handleDeepLinkNavigation(
-                        navController = navController,
-                        deepLinkUri = linkUri, // TRUYỀN URI đã được parse
-                        auth = FirebaseAuth.getInstance(),
-                        email = PLACEHOLDER_EMAIL
-                    )
-                }
-                MainActivity.DeepLinkHandler.currentLink = null // Reset sau khi xử lý
-            }
-            delay(100)
-        }
-    }
-
-
 
 
     NavHost(
@@ -131,35 +86,34 @@ fun NavGraph(initialIntent: Intent?,
         }
 
         composable("main") {
-            MainScaffold("main_home", "Humble", R.drawable.humble_logo)
+            MainScaffold("main_home", stringResource(R.string.app_name), R.drawable.humble_logo,alertViewModel= alertViewModel)
         }
         composable("home") {
-            MainScaffold("home", "Humble", R.drawable.humble_logo)
+            MainScaffold("home", stringResource(R.string.app_name), R.drawable.humble_logo,alertViewModel= alertViewModel)
         }
         composable("profile") {
-            MainScaffold("profile", "Hồ sơ", R.drawable.humble_logo)
+            MainScaffold("profile", stringResource(R.string.profile), R.drawable.humble_logo,alertViewModel= alertViewModel)
         }
-
         composable("message") {
-            MainScaffold("message", "Nhắn tin", R.drawable.messagelove)
+            MainScaffold("message", stringResource(R.string.message), R.drawable.messagelove,alertViewModel= alertViewModel)
         }
         composable("likeYou") {
-            MainScaffold("likeYou", "Thích bạn", R.drawable.like)
+            MainScaffold("likeYou", stringResource(R.string.like_you), R.drawable.like,alertViewModel= alertViewModel)
         }
 
 
         composable("settings") {
-            ScaffoldWithBackButton("settings", "Cài đặt", R.drawable.humble_logo,"profile"){
+            ScaffoldWithBackButton("settings", stringResource(id = R.string.settings), R.drawable.humble_logo,"profile"){
                 SettingsScreen()
             }
         }
         composable("editProfile") {
-            ScaffoldWithBackButton("edit", "Sửa hồ sơ", R.drawable.humble_logo,"profile"){
+            ScaffoldWithBackButton("edit", stringResource(id = R.string.edit_profile), R.drawable.humble_logo,"profile"){
                 EditProfileScreen()
             }
         }
         composable("support")  {
-            ScaffoldWithBackButton("support", "Hỗ trợ", R.drawable.humble_logo,"profile"){
+            ScaffoldWithBackButton("support",  stringResource(id = R.string.support), R.drawable.humble_logo,"profile"){
                 SupportScreen()
             }
         }
@@ -170,8 +124,9 @@ fun NavGraph(initialIntent: Intent?,
             val userJson = backStackEntry.arguments?.getString("userJson")
             val user = Gson().fromJson(userJson, User::class.java)
 
-            DetailScreen(user = user)
+            DetailScreen(user,alertViewModel= alertViewModel)
         }
+
         composable(
             route = "matched_detailed_profile/{userJson}",
             arguments = listOf(navArgument("userJson") { type = NavType.StringType })
@@ -179,7 +134,7 @@ fun NavGraph(initialIntent: Intent?,
             val userJson = backStackEntry.arguments?.getString("userJson")
             val user = Gson().fromJson(userJson, User::class.java)
 
-            MatchedDetailedProfile(user = user)
+            MatchedDetailedProfile(user, alertViewModel=alertViewModel)
         }
         composable("donate") { DevelopingScreen() }
 
@@ -253,63 +208,4 @@ fun NavGraph(initialIntent: Intent?,
 
     }
 
-}
-suspend fun handleDeepLinkNavigation(
-    navController: NavController,
-    deepLinkUri: Uri?,
-    auth: FirebaseAuth,
-    email: String // Giữ tham số email ở đây
-) {
-    if (deepLinkUri == null) return
-    Log.d("NavGraph", "Deeplink URI: $deepLinkUri")
-    Log.d("NavGraph", "Query params: oobCode=${deepLinkUri.getQueryParameter("oobCode")}, email=${deepLinkUri.getQueryParameter("email")}")
-
-    val path = deepLinkUri.path
-    if (path == "/setpassword") {
-
-        // *******************************************************************
-        // ĐIỀU CHỈNH QUAN TRỌNG: SỬ DỤNG getQueryParameter AN TOÀN HƠN
-        // *******************************************************************
-        val oobCode = deepLinkUri.getQueryParameter("oobCode")
-        val finalEmail = deepLinkUri.getQueryParameter("email")
-        val emailToUse = finalEmail ?: email
-
-
-        Log.d("Auth_Params", "Email: $emailToUse, OobCode: $oobCode")
-
-        if (oobCode.isNullOrEmpty() || emailToUse.isNullOrEmpty()) {
-            Log.e("Auth", "Deeplink bị thiếu tham số oobCode hoặc email.")
-            navController.navigate("login")
-            return
-        }
-
-        try {
-            // Bước 2: Hoàn tất đăng nhập/tạo tài khoản
-            // Chúng ta không cần kiểm tra isSignInWithEmailLink vì code đã được try-catch
-            auth.signInWithEmailLink(emailToUse, oobCode)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.i("Auth", "Xác thực link Firebase thành công. Tài khoản đã được tạo.")
-                        // Thành công: Điều hướng sang màn hình đặt mật khẩu.
-                        navController.navigate("passwordInput/$emailToUse") {
-                            popUpTo(navController.graph.startDestinationId) {
-                                inclusive = true
-                            }
-                        }
-                    } else {
-                        // Thất bại: Mã đã hết hạn, đã sử dụng, hoặc bị Firebase từ chối.
-                        Log.e("Auth", "Xác thực link thất bại (addOnCompleteListener): ${task.exception?.message}")
-                        navController.navigate("login")
-                    }
-                }
-        } catch (e: IllegalArgumentException) {
-            // Bắt lỗi khi oobCode bị lỗi cú pháp/rỗng nặng
-            Log.e("Auth", "Xác thực link thất bại (IllegalArgumentException): Mã không hợp lệ/hết hạn. ${e.message}")
-            navController.navigate("login")
-        } catch (e: Exception) {
-            // Bắt các lỗi khác
-            Log.e("Auth", "Lỗi không xác định khi xử lý Deeplink: ${e.message}")
-            navController.navigate("login")
-        }
-    }
 }

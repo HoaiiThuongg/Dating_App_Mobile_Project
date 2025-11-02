@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -102,9 +103,9 @@ fun DrawerContent(
             }
         }
         Dropdown()
-        Option("Mã QR của bạn",{ navController.navigate("user_qr") })
-        Option("Quét Mã QR",{navController.navigate("cam_scan_qr")})
-        Option("Ai chat bot",{ navController.navigate("chatWithAi") })
+        Option(stringResource(id = R.string.your_qr),{ navController.navigate("user_qr") })
+        Option(stringResource(id = R.string.scan_qr),{navController.navigate("cam_scan_qr")})
+        Option(stringResource(id = R.string.ai_chatbot),{ navController.navigate("chatWithAi") })
 
         Spacer(modifier = Modifier.weight(1f))
         Button (
@@ -136,7 +137,7 @@ fun DrawerContent(
                             fontSize = 20.sp
                         )
                     ) {
-                        append("Thoát")
+                        append(stringResource(id = R.string.exit))
                     }
                 },
                 modifier = Modifier

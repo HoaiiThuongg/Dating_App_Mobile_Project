@@ -24,7 +24,7 @@ fun PublicInformation() {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState),
-        verticalArrangement = Arrangement.spacedBy(25.dp)
+        verticalArrangement = Arrangement.spacedBy(30.dp)
     ) {
         UploadAvatar()
         EditProfileImage()  // vẫn dùng LazyVerticalGrid

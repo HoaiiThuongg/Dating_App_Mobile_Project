@@ -64,7 +64,7 @@ fun UserQrScreen(
         }
 
         IconButton(
-            onClick = { navController.navigate("main_profile") },
+            onClick = { navController.navigate("home") },
             modifier = Modifier
                 .size(32.dp)
                 .align(Alignment.TopStart)

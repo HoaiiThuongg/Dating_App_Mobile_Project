@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,7 +52,8 @@ fun Slogan (){
             )
 
         }
-        Text("Humble ghép đôi - Tình yêu tới thôi",
+        Text(
+            stringResource(id = R.string.app_slogan),
             style = TextStyle(
                 fontSize = 12.sp,
                 brush = dynamicGradientBrush(),

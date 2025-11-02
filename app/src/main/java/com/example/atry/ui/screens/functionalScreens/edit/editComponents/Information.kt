@@ -9,9 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.atry.R
 import com.example.atry.data.constants.AppConstants
 import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.screens.functionalScreens.edit.editComponents.infomation.DateInfoField
@@ -31,26 +33,26 @@ fun Information(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         val dobString = CurrentUser.userProfile?.dob?.let { date ->
             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
         } ?: "Chưa có ngày sinh"
         item{ Spacer(Modifier.size(0.dp)) }
-        item { EditableInfoField("Tên", CurrentUser.user?.name ?: "Lỗi tên", "name") }
-        item { EditableDropdownField("Giới tính", CurrentUser.user?.gender ?: "Lỗi", "gender",
+        item { EditableInfoField(stringResource(id = R.string.name), CurrentUser.user?.name ?: "", "name") }
+        item { EditableDropdownField(stringResource(id = R.string.gender), CurrentUser.user?.gender ?: "", "gender",
             AppConstants.gender) }
-        item { DateInfoField("Ngày sinh", dobString, "dob") }
-        item { EditableDropdownField("Nơi ở", CurrentUser.userProfile?.location ?: "Lỗi","location",
+        item { DateInfoField(stringResource(id = R.string.birthday), dobString, "dob") }
+        item { EditableDropdownField(stringResource(id = R.string.location), CurrentUser.userProfile?.location ?: "","location",
             AppConstants.vietnamProvinces) }
         item {
             EditableInfoField(
-                "Số điện thoại",
-                CurrentUser.userProfile?.phone ?: "Lỗi",
+                stringResource(id = R.string.phone),
+                CurrentUser.userProfile?.phone ?: "",
                 "phone"
             )
         }
-        item { EditableInfoField("Email", CurrentUser.user?.email ?: "Lỗi", "email") }
+        item { EditableInfoField("Email", CurrentUser.user?.email ?: "", "email") }
 
     }
 }

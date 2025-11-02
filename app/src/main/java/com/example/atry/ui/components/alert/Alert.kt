@@ -36,7 +36,6 @@ import com.example.atry.viewmodel.composal.WarningCardViewModel
 fun Alert(
     alert:String,
     onClose:()->Unit,
-    viewModel: WarningCardViewModel = viewModel()
 ) {
     Box(
         modifier = Modifier

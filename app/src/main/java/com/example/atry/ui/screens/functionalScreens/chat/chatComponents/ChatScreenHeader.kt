@@ -49,13 +49,13 @@ fun ChatScreenHeader(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(10.dp),
+            .padding(10.dp,10.dp,10.dp,5.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = { navController.navigate("message") }) {
             Image(
-                painter = androidx.compose.ui.res.painterResource(id = R.drawable.grayarrow),
+                painter = painterResource(id = R.drawable.grayarrow),
                 contentDescription = "Quay lại",
             )
         }
@@ -71,7 +71,7 @@ fun ChatScreenHeader(
                 painter = rememberAsyncImagePainter(model = imageUrl),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(50.dp)
                     .clip(RoundedCornerShape(20.dp))
                     .background(Color.LightGray),
                 contentScale = ContentScale.Crop

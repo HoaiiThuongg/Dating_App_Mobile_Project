@@ -98,14 +98,14 @@ fun DateInfoField(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(currentValue, color = MaterialTheme.colorScheme.onBackground)
+                Text(currentValue,  color = Color(0xFF6A1B9A))
                 IconButton(
                     onClick = { datePickerDialog.show() }
                 ) {
                     Icon(
                         imageVector = Icons.Filled.DateRange,
                         contentDescription = "Chọn ngày sinh",
-                        tint = MaterialTheme.colorScheme.primary // hoặc màu gì bé muốn
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }

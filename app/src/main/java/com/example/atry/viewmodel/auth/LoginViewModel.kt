@@ -39,28 +39,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 viewModelScope.launch {
                     _state.value = LoginState(isSuccess = true, message = message)
                 }
-                val userId = FirebaseAuth.getInstance().currentUser?.uid
-                if (userId != null) {
-                    FirebaseFirestore.getInstance().collection("users")
-                        .document(userId)
-                        .get()
-                        .addOnSuccessListener { doc ->
-                            CurrentUser.user = doc.toObject(User::class.java)
-                        }
-                        .addOnFailureListener { e ->
-                            Log.e("User", "Lỗi khi lấy user: ${e.message}")
-                        }
-                    FirebaseFirestore.getInstance().collection("userProfiles")
-                        .document(userId)
-                        .get()
-                        .addOnSuccessListener { doc ->
-                            CurrentUser.userProfile = doc.toObject(UserProfile::class.java)
-                        }
-                        .addOnFailureListener { e ->
-                            Log.e("UserProfile", "Lỗi khi lấy profile: ${e.message}")
-                        }
-                }
-
             }
 
             override fun onFailure(error: String) {

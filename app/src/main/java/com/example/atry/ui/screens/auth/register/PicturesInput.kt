@@ -5,6 +5,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,19 +50,16 @@ fun PicturesInput(
     alertViewModel: AlertViewModel = viewModel(),
     viewModel: UserInfoSetupViewModel=viewModel()
 ) {
-    var images by remember { mutableStateOf<List<Uri>>(emptyList()) }
     val context = LocalContext.current
-
-    // Dùng State để Compose tự recompose khi ảnh thay đổi
-    val imageUrlState = remember { androidx.compose.runtime.mutableStateOf(CurrentUser.user?.defaultImage) }
+    var selectedImage by remember { mutableStateOf<Uri?>(null) }
+    val currentImageUrl = CurrentUser.user?.defaultImage
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            viewModel.addAvatar(context, it) { newUrl ->
-                // Cập nhật State khi upload xong
-                imageUrlState.value = newUrl
+            selectedImage = it // update ngay để hiển thị
+            viewModel.addAvatar(context, it) { uploadedUrl ->
             }
         }
     }
@@ -73,55 +73,62 @@ fun PicturesInput(
 
             Spacer(modifier = Modifier.size(30.dp))
 
-            Row(
+            Row (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp),
+                    .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Text("Ảnh đại diện", fontWeight = FontWeight.Bold, color = Color.Black, fontSize = 16.sp)
-                    Button(onClick = { launcher.launch("image/*") }) {
-                        Text("Tải ảnh")
-                    }
+                Button(
+                    onClick = { launcher.launch("image/*") },
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text("Tải ảnh")
                 }
+                Spacer(Modifier.size(5.dp))
+
                 Box(
                     modifier = Modifier
-                        .weight(1f)
+                        .size(200.dp)
                         .clip(CircleShape)
-                        .background(Color.LightGray),
+                        .border(2.dp, Color.Black, CircleShape)
+                        .clickable { launcher.launch("image/*") },
                     contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painter = rememberAsyncImagePainter(model = imageUrlState.value),
-                        contentDescription = "Ảnh đại diện",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .size(120.dp)
-                    )
+                    when {
+                        selectedImage != null -> {
+                            Image(
+                                painter = rememberAsyncImagePainter(selectedImage),
+                                contentDescription = "Ảnh mới chọn",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                        currentImageUrl != null -> {
+                            Image(
+                                painter = rememberAsyncImagePainter(currentImageUrl),
+                                contentDescription = "Ảnh đại diện hiện tại",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                        else -> {
+                            Text("Chọn ảnh", color = Color.Black)
+                        }
+                    }
                 }
             }
 
-
             Spacer(modifier = Modifier.size(30.dp))
-            CustomBorderButton(
-                "Quay Lại",
-                { navController.navigate("registerHobbiesInput") },
-                Color.Black
-            )
             CustomLinearButton(
                 "Xong đăng kí", { alertViewModel.showAlert() },
                 redOrangeLinear, Color.White
             )
         },
         alertMessage = "Đăng kí thành công!",
-        onAlertAction = { navController.navigate("main") }
+        onAlertAction = {
+            navController.navigate("main")
+        }
     )
 }

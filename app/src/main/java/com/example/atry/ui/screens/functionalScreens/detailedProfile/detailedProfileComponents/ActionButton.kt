@@ -18,12 +18,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.atry.backend.User
+import com.example.atry.navigation.navController
 import com.example.atry.ui.theme.redGradientBrush
+import com.example.atry.viewmodel.composal.AlertViewModel
 
 @Composable
 fun ActionButtons(
-    onDislike: () -> Unit,
-    onLike: () -> Unit
+    onLike: () -> Unit,
+    user: User,
+    alertViewModel: AlertViewModel
 ) = Row(
     horizontalArrangement = Arrangement.SpaceEvenly,
     verticalAlignment = Alignment.CenterVertically,
@@ -32,21 +36,10 @@ fun ActionButtons(
         .padding(vertical = 20.dp)
 ) {
     IconButton(
-        onClick = onDislike,
-        modifier = Modifier
-            .size(80.dp)
-            .background(Color(0xFF2E2E2E), shape = CircleShape)
-    ) {
-        Icon(
-            imageVector =Icons.Default.Close,
-            contentDescription = "Dislike",
-            tint = Color.White,
-            modifier = Modifier.size(36.dp)
-        )
-    }
-
-    IconButton(
-        onClick = onLike,
+        onClick = {
+            onLike()
+            alertViewModel.showMatchSuccessfullyCard(user)
+        },
         modifier = Modifier
             .size(80.dp)
             .background(

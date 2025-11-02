@@ -9,13 +9,14 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class EmailLinkAuthService {
 
     private final FirebaseAuth mAuth;
     private final Context mContext;
     private final SharedPreferences prefs;
-
+    private final FirebaseFirestore db;
     private static final String PREF_EMAIL_FOR_SIGN_UP = "emailForSignUp";
     private static final String PREF_NEEDS_PASSWORD_SETUP = "needsPasswordSetup";
     private static final String PREF_PENDING_USER_EMAIL = "pendingUserEmail";
@@ -29,6 +30,7 @@ public class EmailLinkAuthService {
     //3. Đăng nhập tài khoản bằng mail và mật khẩu: loginWithEmailPassword
     public EmailLinkAuthService(Context context) {
         this.mContext = context.getApplicationContext();
+        this.db = FirebaseFirestore.getInstance();;
         mAuth = FirebaseAuth.getInstance();
         prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
     }
@@ -43,8 +45,8 @@ public class EmailLinkAuthService {
             callback.onFailure("Email không hợp lệ");
             return;
         }
-//        String continueUrl = "https://dating-app-6b66a.firebaseapp.com/setpassword?email=" + email;
-        String continueUrl = "https://test-55618.firebaseapp.com/setpassword?email=" + email;
+        String continueUrl = "https://dating-app-6b66a.firebaseapp.com/setpassword?email=" + email;
+//        String continueUrl = "https://test-55618.firebaseapp.com/setpassword?email=" + email;
 
 
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
@@ -245,4 +247,41 @@ public class EmailLinkAuthService {
                 .apply();
         mAuth.signOut();
     }
+
+    public void registerWithEmailPassword(String email, String password, AuthCallback callback) {
+        if (!isValidEmail(email)) {
+            callback.onFailure("Email không hợp lệ");
+            return;
+        }
+        if (password == null || password.length() < 6) {
+            callback.onFailure("Mật khẩu phải ít nhất 6 ký tự");
+            return;
+        }
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String userId = mAuth.getCurrentUser().getUid();
+
+                        // Tạo object user mặc định
+                        User user = new User();
+                        user.setUserId(userId);
+                        user.setEmail(email);
+                        // Lưu vào Firestore
+                        db.collection("users")
+                                .document(userId)
+                                .set(user)
+                                .addOnSuccessListener(aVoid -> {
+                                    callback.onSuccess("Đăng ký & tạo profile thành công!");
+                                })
+                                .addOnFailureListener(e -> {
+                                    callback.onFailure("Tạo profile thất bại: " + e.getMessage());
+                                });
+                    } else {
+                        callback.onFailure("Đăng ký thất bại: " +
+                                (task.getException() != null ? task.getException().getMessage() : ""));
+                    }
+                });
+    }
+
 }

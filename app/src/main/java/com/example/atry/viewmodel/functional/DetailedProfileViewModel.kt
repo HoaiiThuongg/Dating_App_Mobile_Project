@@ -27,6 +27,7 @@ class DetailedProfileViewModel: ViewModel() {
             }
         })
     }
+
     fun getUserProfileById(userId: String) {
         userService.getUserProfileById(userId, object : UserService.UserCallback {
             override fun onSuccess(user: UserProfile) {

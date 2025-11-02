@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,27 +38,7 @@ import java.util.Locale
 fun InfoInput1(
     viewModel: UserInfoSetupViewModel= viewModel()
 ) {
-    val userId = "eRs2j5bEUUVd4vlgEjrOAJaWNOW2"
-    FirebaseFirestore.getInstance().collection("users")
-        .document(userId)
-        .get()
-        .addOnSuccessListener { doc ->
-            CurrentUser.user = doc.toObject(User::class.java)
-        }
-        .addOnFailureListener { e ->
-            Log.e("User", "Lỗi khi lấy user: ${e.message}")
-        }
-    FirebaseFirestore.getInstance().collection("userProfiles")
-        .document(userId)
-        .get()
-        .addOnSuccessListener { doc ->
-            CurrentUser.userProfile = doc.toObject(UserProfile::class.java)
-        }
-        .addOnFailureListener { e ->
-            Log.e("UserProfile", "Lỗi khi lấy profile: ${e.message}")
-        }
-
-    var selectedPlace by remember { mutableStateOf<String?>(null) }
+    var selectedPlace by remember { mutableStateOf<String?>("") }
     // Lấy giá trị tên hiện tại
     var name by remember { mutableStateOf("") }
     var dob by remember { mutableStateOf("") }
@@ -72,7 +53,8 @@ fun InfoInput1(
             UnderlineTextField(
                 value = name,
                 onValueChange = { newName -> name = newName },
-                label = "Tên"
+                label = "Tên",
+                imeAction=ImeAction.Done
             )
             DateInputField(
                 label = "Ngày sinh",
@@ -112,7 +94,7 @@ fun InfoInput1(
 
                     viewModel.updateUserField("name", name)
                     viewModel.updateDob(date)
-                    viewModel.updateUserProfileField("location", selectedPlace.toString())
+                    viewModel.updateUserField("location", selectedPlace!!)
                     navController.navigate("registerInfoInput2")
                 },
                 redOrangeLinear,

@@ -83,7 +83,10 @@ fun EditableDropdownField(
                         )
                         ExposedDropdownMenu(
                             expanded = expanded,
-                            onDismissRequest = { expanded = false }
+                            onDismissRequest = {
+                                expanded = false
+                                isEditing=false
+                            }
                         ) {
                             options.forEach { option ->
                                 DropdownMenuItem(

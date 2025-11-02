@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,6 +33,7 @@ import com.example.atry.R
 import com.example.atry.backend.User
 import com.example.atry.backend.UserProfile
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.InfoBox
+import com.example.atry.ui.screens.functionalScreens.home.homeComponents.InfoListBox
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.ProfileImage
 import com.example.atry.ui.screens.functionalScreens.home.homeComponents.ProfileInfo
 import com.example.atry.viewmodel.functional.HomeViewModel
@@ -132,7 +134,7 @@ fun SwipeCard(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(670.dp)
+                            .height(682.dp)
                             .clip(RoundedCornerShape(20.dp))
                     ) {
 
@@ -151,10 +153,10 @@ fun SwipeCard(
                             .offset(y = 10.dp)
                             .padding(10.dp)
                     ) {
-                        InfoBox(title = "Tiểu sử", content = profile?.bio?:"Không muốn chia sẻ")
-                        InfoBox(title = "Cung hoàng đạo", content = profile?.zodiacSign?:"Bí ẩn")
-                        InfoBox(title = "Địa điêm", content = profile?.location?:"Không muốn chia sẻ")
-                        InfoBox(title = "Lối sống", content = profile?.lifestyle?:"Không muốn chia sẻ")
+                        InfoBox(title = stringResource(id = R.string.location), content = profile?.location?:"Không muốn chia sẻ")
+                        InfoBox(title = stringResource(id = R.string.bio), content = profile?.bio?:"Không muốn chia sẻ")
+                        InfoBox(title = stringResource(id = R.string.life_style), content = profile?.lifestyle?:"Không muốn chia sẻ")
+                        InfoListBox(title = stringResource(id = R.string.hobbies),list = profile?.interests)
                     }
                 }
             }

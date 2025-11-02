@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -38,7 +39,7 @@ fun AiChatScreenHeader(modifier: Modifier= Modifier){
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(10.dp),
+            .padding(10.dp,10.dp,10.dp,5.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
 
@@ -61,7 +62,7 @@ fun AiChatScreenHeader(modifier: Modifier= Modifier){
                 painter = painterResource(id = R.drawable.bot),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(50.dp)
                     .clip(RoundedCornerShape(20.dp))
                     .background(Color.LightGray),
                 contentScale = ContentScale.Crop
@@ -72,24 +73,7 @@ fun AiChatScreenHeader(modifier: Modifier= Modifier){
                 fontSize = 16.sp
             )
         }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-//                    navController.navigate("")
-                },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Info,
-                    contentDescription = "Voice Call",
-                    tint = primaryPurple
-                )
-            }
-        }
+        Spacer(Modifier.size(40.dp))
     }
 
 }

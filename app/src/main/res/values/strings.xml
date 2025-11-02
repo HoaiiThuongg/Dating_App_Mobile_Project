@@ -1,3 +1,67 @@
 <resources>
-    <string name="app_name">Try</string>
+    <string name="app_name">Humble</string>
+    <string name="message">Nhắn tin</string>
+    <string name="profile">Hồ sơ</string>
+    <string name="like_you">Thích bạn</string>
+    <string name="settings">Cài đặt</string>
+    <string name="edit_profile">Sửa hồ sơ</string>
+    <string name="support">Hỗ trợ</string>
+    <string name="age">tuổi</string>
+    <string name="zodiac">Cung hoàng đạo</string>
+    <string name="location">Nơi ở</string>
+    <string name="bio">Tiểu sử</string>
+    <string name="life_style">Quan điểm sống</string>
+    <string name="hobbies">Sở thích</string>
+    <string name="have">Có</string>
+    <string name="people">người</string>
+    <string name="follow_you">ưng bạn</string>
+
+    <string name="guide">Hướng dẫn</string>
+    <string name="swipe_right_if_you_like">Quẹt phải nếu bạn thích họ</string>
+    <string name="swipe_left_if_not_your_type">Quẹt trái nếu họ không phải gu</string>
+    <string name="theme">Giao diện</string>
+    <string name="your_qr">Mã QR của bạn</string>
+    <string name="scan_qr">Quét mã QR</string>
+    <string name="ai_chatbot">Ai chatbot</string>
+    <string name="exit">Thoát</string>
+    <string name="and">và</string>
+    <string name="matched">Đã match nhau</string>
+    <string name="liked_you">Đã thích bạn</string>
+    <string name="no_one_likes_you">Bạn không có ai thích cả</string>
+    <string name="update_profile_for_visibility">Hãy đăng thêm thông tin lên hồ sơ để mọi người biết tới bạn</string>
+    <string name="messages">Tin nhắn</string>
+    <string name="connect">Kết nối</string>
+    <string name="avatar">Ảnh đại diện</string>
+    <string name="upload_photo">Tải ảnh</string>
+    <string name="your_photos">Ảnh của bạn</string>
+    <string name="preferred_type">Gu người yêu</string>
+    <string name="preferred_type_suggestion">Bạn thích kiểu người như nào</string>
+    <string name="religion">Tôn giáo</string>
+    <string name="religion_suggestion">Bạn theo tôn giáo nào</string>
+    <string name="life_style_suggestion">Bạn hãy đưa ra quan điểm sống</string>
+    <string name="hobbies_suggestion">Bạn làm gì khi rảnh</string>
+    <string name="bio_suggestion">Bạn hãy giới thiệu về mình</string>
+
+    <string name="name">Tên</string>
+    <string name="gender">Giới tính</string>
+    <string name="birthday">Ngày sinh</string>
+    <string name="phone">Số điện thoại</string>
+    <string name="just_dating">Hẹn hò thôi</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="app_slogan">Humble ghép đôi - Tình yêu tới thôi</string>
+
+    <string name="support_text">Chúng tôi luôn ở đây để hỗ trợ bạn</string>
+    <string name="display">Hiển thị</string>
+    <string name="information">Thông tin</string>
+    <string name="upload_image">Tải ảnh</string>
+    <string name="photos_display_notice">Những ảnh này sẽ hiển thị trên hồ sơ của bạn</string>
+    <string name="contact_us_if_issue">Nếu bạn có bất cứ thắc mắc hoặc phản ánh nào, hãy liên lạc với chúng tôi</string>
+    <string name="we_are_always_ready">Chúng tôi luôn sẵn sàng hỗ trợ hết mình</string>
+    <string name="dark_mode">Tối</string>
+    <string name="default_text">Mặc định</string>
+    <string name="no_matches_yet">Bạn chưa kết nối với ai</string>
+    <string name="go_match_now">Hãy đi ghép đôi với mọi người nào</string>
+    <string name="no_notifications">Chưa có thông báo mới</string>
+    <string name="confirm_exit">Bạn có chắc là muốn thoát không?</string>
+
 </resources>

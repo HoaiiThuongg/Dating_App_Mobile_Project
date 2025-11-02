@@ -2,25 +2,20 @@ package com.example.atry
 
 
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.atry.ui.theme.TryTheme
 import com.example.atry.navigation.NavGraph
-import com.example.atry.navigation.navController
-import com.example.atry.ui.theme.ThemeSingleton
+import com.example.atry.data.singleton.ThemeSingleton
 import kotlinx.coroutines.launch
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import com.example.atry.backend.EmailLinkAuthService
 import com.example.atry.backend.TestActivity
@@ -56,10 +51,7 @@ class MainActivity : ComponentActivity() {
         // Bỏ việc gọi handleDeepLink(intent) ở đây!
         setContent {
             TryTheme {
-                NavGraph(
-                    initialIntent = intent,
-                    activity = this
-                )
+                NavGraph()
             }
         }
     }

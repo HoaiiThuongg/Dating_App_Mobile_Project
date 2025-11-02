@@ -31,14 +31,14 @@ fun InfoDetailBox(
 ) {
     Column(
         modifier = Modifier
+            .background(Color.White, shape = RoundedCornerShape(20.dp))
             .fillMaxWidth()
             .border(
                 width = 2.dp,
                 brush = purpleGradientBrush,
                 shape = RoundedCornerShape(20.dp)
             )
-            .padding(16.dp)
-            .background(Color.Transparent, shape = RoundedCornerShape(12.dp)),
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
 
@@ -46,21 +46,21 @@ fun InfoDetailBox(
             Icon(
                 painter = painterResource(id = R.drawable.location),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground,
+                tint = Color.Black,
                 modifier = Modifier.size(16.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text(label, color = MaterialTheme.colorScheme.onBackground, fontSize = 14.sp)
+            Text(label, color = Color.Black, fontSize = 14.sp)
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.location),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground,
+                tint = Color.Black,
                 modifier = Modifier.size(16.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text(content, color =MaterialTheme.colorScheme.onBackground, fontSize = 14.sp)
+            Text(content, color =Color.Black, fontSize = 14.sp)
         }
 
     }

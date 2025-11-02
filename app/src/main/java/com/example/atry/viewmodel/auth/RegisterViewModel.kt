@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.atry.backend.CloudinaryService
 import com.example.atry.backend.EmailLinkAuthService
 import com.example.atry.backend.User
+import com.example.atry.backend.UserProfile
 import com.example.atry.backend.UserService
 import com.example.atry.data.singleton.CurrentUser
 import com.google.firebase.auth.FirebaseAuth
@@ -90,6 +91,29 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                     }
                 }
         }
+    }
+
+    fun registerWithEmailPassword(email: String, password: String) {
+
+        _state.value = RegisterState(isLoading = true)
+
+        authService.registerWithEmailPassword(email, password, object : EmailLinkAuthService.AuthCallback {
+            override fun onSuccess(message: String) {
+                viewModelScope.launch {
+                    _state.value = RegisterState(
+                        isLoading = false,
+                        isSuccess = true,
+                        message = message
+                    )
+                }
+            }
+
+            override fun onFailure(error: String) {
+                _state.value = RegisterState(isLoading = false, error = error)
+            }
+
+            override fun onEmailSent(message: String) {}
+        })
     }
 
 

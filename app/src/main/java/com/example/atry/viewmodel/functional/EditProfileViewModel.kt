@@ -92,13 +92,7 @@ class EditProfileViewModel(app: Application) : AndroidViewModel(app){
                 override fun onFailure(error: String) { _updateStatus.value = error }
             })
         }
-        // update local cache
-        when(field) {
-            "interests" -> CurrentUser.userProfile?.interests?.add(value)
-            "images" -> CurrentUser.userProfile?.images?.add(value)
-            "partnerPreferences" -> CurrentUser.userProfile?.partnerPreferences?.add(value)
-            "religions" -> CurrentUser.userProfile?.religions?.add(value)
-        }
+        CurrentUser.updateInfo(field,value)
     }
 
     fun removeFromProfileList(field: String, value: String) {
@@ -116,7 +110,6 @@ class EditProfileViewModel(app: Application) : AndroidViewModel(app){
             "religions" -> CurrentUser.userProfile?.religions?.remove(value)
         }
     }
-
 
     // -------------------- CALLBACK HÀNG CHUNG --------------------
     private fun callback() = object : UserService.UserCallback {
@@ -153,6 +146,7 @@ class EditProfileViewModel(app: Application) : AndroidViewModel(app){
         val item = ImageItem.Local(uri)
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                CurrentUser.user?.defaultImage = uri.path
                 val path = getRealPathFromUri(context, item)
                 val url = cloudinaryService.uploadImage(path)
                 onUploaded(url)

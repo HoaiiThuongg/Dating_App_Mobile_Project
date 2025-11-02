@@ -60,7 +60,11 @@ fun DetailedProfileImage(
     }
 
     val offsetX by transition.animateFloat(label = "offsetX") { state ->
-        state * -50f // càng index cao càng dịch trái
+        when {
+            state > currentIndex -> 500f  // slide từ phải sang
+            state < currentIndex -> -500f // slide từ trái sang
+            else -> 0f
+        }
     }
 
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -72,9 +73,10 @@ fun ImageUploadField(
                 IconButton(
                     onClick = { onRemoveClick(index) },
                     modifier = Modifier
+                        .padding(5.dp)
+                        .background(Color.Black.copy(alpha = 0.6f), CircleShape)
                         .align(Alignment.TopEnd)
                         .size(24.dp)
-                        .background(Color.Black.copy(alpha = 0.6f), CircleShape)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,

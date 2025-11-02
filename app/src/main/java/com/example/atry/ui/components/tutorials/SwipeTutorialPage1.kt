@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -97,7 +98,7 @@ fun SwipeTutorialPage1(onNext:()->Unit) {
 
         // --- Footer text ---
         Text(
-            text = "Quẹt phải nếu bạn thích họ",
+            text = stringResource(id = R.string.swipe_right_if_you_like),
             fontSize = 20.sp,
             color =  Color.White,
             modifier = Modifier.padding(bottom = 10.dp)

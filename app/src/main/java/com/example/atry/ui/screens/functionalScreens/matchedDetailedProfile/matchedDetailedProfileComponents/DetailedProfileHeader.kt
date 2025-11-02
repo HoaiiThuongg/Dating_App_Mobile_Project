@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.atry.R
 import com.example.atry.backend.User
+import com.example.atry.data.singleton.ThemeSingleton
 import com.example.atry.navigation.navController
 
 @Composable
@@ -27,6 +28,7 @@ fun DetailedProfileHeader(
     user: User,
     daysMatched:Long
 ) {
+    val color = if(ThemeSingleton.isDark.value) Color(0xFFFFD3F5) else Color(0xFFFF97C0)
     Box(
         modifier = Modifier
             .padding(20.dp,50.dp,20.dp,20.dp)
@@ -63,7 +65,7 @@ fun DetailedProfileHeader(
             )
             Text(
                 "Đã kết nối được $daysMatched ngày",
-                color = Color(0xFF800064),
+                color = color,
                 fontSize = 16.sp
             )
         }

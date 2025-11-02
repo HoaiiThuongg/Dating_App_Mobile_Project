@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Date
 
 data class ChatUiState(
@@ -49,6 +50,9 @@ class ChatViewModel(
     // ----- Danh sách chat items (message + gameCard) -----
     val chatItems = mutableStateListOf<ChatItem>()
 
+    private val _lastPartnerMessageContent = MutableLiveData<String?>(null)
+    val lastPartnerMessageContent: LiveData<String?> = _lastPartnerMessageContent
+
     init {
         viewModelScope.launch {
             loadMatchedUser()
@@ -70,7 +74,7 @@ class ChatViewModel(
 
                 // Cập nhật lastDoc nếu dùng phân trang
                // _uiState.update { it.copy(isLoading = false, errorMessage = null) }
-
+                updateLastPartnerMessage(messagesList)
                 // 2. Load game cards
                 gameCardService.getGameCards(matchId, object : GameCardService.LoadGameCardsCallback {
                     override fun onSuccess(gameCards: List<GameCard>) {
@@ -101,7 +105,16 @@ class ChatViewModel(
             }
         })
     }
+    private fun updateLastPartnerMessage(newMessages: List<Message>) {
+        if (matchedUser.user.userId == null || newMessages.isEmpty()) return
 
+        // Tìm tin nhắn mới nhất (cuối cùng) trong danh sách chỉ thuộc về đối tác
+        val lastPartnerMsg = newMessages
+            .filter { it.senderId == matchedUser.user.userId }
+            .maxByOrNull { it.timestamp?.time ?: 0 }
+
+        _lastPartnerMessageContent.postValue(lastPartnerMsg?.content)
+    }
     private fun listenNewMessages() {
         messageService.listenForLastMessage(matchId, object : MessageService.LastMessageListener {
             override fun onLastMessageReceived(lastMessage: Message) {
@@ -112,6 +125,10 @@ class ChatViewModel(
                 }
                 if (!exists) {
                     chatItems.add(ChatItem.MessageItem(lastMessage))
+
+                    if (lastMessage.senderId == matchedUser.user.userId ) {
+                        _lastPartnerMessageContent.postValue(lastMessage.content)
+                    }
                 }
             }
         })
@@ -164,39 +181,61 @@ class ChatViewModel(
             })
         }
     }
+    private val geminiService = GeminiApiService()
     fun createGameCard() {
         val userId = CurrentUser.user?.userId ?: return
         _isLoading.value = true  // bật loading
 
-        // 1. Gọi bot để sinh câu hỏi + answer
-        val sessionId = "some_session_id" // thay bằng session thực tế
-        val model = "gemma3:1b"
-        sendQuestion("Hãy tạo 1 câu hỏi trắc nghiệm vui với 2 đáp án form là câu hỏi | đáp án 1 | đáp án 2 ", sessionId, model)
+        // 🚨 1. Logic cũ bị xóa, thay bằng Coroutine
+        viewModelScope.launch(Dispatchers.IO) {
 
-        // 2. Khi bot trả về kết quả
-        _botAnswer.observeForever { answer ->
-            // answer có thể là "Câu hỏi? | Đáp án1 | Đáp án2"
-            val parts = answer.split("|").map { it.trim() }
-            if (parts.size >= 3) {
-                val questionFromBot = parts[0]
-                val ans1 = parts[1]
-                val ans2 = parts[2]
+            // --- 1. Gọi Gemini API để sinh Game Card ---
+            val commonInterests = "Sở thích chung của cặp đôi này (ví dụ: du lịch, nấu ăn)" // 👈 Cần thay thế bằng sở thích thực tế nếu có
 
-                val card = GameCard().apply {
-                    id = null
-                    title = questionFromBot
-                    startBy = userId
-                    this.ans1 = ans1
-                    this.ans2 = ans2
-                    pickedByAns1 = emptyList()
-                    pickedByAns2 = emptyList()
-                }
-                // 3. Push lên Firestore
-                createGameCard(card)
+            val gameCardString = try {
+                geminiService.generateGameCard(commonInterests)
+            } catch (e: Exception) {
+                Log.e("ChatViewModel", "Lỗi gọi Gemini generateGameCard", e)
+                null
             }
 
-            _isLoading.value = false
-            _botAnswer.removeObserver {} // tránh leak
+            // --- 2. Xử lý kết quả trên Main Thread ---
+            withContext(Dispatchers.Main) {
+                _isLoading.value = false // Tắt loading
+
+                if (gameCardString == null || gameCardString.contains("Lỗi phân tích cú pháp")) {
+                    // Xử lý lỗi hoặc kết quả không hợp lệ
+                    _uiState.update { it.copy(errorMessage = "Không thể tạo Game Card từ AI. Thử lại sau.") }
+                    return@withContext
+                }
+
+                // --- 3. Phân tích cú pháp và tạo GameCard ---
+                // gameCardString: "câu hỏi | đáp án 1 | đáp án 2"
+                val parts = gameCardString.split("|").map { it.trim() }
+
+                if (parts.size >= 3) {
+                    val questionFromBot = parts[0]
+                    val ans1 = parts[1]
+                    val ans2 = parts[2]
+
+                    val card = GameCard().apply {
+                        id = null
+                        title = questionFromBot.take(50)
+                        startBy = userId
+                        setQuestion(questionFromBot)
+                        this.ans1 = ans1
+                        this.ans2 = ans2
+                        pickedByAns1 = emptyList()
+                        pickedByAns2 = emptyList()
+                    }
+
+                    // --- 4. Push lên Firestore ---
+                    // Gọi hàm hiện có của ViewModel
+                    createGameCard(card)
+                } else {
+                    _uiState.update { it.copy(errorMessage = "AI trả lời không đúng định dạng. Chi tiết: $gameCardString") }
+                }
+            }
         }
     }
 
@@ -244,7 +283,7 @@ class ChatViewModel(
                         chatItems[idx] = ChatItem.GameCardItem(newCard)
                     } else {
                         // chưa có card -> thêm vào cuối list
-                        chatItems.add(ChatItem.GameCardItem(newCard))
+                      //  chatItems.add(ChatItem.GameCardItem(newCard))
                     }
                 }
             }

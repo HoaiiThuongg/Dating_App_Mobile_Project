@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atry.backend.SwipeService
+import com.example.atry.data.singleton.CurrentUser
 import com.example.atry.ui.components.HeartLoading
 import com.example.atry.ui.components.nothingToLoad.NothingToLoad
 import com.example.atry.viewmodel.functional.HomeViewModel
@@ -26,6 +27,10 @@ fun HomeScreen(
     val users = viewModel.users
     val currentIndex by viewModel.currentIndex.collectAsState()
     val isLoading = viewModel.isLoading
+
+    if(CurrentUser.userProfile == null) {
+        viewModel.setUserInfo()
+    }
 
     Column(
         modifier = Modifier

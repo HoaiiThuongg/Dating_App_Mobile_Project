@@ -59,7 +59,10 @@ fun HobbiesInput() {
                     .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                TagGrid(title = "Khỏe mạnh", tags = healthyTags,selectedTags = selectedTags,
+                TagGrid(title = "Khỏe mạnh", tags = healthyTags,
+                    selectedTags = selectedTags,
+                    color=Color(0xFF039A3D),
+                    selectedColor = Color(0xFF015E31),
                     onTagToggle = { tag ->
                         selectedTags = if (tag in selectedTags) {
                             selectedTags - tag
@@ -67,9 +70,39 @@ fun HobbiesInput() {
                             selectedTags + tag
                         }
                     })
-//                TagGrid(title = "Vui vẻ", tags = joyTags,Color(0xFFB63A01))
-//                TagGrid(title = "Tri thức", tags = intellectualTags,Color(0xFF1B6EFF))
-//                TagGrid(title = "Kì dị", tags = uniqueTags,Color(0xFFFF479B))
+                TagGrid(title = "Vui vẻ", tags = joyTags,
+                    color=Color(0xFFB63A01),
+                    selectedColor = Color(0xFF7E2A01),
+                    selectedTags = selectedTags,
+                    onTagToggle = { tag ->
+                        selectedTags = if (tag in selectedTags) {
+                            selectedTags - tag
+                        } else {
+                            selectedTags + tag
+                        }
+                    })
+                TagGrid(title = "Tri thức", tags = intellectualTags,
+                    color = Color(0xFF1B6EFF),
+                    selectedColor = Color(0xFF03368F),
+                    selectedTags = selectedTags,
+                    onTagToggle = { tag ->
+                        selectedTags = if (tag in selectedTags) {
+                            selectedTags - tag
+                        } else {
+                            selectedTags + tag
+                        }
+                    })
+                TagGrid(title = "Kì dị", tags = uniqueTags,
+                    color = Color(0xFFFF479B),
+                    selectedColor = Color(0xFF880642),
+                    selectedTags = selectedTags,
+                    onTagToggle = { tag ->
+                        selectedTags = if (tag in selectedTags) {
+                            selectedTags - tag
+                        } else {
+                            selectedTags + tag
+                        }
+                    })
             }
 
             CustomBorderButton(

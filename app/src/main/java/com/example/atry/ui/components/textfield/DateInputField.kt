@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -49,6 +50,7 @@ fun DateInputField(
     val day = calendar.get(Calendar.DAY_OF_MONTH)
 
     var date by remember { mutableStateOf("") }
+    var isDialogShowing by remember { mutableStateOf(false) }
 
     val datePickerDialog = DatePickerDialog(
         context,
@@ -58,7 +60,9 @@ fun DateInputField(
             onDateChange(selectedDate)
         },
         year, month, day
-    )
+    ).apply {
+        setOnDismissListener { isDialogShowing = false }
+    }
 
     Column {
         TextField(
@@ -66,7 +70,7 @@ fun DateInputField(
             onValueChange = { newValue ->
                 if (newValue.matches(Regex("[0-9/]*"))) onValueChange(newValue)
             },
-            readOnly = true,
+            readOnly = false,
             label = {
                 Text(
                     label,
@@ -80,7 +84,10 @@ fun DateInputField(
                 .padding(vertical = 4.dp)
                 .fillMaxWidth()
                 .onFocusChanged {
-                    if (it.isFocused) datePickerDialog.show()
+                    if (it.isFocused) {
+                        datePickerDialog.show()
+                        isDialogShowing = true
+                    }
                 },
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color(0xFFFF0468),
@@ -91,11 +98,22 @@ fun DateInputField(
             ),
             placeholder = { Text("dd/MM/yyyy") },
             trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = "Chọn ngày",
-                    tint = Color(0xFFFF5C8D)
-                )
+                IconButton(
+                    onClick = {
+                        if (isDialogShowing) {
+                            datePickerDialog.dismiss() // đóng nếu đang mở
+                        } else {
+                            datePickerDialog.show()    // mở nếu đang đóng
+                            isDialogShowing = true
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = "Chọn ngày",
+                        tint = Color(0xFFFF5C8D)
+                    )
+                }
             },
             singleLine = true
         )

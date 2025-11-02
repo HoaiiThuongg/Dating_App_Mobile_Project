@@ -56,11 +56,12 @@ fun SplashScreen () {
             }
         },
         bottomContent = {
-            CustomBorderButton("Đăng kí",
-                {navController.navigate("registerInfoInput1")},Color.Black)
-
             CustomLinearButton("Đăng nhập", { navController.navigate("login")},
                 redOrangeLinear, Color.White)
+            CustomBorderButton("Đăng kí",
+                {navController.navigate("authEntry")},Color.Black)
+
+
             Text("Chào mừng bạn đến với Humble", color = Color(0xFF595959), fontSize = 14.sp)
 
             IconButton(

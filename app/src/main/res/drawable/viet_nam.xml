@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="16dp"
+    android:viewportWidth="300"
+    android:viewportHeight="200">
+
+    <!-- Red background -->
+    <path
+        android:fillColor="#DA251D"
+        android:pathData="M0,0h300v200h-300z"/>
+
+    <!-- Yellow Star (Centered) -->
+    <path
+        android:fillColor="#FFFF00"
+        android:pathData="M150,40
+            l20.6,63h66.2l-53.5,38.8l20.6,63
+            l-53.9,-39.2l-53.9,39.2l20.6,-63
+            l-53.5,-38.8h66.2z" />
+</vector>

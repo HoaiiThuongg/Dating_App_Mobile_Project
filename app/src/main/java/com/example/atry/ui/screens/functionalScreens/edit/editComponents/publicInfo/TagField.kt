@@ -31,7 +31,7 @@ fun TagInputField(
 //    initialTags: List<String> = listOf("Thể thao", "Chơi game"),
 //    onTagsChanged: (List<String>) -> Unit = {}
 ) {
-    val     initialTags: List<String> = listOf("Thể thao", "Chơi game")
+    val initialTags: List<String> = listOf("Thể thao", "Chơi game")
 
     var tags by remember { mutableStateOf(initialTags.toMutableList()) }
     var newTag by remember { mutableStateOf(TextFieldValue("")) }

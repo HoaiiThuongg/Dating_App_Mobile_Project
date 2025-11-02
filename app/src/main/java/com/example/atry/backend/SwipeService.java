@@ -2,6 +2,8 @@ package com.example.atry.backend;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
@@ -51,37 +53,30 @@ public class SwipeService {
 
 
     // Tải danh sách ng dùng khác chưa có điều kiện lọc (AI Matching)???
-    public void loadProfilesPaginated(int limit, DocumentSnapshot lastDoc, LoadUsersCallback callback) {
-        String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+    public void loadProfilesPaginated(int limit, @Nullable DocumentSnapshot lastDoc, LoadUsersCallback callback) {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : null;
         if (currentUserId == null) {
             callback.onFailure("Người dùng chưa đăng nhập");
             return;
         }
 
-        Task<QuerySnapshot> likedTask = db.collection("swipes")
-                .document(currentUserId)
-                .collection("liked")
-                .get();
-
-        Task<QuerySnapshot> dislikedTask = db.collection("swipes")
-                .document(currentUserId)
-                .collection("disliked")
-                .get();
-
-        Task<QuerySnapshot> matchedTask = db.collection("users")
-                .document(currentUserId)
-                .collection("matches")
-                .get();
+        Task<QuerySnapshot> likedTask = db.collection("swipes").document(currentUserId)
+                .collection("liked").get();
+        Task<QuerySnapshot> dislikedTask = db.collection("swipes").document(currentUserId)
+                .collection("disliked").get();
+        Task<QuerySnapshot> matchedTask = db.collection("users").document(currentUserId)
+                .collection("matches").get();
 
         Tasks.whenAllSuccess(likedTask, dislikedTask, matchedTask)
                 .addOnSuccessListener(results -> {
-
                     Set<String> excludedIds = new HashSet<>();
                     excludedIds.add(currentUserId);
 
-                    for (DocumentSnapshot d : likedTask.getResult()) excludedIds.add(d.getId());
-                    for (DocumentSnapshot d : dislikedTask.getResult()) excludedIds.add(d.getId());
-                    for (DocumentSnapshot d : matchedTask.getResult()) excludedIds.add(d.getId());
+                    for (DocumentSnapshot doc : likedTask.getResult()) excludedIds.add(doc.getId());
+                    for (DocumentSnapshot doc : dislikedTask.getResult()) excludedIds.add(doc.getId());
+                    for (DocumentSnapshot doc : matchedTask.getResult()) excludedIds.add(doc.getId());
 
                     Query query = db.collection("users")
                             .orderBy(FieldPath.documentId())
@@ -99,28 +94,29 @@ public class SwipeService {
                             String uid = doc.getId();
                             if (!excludedIds.contains(uid)) {
                                 User user = doc.toObject(User.class);
-                                result.add(user);
-                                newLastVisible = doc; // chỉ update khi user hợp lệ
+                                if (user != null) {
+                                    result.add(user);
+                                    newLastVisible = doc; // chỉ update khi user hợp lệ
+                                }
                             }
                         }
 
                         if (result.isEmpty()) {
                             // Nếu snapshot còn data phía sau → thử tiếp
-                            if (!snapshot.getDocuments().isEmpty()) {
-                                DocumentSnapshot last = snapshot.getDocuments()
-                                        .get(snapshot.size() - 1);
-
-                                // gọi lại để load tiếp
-                                loadProfilesPaginated(limit, last, callback);
-                                return;
-                            }
-
-                            // Không còn gì thật sự
-                            callback.onSuccess(result, null);
+//                            if (!snapshot.getDocuments().isEmpty()) {
+//                                DocumentSnapshot last = snapshot.getDocuments()
+//                                        .get(snapshot.size() - 1);
+//                                if (!last.equals(lastDoc)) {
+//                                    loadProfilesPaginated(limit, last, callback);
+//                                    return;
+//                                }
+//                            }
+                            // Không còn gì hợp lệ
+                            callback.onSuccess(Collections.emptyList(), null);
                             return;
                         }
 
-
+                        // Shuffle user
                         Collections.shuffle(result);
                         callback.onSuccess(result, newLastVisible);
 
@@ -132,7 +128,6 @@ public class SwipeService {
                         callback.onFailure("Lỗi khi lấy danh sách swipe/match: " + e.getMessage())
                 );
     }
-
 
 
 

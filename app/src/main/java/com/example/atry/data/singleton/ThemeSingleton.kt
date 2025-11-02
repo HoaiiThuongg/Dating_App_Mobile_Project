@@ -1,4 +1,4 @@
-package com.example.atry.ui.theme
+package com.example.atry.data.singleton
 
 import android.content.Context
 import androidx.compose.runtime.State

@@ -1,4 +1,4 @@
-package com.example.atry.ui.components
+package com.example.atry.ui.components.switches
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.animateDp
@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,33 +22,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.animation.core.FastOutSlowInEasing
 
 @Composable
-fun AnimatedSwitch(
+fun PainterSwitch(
     isOn: Boolean,
     onToggle: () -> Unit,
-    onIcon: ImageVector,
-    offIcon: ImageVector,
+    onPainter: Painter,
+    offPainter: Painter,
     onColor: Color,
     offColor: Color
 ) {
     val transition = updateTransition(targetState = isOn, label = "switchTransition")
 
-    // ⚙️ Animation vị trí nút trượt
-    val offsetX by transition.animateDp(label = "offsetAnim", transitionSpec = { tween(400) }) { on ->
+    val offsetX by transition.animateDp(label = "offsetAnim", transitionSpec = { tween(400, easing = FastOutSlowInEasing) }) { on ->
         if (on) 32.dp else 0.dp
     }
 
-    // 🎨 Animation màu nền
     val backgroundColor by transition.animateColor(label = "backgroundAnim", transitionSpec = { tween(400) }) { on ->
         if (on) onColor else offColor
     }
 
-    // 🌙 Icon và màu
-    val icon = if (isOn) onIcon else offIcon
-    val iconColor = if (isOn) Color(0xFFFFE066) else Color(0xFFFFA500)
+    val icon = if (isOn) onPainter else offPainter
 
     Box(
         modifier = Modifier
@@ -71,11 +67,11 @@ fun AnimatedSwitch(
                 .shadow(3.dp, CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = icon,
+            androidx.compose.foundation.Image(
+                painter = icon,
                 contentDescription = null,
-                tint = iconColor,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier
+                    .size(20.dp) // icon bên trong nút tròn
             )
         }
     }

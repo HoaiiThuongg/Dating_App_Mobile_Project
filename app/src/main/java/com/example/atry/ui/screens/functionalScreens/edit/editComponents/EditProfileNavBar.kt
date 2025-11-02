@@ -16,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.atry.R
 import com.example.atry.ui.theme.lightPink
 import com.example.atry.ui.theme.primaryPurple
 import com.example.atry.ui.theme.strongPurple
@@ -47,7 +49,7 @@ fun  EditProfileNavBar(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                "Hiển thị",
+                stringResource(id= R.string.display),
                 color = if (isPublicInfoOpen) strongPurple else Color.Black,
                 fontWeight = FontWeight.Bold
             )
@@ -64,7 +66,7 @@ fun  EditProfileNavBar(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                "Thông tin",
+                stringResource(id= R.string.information),
                 color = if (!isPublicInfoOpen) strongPurple else Color.Black,
                 fontWeight = FontWeight.Bold
             )
