@@ -10,13 +10,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class MessageService {
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration messageListener;
     private boolean isInitialLoad = true;
     private long lastMessageTimestamp = 0;
 
     private CollectionReference getMessagesCollectionRef(String matchId) {
-        return db.collection("matches")
+        return FirebaseManager.getInstance().getFirestore().collection("matches")
                 .document(matchId)
                 .collection("messages");
     }
@@ -118,7 +117,7 @@ public class MessageService {
     }
 
     public ListenerRegistration listenReadBy(String matchId, ReadByCallback callback) {
-        return db.collection("matches")
+        return FirebaseManager.getInstance().getFirestore().collection("matches")
                 .document(matchId)
                 .addSnapshotListener((snapshot, e) -> {
                     if (snapshot != null && snapshot.exists()) {
@@ -143,10 +142,8 @@ public class MessageService {
 
     // --- Đánh dấu tin nhắn đã đọc bởi user ---
     public void markMatchAsRead(String matchId, String userId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         // Truy cập node matches/matchId
-        DocumentReference matchRef = db.collection("matches").document(matchId);
+        DocumentReference matchRef = FirebaseManager.getInstance().getFirestore().collection("matches").document(matchId);
 
         matchRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
@@ -199,7 +196,7 @@ public class MessageService {
 
 
     public void isMessageRead(String matchId, String userId, ReadCheckCallback callback) {
-        DocumentReference matchRef = db.collection("matches").document(matchId);
+        DocumentReference matchRef = FirebaseManager.getInstance().getFirestore().collection("matches").document(matchId);
 
         matchRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {

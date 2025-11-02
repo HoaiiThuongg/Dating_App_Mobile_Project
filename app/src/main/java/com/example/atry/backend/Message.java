@@ -34,8 +34,6 @@ public class Message {
         this.content = content;
     }
 
-
-    // --- Getter / Setter ---
     public String getMessageId() { return messageId; }
     public void setMessageId(String messageId) { this.messageId = messageId; }
 

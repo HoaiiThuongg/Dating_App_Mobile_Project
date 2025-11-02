@@ -32,7 +32,7 @@ public class TestActivity extends AppCompatActivity {
         setContentView(scrollView);
 
         authHelper = new EmailLinkAuthService(this);
-
+        testRegisterWithEmailPassword();
         //testEmailLinkRegistration();
         testLoginWithEmailPassword();
         //testUploadImageToCloudinary();
@@ -46,6 +46,10 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
+    public void testRegisterWithEmailPassword() {
+        authHelper.registerWithEmailPassword("1234@gmail.com", "123456");
+
+    }
 
     /*private void testUpdateUserInfo() throws IOException {
         appendMessage(" Bắt đầu test updateUserInfo()", Color.BLACK);

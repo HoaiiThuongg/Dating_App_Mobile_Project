@@ -5,12 +5,9 @@ import android.util.Log;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
@@ -30,8 +27,8 @@ public class SwipeService {
         SUPER
     }
 
-    private final FirebaseFirestore db;
-    private final FirebaseAuth auth;
+    //private final FirebaseFirestore db;
+   // private final FirebaseAuth auth;
     private final List<User> cachedUsers = new ArrayList<>();
 
     public interface SwipeCallback {
@@ -45,30 +42,33 @@ public class SwipeService {
     }
 
     public SwipeService() {
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
+        //db = FirebaseFirestore.getInstance();
+        //auth = FirebaseAuth.getInstance();
     }
 
 
     // Tải danh sách ng dùng khác chưa có điều kiện lọc (AI Matching)???
     public void loadProfilesPaginated(int limit, DocumentSnapshot lastDoc, LoadUsersCallback callback) {
-        String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        String currentUserId = FirebaseManager.getInstance().getCurrentUser() != null
+                ? FirebaseManager.getInstance().getCurrentUserId() : null;
         if (currentUserId == null) {
             callback.onFailure("Người dùng chưa đăng nhập");
             return;
         }
 
-        Task<QuerySnapshot> likedTask = db.collection("swipes")
+        Task<QuerySnapshot> likedTask = FirebaseManager.getInstance().getFirestore()
+                .collection("swipes")
                 .document(currentUserId)
                 .collection("liked")
                 .get();
 
-        Task<QuerySnapshot> dislikedTask = db.collection("swipes")
+        Task<QuerySnapshot> dislikedTask = FirebaseManager.getInstance().getFirestore()
+                .collection("swipes")
                 .document(currentUserId)
                 .collection("disliked")
                 .get();
 
-        Task<QuerySnapshot> matchedTask = db.collection("users")
+        Task<QuerySnapshot> matchedTask = FirebaseManager.getInstance().getFirestore().collection("users")
                 .document(currentUserId)
                 .collection("matches")
                 .get();
@@ -83,7 +83,7 @@ public class SwipeService {
                     for (DocumentSnapshot d : dislikedTask.getResult()) excludedIds.add(d.getId());
                     for (DocumentSnapshot d : matchedTask.getResult()) excludedIds.add(d.getId());
 
-                    Query query = db.collection("users")
+                    Query query = FirebaseManager.getInstance().getFirestore().collection("users")
                             .orderBy(FieldPath.documentId())
                             .limit(limit);
 
@@ -137,7 +137,7 @@ public class SwipeService {
 
 
     public void swipeType(String targetUserId, SwipeType swipeType, SwipeCallback callback) {
-        String currentUserId = auth.getCurrentUser().getUid();
+        String currentUserId = FirebaseManager.getInstance().getCurrentUserId();
         if (targetUserId == null) {
             callback.onFailure("ID người dùng không hợp lệ");
             return;
@@ -166,7 +166,7 @@ public class SwipeService {
         final String currentUserSubCollection = tempCurrentCollection;
         final String targetUserSubCollection = tempTargetCollection;
 
-        db.collection("swipes")
+        FirebaseManager.getInstance().getFirestore().collection("swipes")
                 .document(currentUserId)
                 .collection(currentUserSubCollection)
                 .document(targetUserId)
@@ -174,7 +174,7 @@ public class SwipeService {
 
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) throw task.getException();
-                    return db.collection("swipes")
+                    return FirebaseManager.getInstance().getFirestore().collection("swipes")
                             .document(targetUserId)
                             .collection(targetUserSubCollection)
                             .document(currentUserId)
@@ -184,7 +184,7 @@ public class SwipeService {
                 .addOnSuccessListener(aVoid -> {
                     if (swipeType == SwipeType.RIGHT || swipeType == SwipeType.SUPER) {
                         // 1. Lấy tên người dùng hiện tại (currentUserId)
-                        db.collection("users").document(currentUserId).get()
+                        FirebaseManager.getInstance().getFirestore().collection("users").document(currentUserId).get()
                                 .addOnSuccessListener(documentSnapshot -> {
                                     String currentUserName = documentSnapshot.getString("name"); // Giả sử trường tên là 'name'
                                     if (currentUserName != null) {
@@ -213,26 +213,26 @@ public class SwipeService {
     private void checkForMatch(String currentUserId, String targetUserId, SwipeCallback callback) {
 
         // Kiểm tra A đã like/super like B chưa
-        Task<DocumentSnapshot> currentLikedTask = db.collection("swipes")
+        Task<DocumentSnapshot> currentLikedTask = FirebaseManager.getInstance().getFirestore().collection("swipes")
                 .document(targetUserId)
                 .collection("liked")
                 .document(currentUserId)
                 .get();
 
         // Kiểm tra B đã like/super like A chưa
-        Task<DocumentSnapshot> targetLikedTask = db.collection("swipes")
+        Task<DocumentSnapshot> targetLikedTask = FirebaseManager.getInstance().getFirestore().collection("swipes")
                 .document(currentUserId)
                 .collection("liked")
                 .document(targetUserId)
                 .get();
 
-        Task<DocumentSnapshot> currentSuperTask = db.collection("swipes")
+        Task<DocumentSnapshot> currentSuperTask = FirebaseManager.getInstance().getFirestore().collection("swipes")
                 .document(targetUserId)
                 .collection("super liked")
                 .document(currentUserId)
                 .get();
 
-        Task<DocumentSnapshot> targetSuperTask = db.collection("swipes")
+        Task<DocumentSnapshot> targetSuperTask = FirebaseManager.getInstance().getFirestore().collection("swipes")
                 .document(currentUserId)
                 .collection("super liked")
                 .document(targetUserId)
@@ -286,19 +286,19 @@ public class SwipeService {
         // --- 4. Tạo các Task ghi ---
 
         // Task 1: Ghi vào Collection Match chung
-        Task<Void> task1 = db.collection("matches")
+        Task<Void> task1 = FirebaseManager.getInstance().getFirestore().collection("matches")
                 .document(matchId)
                 .set(matchData);
 
         // Task 2: Ghi vào Sub-collection của User A (users/{A}/matches/{B})
-        Task<Void> task2 = db.collection("users")
+        Task<Void> task2 = FirebaseManager.getInstance().getFirestore().collection("users")
                 .document(userA)
                 .collection("matches")
                 .document(userB) // Document ID là ID của người match còn lại
                 .set(userMatchData, SetOptions.merge());
 
         // Task 3: Ghi vào Sub-collection của User B (users/{B}/matches/{A})
-        Task<Void> task3 = db.collection("users")
+        Task<Void> task3 = FirebaseManager.getInstance().getFirestore().collection("users")
                 .document(userB)
                 .collection("matches")
                 .document(userA) // Document ID là ID của người match còn lại
@@ -310,8 +310,8 @@ public class SwipeService {
                     // 🔥 Thêm logic thông báo sau khi lưu Match thành công
 
                     // Lấy tên của User A và User B
-                    Task<DocumentSnapshot> taskGetNameA = db.collection("users").document(userA).get();
-                    Task<DocumentSnapshot> taskGetNameB = db.collection("users").document(userB).get();
+                    Task<DocumentSnapshot> taskGetNameA = FirebaseManager.getInstance().getFirestore().collection("users").document(userA).get();
+                    Task<DocumentSnapshot> taskGetNameB = FirebaseManager.getInstance().getFirestore().collection("users").document(userB).get();
 
                     Tasks.whenAllSuccess(taskGetNameA, taskGetNameB)
                             .addOnSuccessListener(list -> {
@@ -357,19 +357,20 @@ public class SwipeService {
 
     //---------------new code-----------------
     public void getUsersWhoLikedMe(LoadUsersCallback callback) {
-        String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        String currentUserId = FirebaseManager.getInstance().getCurrentUser() != null
+                ? FirebaseManager.getInstance().getCurrentUserId(): null;
 
         if (currentUserId == null) {
             callback.onFailure("Người dùng chưa đăng nhập");
             return;
         }
 
-        Task<QuerySnapshot> likedByTask = db.collection("swipes")
+        Task<QuerySnapshot> likedByTask = FirebaseManager.getInstance().getFirestore().collection("swipes")
                 .document(currentUserId)
                 .collection("likedBy")
                 .get();
 
-        Task<QuerySnapshot> matchedTask = db.collection("users")
+        Task<QuerySnapshot> matchedTask = FirebaseManager.getInstance().getFirestore().collection("users")
                 .document(currentUserId)
                 .collection("matches")
                 .get();
@@ -393,7 +394,7 @@ public class SwipeService {
                     for (DocumentSnapshot likeDoc : likedBySnapshot.getDocuments()) {
                         String swiperId = likeDoc.getId();
                         if (swiperId != null && !matchedIds.contains(swiperId)) {
-                            Task<User> userTask = db.collection("users")
+                            Task<User> userTask = FirebaseManager.getInstance().getFirestore().collection("users")
                                     .document(swiperId)
                                     .get()
                                     .continueWith(task -> task.isSuccessful() && task.getResult().exists()
@@ -429,7 +430,8 @@ public class SwipeService {
     // Trong SwipeService.java
 
     public void getMyMatches(MatchedUsersWithIdCallback callback) {
-        String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        String currentUserId = FirebaseManager.getInstance().getCurrentUser() != null
+                ? FirebaseManager.getInstance().getCurrentUserId() : null;
 
         if (currentUserId == null) {
             callback.onFailure("Người dùng chưa đăng nhập");
@@ -437,7 +439,7 @@ public class SwipeService {
         }
 
         // Đường dẫn chính xác: users/{currentUserId}/matches/{partnerId}
-        db.collection("users")
+        FirebaseManager.getInstance().getFirestore().collection("users")
                 .document(currentUserId)
                 .collection("matches") // Truy vấn danh sách người đã match
                 .get()
@@ -455,7 +457,7 @@ public class SwipeService {
                         String matchId = matchDoc.getString("matchId"); // Lấy Match ID chung (đã lưu trong saveMatch)
 
                         // 2. Tạo Task để tải thông tin chi tiết của người match
-                        Task<MatchedUser> userTask = db.collection("users")
+                        Task<MatchedUser> userTask = FirebaseManager.getInstance().getFirestore().collection("users")
                                 .document(partnerId)
                                 .get()
                                 .continueWith(task -> {
@@ -499,7 +501,7 @@ public class SwipeService {
         notificationData.put("read", false); // Mặc định là chưa đọc
         notificationData.put("partnerId", partnerId); // thêm partnerId
 
-        db.collection("notifications")
+        FirebaseManager.getInstance().getFirestore().collection("notifications")
                 .document(userId)
                 .collection("userNotifications")
                 .add(notificationData)
@@ -519,7 +521,8 @@ public class SwipeService {
         void onFailure(String error);
     }
     public void getTotalMatchesCount(CountCallback callback) {
-        String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        String currentUserId = FirebaseManager.getInstance().getCurrentUser() != null
+                ? FirebaseManager.getInstance().getCurrentUserId() : null;
 
         if (currentUserId == null) {
             callback.onFailure("Người dùng chưa đăng nhập");
@@ -527,7 +530,7 @@ public class SwipeService {
         }
 
         // Truy vấn sub-collection "matches" của người dùng hiện tại
-        db.collection("users")
+        FirebaseManager.getInstance().getFirestore().collection("users")
                 .document(currentUserId)
                 .collection("matches")
                 .get()
@@ -552,7 +555,7 @@ public class SwipeService {
 
     // Lấy số ngày match
     public void getDaysMatched(String userId, String partnerId, DaysMatchedCallback callback) {
-        db.collection("users")
+        FirebaseManager.getInstance().getFirestore().collection("users")
                 .document(userId)
                 .collection("matches")
                 .document(partnerId)
@@ -581,9 +584,9 @@ public class SwipeService {
         // Xóa document partnerId trong matches của currentUser
         // và xóa document currentUserId trong matches của partner
         Tasks.whenAll(
-                        db.collection("users").document(currentUserId)
+                        FirebaseManager.getInstance().getFirestore().collection("users").document(currentUserId)
                                 .collection("matches").document(partnerId).delete(),
-                        db.collection("users").document(partnerId)
+                        FirebaseManager.getInstance().getFirestore().collection("users").document(partnerId)
                                 .collection("matches").document(currentUserId).delete()
                 ).addOnSuccessListener(aVoid -> callback.onSuccess("Đã unmatch thành công"))
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi unmatch: " + e.getMessage()));
@@ -599,7 +602,7 @@ public class SwipeService {
     }
 
     public void isMatched(String userA, String userB, MatchCallback callback) {
-        db.collection("users").document(userA)
+        FirebaseManager.getInstance().getFirestore().collection("users").document(userA)
                 .collection("matches").document(userB)
                 .get()
                 .addOnSuccessListener(doc -> {

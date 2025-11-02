@@ -4,15 +4,12 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,17 +17,12 @@ import java.util.Map;
 
 public class ChatService {
     private static final String TAG = "ChatService";
-    private final FirebaseFirestore db;
-    private final FirebaseAuth auth;
 
     public ChatService() {
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
     }
 
     public void sendMessage(String matchId, String receiverId, String content, ChatCallback callback) {
-        String senderId = auth.getCurrentUser().getUid();
-
+        String senderId = FirebaseManager.getInstance().getCurrentUserId();
         Map<String, Object> message = new HashMap<>();
         message.put("senderId", senderId);
         message.put("receiverId", receiverId);
@@ -38,9 +30,10 @@ public class ChatService {
         message.put("timestamp", FieldValue.serverTimestamp());
         message.put("type", "text");
 
-        DocumentReference matchRef = db.collection("matches").document(matchId);
+        DocumentReference matchRef = FirebaseManager.getInstance().getFirestore().collection
+                ("matches").document(matchId);
 
-        db.collection("matches")
+        FirebaseManager.getInstance().getFirestore().collection("matches")
                 .document(matchId)
                 .collection("messages")
                 .add(message)
@@ -61,10 +54,9 @@ public class ChatService {
                 });
     }
 
-
-
     public ListenerRegistration listenForMessages(String matchId, MessageListener listener) {
-        return db.collection("matches")
+        return FirebaseManager.getInstance().getFirestore()
+                .collection("matches")
                 .document(matchId)
                 .collection("messages")
                 .orderBy("timestamp", Query.Direction.ASCENDING)
@@ -81,6 +73,9 @@ public class ChatService {
                             messageList.add(msg);
                         }
                         listener.onMessagesReceived(messageList);
+                    } else {
+                        //trả về list rông khi không có tin nhắn
+                        listener.onMessagesReceived(new ArrayList<>());
                     }
                 });
     }
@@ -91,13 +86,15 @@ public class ChatService {
     }
 
     public void getMatchedUsers(MatchedUsersCallback callback) {
-        String currentUserId = auth.getCurrentUser().getUid();
+        String currentUserId = FirebaseManager.getInstance().getAuth().getCurrentUser().getUid();
 
         // tao 2 task truy vân cho nhanh
-        Task<QuerySnapshot> task1 = db.collection("matching")
+        Task<QuerySnapshot> task1 = FirebaseManager.getInstance().getFirestore()
+                .collection("matching")
                 .whereEqualTo("user1", currentUserId)
                 .get();
-        Task<QuerySnapshot> task2 = db.collection("matching")
+        Task<QuerySnapshot> task2 = FirebaseManager.getInstance().getFirestore()
+                .collection("matching")
                 .whereEqualTo("user2", currentUserId)
                 .get();
         Tasks.whenAllSuccess(task1, task2).addOnSuccessListener(results -> {

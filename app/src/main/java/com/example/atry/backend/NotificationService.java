@@ -1,8 +1,5 @@
 package com.example.atry.backend;
 
-import android.util.Log;
-
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 
@@ -13,9 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 public class NotificationService {
-    private final FirebaseFirestore db;
-    private final FirebaseAuth auth;
-
     public interface NotificationCallback {
         void onSuccess(List<Notification> notifications);
         void onFailure(String error);
@@ -27,14 +21,13 @@ public class NotificationService {
     }
 
     public NotificationService() {
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
     }
 
     private Query notificationsRef() {
-        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        String userId = FirebaseManager.getInstance().getAuth().getCurrentUser() != null
+                ? FirebaseManager.getInstance().getAuth().getCurrentUser().getUid() : null;
         if (userId == null) return null;
-        return db.collection("notifications")
+        return FirebaseManager.getInstance().getFirestore().collection("notifications")
                 .document(userId)
                 .collection("userNotifications")
                 .orderBy("timestamp", Query.Direction.DESCENDING);
@@ -106,13 +99,14 @@ public class NotificationService {
 
     // 4. Đánh dấu 1 notification đã đọc
     public void markAsRead(String notificationId, NotificationCallback callback) {
-        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        String userId = FirebaseManager.getInstance().getAuth().getCurrentUser() != null
+                ? FirebaseManager.getInstance().getCurrentUserId() : null;
         if (userId == null) {
             callback.onFailure("Người dùng chưa đăng nhập");
             return;
         }
 
-        db.collection("notifications")
+        FirebaseManager.getInstance().getFirestore().collection("notifications")
                 .document(userId)
                 .collection("userNotifications")
                 .document(notificationId)
@@ -123,19 +117,20 @@ public class NotificationService {
 
     // 5. Đánh dấu tất cả notification đã đọc
     public void markAllAsRead(NotificationCallback callback) {
-        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        String userId = FirebaseManager.getInstance().getCurrentUser() != null
+                ? FirebaseManager.getInstance().getCurrentUserId() : null;
         if (userId == null) {
             callback.onFailure("Người dùng chưa đăng nhập");
             return;
         }
 
-        db.collection("notifications")
+        FirebaseManager.getInstance().getFirestore().collection("notifications")
                 .document(userId)
                 .collection("userNotifications")
                 .whereEqualTo("read", false)
                 .get()
                 .addOnSuccessListener(snapshot -> {
-                    WriteBatch batch = db.batch();
+                    WriteBatch batch = FirebaseManager.getInstance().getFirestore().batch();
                     for (DocumentSnapshot doc : snapshot.getDocuments()) {
                         batch.update(doc.getReference(), "read", true);
                     }

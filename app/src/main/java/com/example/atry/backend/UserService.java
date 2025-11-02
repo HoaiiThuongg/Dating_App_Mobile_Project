@@ -3,15 +3,16 @@ package com.example.atry.backend;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.FieldValue;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserService {
-    private final FirebaseAuth mAuth;
-    private final FirebaseFirestore db;
     private static final String TAG = "UserService";
 
     public interface UserCallback {
@@ -22,20 +23,18 @@ public class UserService {
     }
 
     public UserService() {
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
     }
 
     // ===================== USER CƠ BẢN =====================
     private String getUserId() {
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseManager.getInstance().getCurrentUser();
         return firebaseUser != null ? firebaseUser.getUid() : null;
     }
 
     public void getUserInfo(UserCallback callback) {
         String userId = getUserId();
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
-        db.collection("users").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("users").document(userId)
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
@@ -48,14 +47,14 @@ public class UserService {
     }
 
     public void updateUser(User user, UserCallback callback) {
-        db.collection("users").document(user.getUserId())
+        FirebaseManager.getInstance().getFirestore().collection("users").document(user.getUserId())
                 .set(user, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> callback.onSuccess(user))
                 .addOnFailureListener(e -> callback.onFailure("Cập nhật thất bại: " + e.getMessage()));
     }
 
     public void getUserById(String userId, UserCallback callback) {
-        db.collection("users")
+        FirebaseManager.getInstance().getFirestore().collection("users")
                 .document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -76,7 +75,7 @@ public class UserService {
     }
 
     public void getUserProfileById(String userId, UserCallback callback) {
-        db.collection("userProfiles")
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles")
                 .document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -106,7 +105,7 @@ public class UserService {
     public void getUserProfile(UserCallback callback) {
         String userId = getUserId();
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
-        db.collection("userProfiles").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
@@ -119,7 +118,7 @@ public class UserService {
     }
 
     public void updateUserProfile(UserProfile profile, UserCallback callback) {
-        db.collection("userProfiles").document(profile.getUserId())
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(profile.getUserId())
                 .set(profile, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> callback.onSuccess(profile))
                 .addOnFailureListener(e -> callback.onFailure("Cập nhật profile thất bại: " + e.getMessage()));
@@ -130,7 +129,7 @@ public class UserService {
         String userId = getUserId();
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
 
-        db.collection("users").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("users").document(userId)
                 .set(Collections.singletonMap(field, value), SetOptions.merge()) // <- merge tự tạo field nếu chưa tồn tại
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
@@ -140,7 +139,7 @@ public class UserService {
         String userId = uid;
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
 
-        db.collection("users").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("users").document(userId)
                 .set(Collections.singletonMap(field, value), SetOptions.merge()) // <- merge tự tạo field nếu chưa tồn tại
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
@@ -150,7 +149,7 @@ public class UserService {
         String userId = getUserId();
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
 
-        db.collection("userProfiles").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                 .set(Collections.singletonMap(field, value), SetOptions.merge()) // <- merge tự tạo field nếu chưa tồn tại
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
@@ -160,7 +159,7 @@ public class UserService {
         String userId = uid;
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
 
-        db.collection("userProfiles").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                 .set(Collections.singletonMap(field, value), SetOptions.merge()) // <- merge tự tạo field nếu chưa tồn tại
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
@@ -171,7 +170,7 @@ public class UserService {
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
         Timestamp timestamp = new Timestamp(value);
 
-        db.collection("userProfiles").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                 .set(Collections.singletonMap(field, timestamp), SetOptions.merge())
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
@@ -181,7 +180,7 @@ public class UserService {
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
         Timestamp timestamp = new Timestamp(value);
 
-        db.collection("userProfiles").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                 .set(Collections.singletonMap(field, timestamp), SetOptions.merge())
                 .addOnSuccessListener(aVoid -> callback.onSuccess("Cập nhật " + field + " thành công"))
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi cập nhật " + field + ": " + e.getMessage()));
@@ -195,26 +194,26 @@ public class UserService {
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
 
         // Truy vấn document trước
-        db.collection("userProfiles").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
                         // Nếu field chưa tồn tại hoặc không phải array, tạo mới
                         if (!doc.contains(field)) {
-                            db.collection("userProfiles").document(userId)
+                            FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                     .set(Collections.singletonMap(field, Collections.singletonList(value)), SetOptions.merge())
                                     .addOnSuccessListener(aVoid -> callback.onSuccess("Thêm " + field + " thành công"))
                                     .addOnFailureListener(e -> callback.onFailure("Lỗi khi thêm " + field + ": " + e.getMessage()));
                         } else {
                             // Nếu field đã tồn tại, dùng arrayUnion
-                            db.collection("userProfiles").document(userId)
+                            FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                     .update(field, FieldValue.arrayUnion(value))
                                     .addOnSuccessListener(aVoid -> callback.onSuccess("Thêm " + field + " thành công"))
                                     .addOnFailureListener(e -> callback.onFailure("Lỗi khi thêm " + field + ": " + e.getMessage()));
                         }
                     } else {
                         // Document chưa có => tạo document mới với array
-                        db.collection("userProfiles").document(userId)
+                        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                 .set(Collections.singletonMap(field, Collections.singletonList(value)), SetOptions.merge())
                                 .addOnSuccessListener(aVoid -> callback.onSuccess("Thêm " + field + " thành công"))
                                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi thêm " + field + ": " + e.getMessage()));
@@ -229,26 +228,26 @@ public class UserService {
         String userId = getUserId();
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
 
-        db.collection("userProfiles").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
                         // Nếu field chưa tồn tại hoặc không phải array, tạo array rỗng trước
                         if (!doc.contains(field)) {
-                            db.collection("userProfiles").document(userId)
+                            FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                     .set(Collections.singletonMap(field, Collections.emptyList()), SetOptions.merge())
                                     .addOnSuccessListener(aVoid -> callback.onSuccess("Field " + field + " chưa tồn tại, đã tạo rỗng"))
                                     .addOnFailureListener(e -> callback.onFailure("Lỗi khi tạo field " + field + ": " + e.getMessage()));
                         } else {
                             // Nếu field đã tồn tại, dùng arrayRemove
-                            db.collection("userProfiles").document(userId)
+                            FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                     .update(field, FieldValue.arrayRemove(value))
                                     .addOnSuccessListener(aVoid -> callback.onSuccess("Xóa " + field + " thành công"))
                                     .addOnFailureListener(e -> callback.onFailure("Lỗi khi xóa " + field + ": " + e.getMessage()));
                         }
                     } else {
                         // Document chưa có => tạo document mới với array rỗng
-                        db.collection("userProfiles").document(userId)
+                        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                 .set(Collections.singletonMap(field, Collections.emptyList()), SetOptions.merge())
                                 .addOnSuccessListener(aVoid -> callback.onSuccess("Document mới, field " + field + " tạo rỗng"))
                                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi tạo document mới: " + e.getMessage()));
@@ -260,26 +259,26 @@ public class UserService {
         String userId = uid;
         if (userId == null) { callback.onFailure("Người dùng chưa đăng nhập"); return; }
 
-        db.collection("userProfiles").document(userId)
+        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
                         // Nếu field chưa tồn tại hoặc không phải array, tạo array rỗng trước
                         if (!doc.contains(field)) {
-                            db.collection("userProfiles").document(userId)
+                            FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                     .set(Collections.singletonMap(field, Collections.emptyList()), SetOptions.merge())
                                     .addOnSuccessListener(aVoid -> callback.onSuccess("Field " + field + " chưa tồn tại, đã tạo rỗng"))
                                     .addOnFailureListener(e -> callback.onFailure("Lỗi khi tạo field " + field + ": " + e.getMessage()));
                         } else {
                             // Nếu field đã tồn tại, dùng arrayRemove
-                            db.collection("userProfiles").document(userId)
+                            FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                     .update(field, FieldValue.arrayRemove(value))
                                     .addOnSuccessListener(aVoid -> callback.onSuccess("Xóa " + field + " thành công"))
                                     .addOnFailureListener(e -> callback.onFailure("Lỗi khi xóa " + field + ": " + e.getMessage()));
                         }
                     } else {
                         // Document chưa có => tạo document mới với array rỗng
-                        db.collection("userProfiles").document(userId)
+                        FirebaseManager.getInstance().getFirestore().collection("userProfiles").document(userId)
                                 .set(Collections.singletonMap(field, Collections.emptyList()), SetOptions.merge())
                                 .addOnSuccessListener(aVoid -> callback.onSuccess("Document mới, field " + field + " tạo rỗng"))
                                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi tạo document mới: " + e.getMessage()));
@@ -288,6 +287,22 @@ public class UserService {
                 .addOnFailureListener(e -> callback.onFailure("Lỗi khi kiểm tra userProfile: " + e.getMessage()));
     }
 
+    public void addUserToFirestore(String userId) {
+        try {
+            FirebaseFirestore db = FirebaseFirestore.getInstance(); // Firestore client
 
-    public void signOut() { mAuth.signOut(); }
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("userId", userId);
+
+            // Lưu document với ID là UID của user
+            DocumentReference docRef = db.collection("users").document(userId);
+            docRef.set(userData)
+                    .addOnSuccessListener(aVoid -> System.out.println("User added to Firestore: " + userId))
+                    .addOnFailureListener(e -> System.err.println("Error adding user to Firestore: " + e.getMessage()));
+
+        } catch (Exception e) {
+            System.err.println("Exception while adding user to Firestore: " + e.getMessage());
+        }
+    }
+
 }
