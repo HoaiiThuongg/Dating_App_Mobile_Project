@@ -44,6 +44,15 @@
                     />
             </intent-filter>
         </activity>
+
+        <!-- Unity Game Activity -->
+        <activity
+            android:name=".CustomUnityPlayerActivity"
+            android:exported="false"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
     </application>
 
 </manifest>

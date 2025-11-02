@@ -72,6 +72,9 @@ fun ChatScreenFooter(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Nút chơi Unity Game
+        UnityGameButton(matchedUser = matchedUser)
+
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             onClick = { navController.navigate("chatWithAi") },

@@ -39,7 +39,16 @@ public class CustomUnityPlayerActivity extends UnityPlayerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        try {
+            Log.d(TAG, "CustomUnityPlayerActivity onCreate START");
+            super.onCreate(savedInstanceState);
+            Log.d(TAG, "CustomUnityPlayerActivity super.onCreate SUCCESS");
+        } catch (Exception e) {
+            Log.e(TAG, "ERROR in onCreate: " + e.getMessage(), e);
+            Toast.makeText(this, "Lỗi khởi tạo Unity: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
 
         Log.d(TAG, "CustomUnityPlayerActivity created");
 
