@@ -72,7 +72,7 @@ fun MatchingHeart(
         Icon(
             imageVector = Icons.Filled.Favorite,
             contentDescription = if (liked) "Liked" else "Not liked",
-            tint = fillColor.copy(alpha = fillAlpha),
+            tint = Color(0xFFFF4D8E),
             modifier = Modifier.matchParentSize()
         )
 

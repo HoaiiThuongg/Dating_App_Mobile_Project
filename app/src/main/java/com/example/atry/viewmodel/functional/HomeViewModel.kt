@@ -55,7 +55,7 @@ class HomeViewModel : ViewModel() {
 
     var hasMore: Boolean = true
 
-    fun loadMoreUsers(limit: Int = 10) {
+    fun loadMoreUsers(limit: Int = 20) {
         if (isLoading) return
 
         isLoading = true

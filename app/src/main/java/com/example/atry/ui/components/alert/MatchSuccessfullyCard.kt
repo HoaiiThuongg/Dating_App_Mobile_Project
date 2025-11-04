@@ -106,12 +106,12 @@ fun MatchSuccessfullyCard(
                 }
 
                 Text(
-                    "Ghép đôi thành công với ${matchedUser?.name}",
+                    "Bạn đã thích ${matchedUser?.name}",
                     color = Color.White, fontSize = 20.sp,
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    "Giờ đây 2 bạn có thể kết  nối, trò chuyện,tìm hiểu nhau",
+                    "Bạn đã thích đối phương!",
                     color = Color.White,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center

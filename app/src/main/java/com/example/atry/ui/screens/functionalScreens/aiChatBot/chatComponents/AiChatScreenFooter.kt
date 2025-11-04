@@ -31,8 +31,8 @@ fun AiChatScreenFooter(
             onValueChange = onTextChange,
             placeholder = { Text("Gõ tin nhắn đi nào ~~", color = Color.Gray) },
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFD9D9D9),
-                unfocusedContainerColor = Color(0xFFD9D9D9),
+                focusedContainerColor = Color(0xFF000000),
+                unfocusedContainerColor = Color(0xFF000000),
                 cursorColor = Color.Black,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent

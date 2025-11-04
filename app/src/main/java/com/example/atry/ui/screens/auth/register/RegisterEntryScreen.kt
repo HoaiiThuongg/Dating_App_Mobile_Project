@@ -72,7 +72,7 @@ fun RegisterEntryScreen(
             )
             Spacer(modifier = Modifier.size(20.dp))
             CustomLinearButton(
-                "Tếp theo",
+                "Tiếp theo",
                 {
                     viewModel.registerWithEmailPassword(viewModel.email,password)
                     alertViewModel.showAlert()

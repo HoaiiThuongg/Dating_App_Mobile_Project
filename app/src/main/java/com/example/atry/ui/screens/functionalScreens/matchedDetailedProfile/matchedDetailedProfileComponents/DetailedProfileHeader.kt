@@ -28,7 +28,7 @@ fun DetailedProfileHeader(
     user: User,
     daysMatched:Long
 ) {
-    val color = if(ThemeSingleton.isDark.value) Color(0xFFFFD3F5) else Color(0xFFFF97C0)
+    val color = if(ThemeSingleton.isDark.value) Color(0xFF3D0227) else Color(0xFF660050)
     Box(
         modifier = Modifier
             .padding(20.dp,50.dp,20.dp,20.dp)
