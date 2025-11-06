@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -71,7 +70,8 @@ fun LikeYouScreen(
                             onMatching = {
                                 viewModel.swipe(profile, SwipeService.SwipeType.RIGHT)
                                 alertViewModel.showMatchSuccessfullyCard(profile)
-                            }
+                            },
+                            viewModel = viewModel
                         )
                     }
                 }

@@ -21,14 +21,15 @@ import com.example.atry.navigation.navController
 import com.example.atry.ui.components.buttons.CustomLinearButton
 import com.example.atry.ui.components.textfield.UnderlineTextField
 import com.example.atry.ui.theme.redOrangeLinear
+import com.example.atry.ui.screens.auth.register.IRegisterViewModel
 import com.example.atry.viewmodel.auth.RegisterViewModel
 import com.example.atry.viewmodel.composal.AlertViewModel
 
 @Composable
 fun PasswordInputScreen(
     email:String,
-    viewModel: RegisterViewModel =  viewModel(),
-    alertViewModel: AlertViewModel= viewModel()
+    viewModel: IRegisterViewModel = viewModel<RegisterViewModel>(),
+    alertViewModel: AlertViewModel = viewModel()
 ) {
     var password by remember { mutableStateOf("") }
     val state by viewModel.state.collectAsState()
@@ -37,7 +38,7 @@ fun PasswordInputScreen(
 
     LaunchedEffect(deepLink) {
         if (deepLink != null) {
-            viewModel.handleSignInLink(deepLink)
+            viewModel.handleSignInLink(deepLink.toString())
             MainActivity.currentLink = null
         }
     }

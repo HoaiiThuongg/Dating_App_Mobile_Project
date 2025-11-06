@@ -29,20 +29,21 @@ data class RegisterState(
     val message: String? = null
 )
 
-class RegisterViewModel(application: Application) : AndroidViewModel(application) {
+class RegisterViewModel(application: Application) : AndroidViewModel(application), 
+    com.example.atry.ui.screens.auth.register.IRegisterViewModel {
 
-    var email: String = ""
+    override var email: String = ""
     private val context = application.applicationContext
     private val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     private val cloudinaryService = CloudinaryService()
 
     private val _state = MutableStateFlow(RegisterState())
-    val state: StateFlow<RegisterState> = _state
+    override val state: StateFlow<RegisterState> = _state
 
     private val authService = EmailLinkAuthService(application.applicationContext)
 
     //gửi link xác thực email tới Firebase backend
-    fun sendEmailToBE() {
+    override fun sendEmailToBE() {
         if (email.isBlank()) {
             _state.value = RegisterState(error = "Email không được để trống")
             return
@@ -76,9 +77,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     }
     private val firebaseAuth = FirebaseAuth.getInstance()
 
-    fun handleSignInLink(uri: Uri) {
+    override fun handleSignInLink(link: String?) {
+        if (link == null) return
         val email = prefs.getString("emailForSignIn", null) ?: return
-        val link = uri.toString()
 
         if (firebaseAuth.isSignInWithEmailLink(link)) {
             firebaseAuth.signInWithEmailLink(email, link)
@@ -93,7 +94,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun registerWithEmailPassword(email: String, password: String) {
+    override fun registerWithEmailPassword(email: String, password: String) {
 
         _state.value = RegisterState(isLoading = true)
 
@@ -118,7 +119,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
 
 
-    fun setPasswordForCurrentUser(password: String) {
+    override fun setPasswordForCurrentUser(password: String) {
         authService.setPassword(password, object : EmailLinkAuthService.AuthCallback {
             override fun onSuccess(message: String) {
                 _state.value = RegisterState(isSuccess = true, message = message)

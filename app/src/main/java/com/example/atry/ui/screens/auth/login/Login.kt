@@ -24,12 +24,13 @@ import com.example.atry.viewmodel.composal.AlertViewModel
 
 // THAY ĐỔI: Thêm import này
 import com.example.atry.ui.theme.redOrangeLinear
+import com.example.atry.viewmodel.auth.LoginViewModel
 
 @Composable
 @Preview
 fun Login(
-    viewModel: ILoginViewModel =  viewModel(),
-    alertViewModel: AlertViewModel=viewModel()
+    viewModel: ILoginViewModel = viewModel<LoginViewModel>(),
+    alertViewModel: AlertViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsState()
     var email by remember { mutableStateOf("") }

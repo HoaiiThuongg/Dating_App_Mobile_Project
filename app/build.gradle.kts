@@ -1,9 +1,13 @@
+import org.gradle.testing.jacoco.tasks.JacocoReport
+import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
+    id("jacoco")
 }
 
 android {
@@ -21,6 +25,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -39,6 +47,59 @@ android {
     buildFeatures {
         compose = true
     }
+    
+    // Cấu hình test coverage
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+}
+
+// Cấu hình JaCoCo cho code coverage
+tasks.withType<Test> {
+    configure<JacocoTaskExtension> {
+        isIncludeNoLocationClasses = true
+        excludes = listOf("jdk.internal.*")
+    }
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+    
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+    
+    val fileFilter = listOf(
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/*Test*.*",
+        "android/**/*.*",
+        "**/data/models/**",
+        "**/di/**",
+        "**/navigation/**"
+    )
+    
+    // Sửa path cho Kotlin class files (không phải javac)
+    val debugTree = fileTree("${layout.buildDirectory.get()}/intermediates/classes/debug") {
+        exclude(fileFilter)
+    }
+    val mainSrc = "${project.projectDir}/src/main/java"
+    
+    sourceDirectories.setFrom(files(mainSrc))
+    classDirectories.setFrom(files(debugTree))
+    
+    // Chỉ định rõ execution data path
+    executionData.setFrom(
+        fileTree("${layout.buildDirectory.get()}/outputs/unit_test_code_coverage/debugUnitTest") {
+            include("**/*.exec")
+        }
+    )
 }
 
 dependencies {
@@ -59,6 +120,16 @@ dependencies {
     implementation(libs.androidx.compose.ui.text)
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.robolectric:robolectric:4.11.1")
+    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("androidx.test.ext:junit:1.1.5")
+    testImplementation("org.mockito:mockito-core:5.5.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+    // Firebase test dependencies
+    testImplementation("com.google.firebase:firebase-auth:23.0.0")
+    testImplementation("com.google.firebase:firebase-firestore:25.1.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
