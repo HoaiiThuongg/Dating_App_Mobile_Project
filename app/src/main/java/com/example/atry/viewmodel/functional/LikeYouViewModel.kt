@@ -15,6 +15,7 @@ import com.example.atry.backend.UserProfile
 import com.example.atry.backend.UserService
 import com.google.firebase.auth.FirebaseAuth // Cần FirebaseAuth để lấy ID người dùng hiện tại
 import kotlinx.coroutines.flow.asStateFlow
+import com.example.atry.ui.screens.functionalScreens.likeYou.ILikeYouViewModel
 
 // Thêm matchedUser để thông báo UI hiển thị thẻ Match
 data class LikedByState(
@@ -27,10 +28,10 @@ data class LikedByState(
 class LikeYouViewModel (
     private val swipeService: SwipeService = SwipeService(),
     private val auth: FirebaseAuth = FirebaseAuth.getInstance() // Thêm Auth để lấy currentUserId
-) : ViewModel() {
+) : ViewModel(), ILikeYouViewModel {
 
     private val _state = MutableStateFlow(LikedByState())
-    val state: StateFlow<LikedByState> = _state.asStateFlow() // Dùng asStateFlow
+    override val state: StateFlow<LikedByState> = _state.asStateFlow() // Dùng asStateFlow
 
     init {
         viewModelScope.launch {
@@ -40,9 +41,9 @@ class LikeYouViewModel (
     private val userService = UserService()
 
     private val _userProfile = MutableLiveData<UserProfile?>()
-    val userProfile: LiveData<UserProfile?> = _userProfile
+    override val userProfile: LiveData<UserProfile?> = _userProfile
 
-    fun getUserProfileById(userId: String) {
+    override fun getUserProfileById(userId: String) {
         userService.getUserProfileById(userId, object : UserService.UserCallback {
             override fun onSuccess(user: UserProfile) {
                 Log.d("QR", "✅ Lấy được profile với phone: ${user.phone}")
@@ -65,7 +66,7 @@ class LikeYouViewModel (
      * @param targetUser Người dùng bị vuốt.
      * @param type Loại vuốt (RIGHT, LEFT, SUPER).
      */
-    fun swipe(targetUser: User, type: SwipeService.SwipeType) {
+    override fun swipe(targetUser: User, type: SwipeService.SwipeType) {
         val targetUserId = targetUser.userId ?: return
 
         // Cập nhật UI ngay lập tức: Xóa người dùng vừa vuốt khỏi danh sách

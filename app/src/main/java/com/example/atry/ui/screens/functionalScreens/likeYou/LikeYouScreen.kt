@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,10 +23,13 @@ import com.example.atry.ui.screens.functionalScreens.likeYou.likeYouComponents.L
 import com.example.atry.ui.screens.functionalScreens.likeYou.likeYouComponents.LikedNumberAnnouncement
 import com.example.atry.viewmodel.composal.AlertViewModel
 import com.example.atry.viewmodel.functional.LikeYouViewModel
+import com.example.atry.ui.screens.functionalScreens.likeYou.ILikeYouViewModel
+import androidx.compose.foundation.lazy.grid.items
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LikeYouScreen(
-    viewModel: LikeYouViewModel = viewModel(),
+    viewModel: ILikeYouViewModel = viewModel<LikeYouViewModel>(),
     alertViewModel: AlertViewModel
 ) {
     val state by viewModel.state.collectAsState()

@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.example.atry.ui.screens.functionalScreens.message.IMessageViewModel
 
 // Data class mới, gắn isRead với từng user
 data class MessageItem(
@@ -30,14 +31,14 @@ data class MatchState(
 
 class MessageViewModel(
 
-) : ViewModel() {
+) : ViewModel(), IMessageViewModel {
     private val swipeService: SwipeService = SwipeService()
     private val messageService: MessageService = MessageService()
     private val _state = MutableStateFlow(MatchState())
-    val state: StateFlow<MatchState> = _state.asStateFlow()
+    override val state: StateFlow<MatchState> = _state.asStateFlow()
 
     private val _chatList = MutableStateFlow<List<MessageItem>>(emptyList())
-    val chatList: StateFlow<List<MessageItem>> = _chatList.asStateFlow()
+    override val chatList: StateFlow<List<MessageItem>> = _chatList.asStateFlow()
 
     private val listeners = mutableListOf<ListenerRegistration>()
 
@@ -112,7 +113,7 @@ class MessageViewModel(
 
 
     // Khi nhấn chat → đánh dấu đã đọc
-    fun markChatAsRead(matchId: String) {
+    override fun markChatAsRead(matchId: String) {
         _chatList.update { currentList ->
             currentList.map { chatItem ->
                 if (chatItem.user.matchId == matchId) chatItem.copy(isRead = true)

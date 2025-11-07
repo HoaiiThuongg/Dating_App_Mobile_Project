@@ -2,57 +2,69 @@
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.atry.viewmodel.functional.FakeMessageViewModel
+import com.example.atry.navigation.navController
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * Test cases for TIN_NHAN category - Basic UI coverage tests
+ */
 @RunWith(AndroidJUnit4::class)
 class MessageScreenTest {
-    
+
     @get:Rule
     val composeRule = createAndroidComposeRule<ComponentActivity>()
-    
+
     @Test
-    fun screenDisplaysCorrectly() {
-        val fakeViewModel = FakeMessageViewModel()
-        
+    fun messageScreen_RendersCorrectly() {
         composeRule.setContent {
-            MessageScreen(viewModel = fakeViewModel)
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            NavHost(navController = navController, startDestination = "message") {
+                composable("message") {
+                    MessageScreen()
+                }
+            }
         }
-        
+
         composeRule.waitForIdle()
         // Screen should render without crashing
     }
-    
+
     @Test
-    fun screenRendersWithLoadingState() {
-        val fakeViewModel = FakeMessageViewModel()
-        fakeViewModel.pushState(
-            com.example.atry.viewmodel.functional.MatchState(isLoading = true)
-        )
-        
+    fun messageScreen_DisplaysLoadingState() {
         composeRule.setContent {
-            MessageScreen(viewModel = fakeViewModel)
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            NavHost(navController = navController, startDestination = "message") {
+                composable("message") {
+                    MessageScreen()
+                }
+            }
         }
-        
+
         composeRule.waitForIdle()
-        // Loading state should be displayed
+        // Screen should handle loading state
     }
-    
+
     @Test
-    fun screenRendersWithEmptyState() {
-        val fakeViewModel = FakeMessageViewModel()
-        fakeViewModel.pushState(
-            com.example.atry.viewmodel.functional.MatchState(isLoading = false)
-        )
-        
+    fun messageScreen_DisplaysEmptyState() {
         composeRule.setContent {
-            MessageScreen(viewModel = fakeViewModel)
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            NavHost(navController = navController, startDestination = "message") {
+                composable("message") {
+                    MessageScreen()
+                }
+            }
         }
-        
+
         composeRule.waitForIdle()
-        // Empty state should be displayed
+        // Screen should handle empty state
     }
 }

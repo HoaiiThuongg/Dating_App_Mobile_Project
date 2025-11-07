@@ -26,19 +26,19 @@
           </targets>
         </DialogSelection>
       </SelectionState>
-      <SelectionState runConfigName="SplashScreenTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="ProfileScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="RegisterEntryScreenTest">
+      <SelectionState runConfigName="EmailInputScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="LoginScreenMockTest">
+      <SelectionState runConfigName="AiChatScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="SplashScreen">
+      <SelectionState runConfigName="ForgetPasswordTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="screenDisplaysCorrectly()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

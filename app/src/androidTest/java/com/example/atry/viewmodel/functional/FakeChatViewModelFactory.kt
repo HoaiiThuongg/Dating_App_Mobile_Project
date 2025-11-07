@@ -3,6 +3,7 @@ package com.example.atry.viewmodel.functional
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.atry.backend.MatchedUser
 import com.example.atry.backend.MessageService

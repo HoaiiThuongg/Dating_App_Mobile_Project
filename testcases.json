@@ -1,0 +1,670 @@
+﻿[
+    {
+        "Expexted results":  "- Hiển thị thông báo \"Chúc mừng bạn đăng nhập thành công!\"- Chuyển hướng đến màn hình chính (\"main\").",
+        "Data":  "Account: test@example.comPassword: 123456",
+        "ID":  "1",
+        "Category":  "DANG_NHAP",
+        "RowNumber":  2,
+        "Step":  "1. Mở màn hình Đăng nhập.2. Nhập Account.3. Nhập Password.4. Nhấn nút \"Đăng nhập\".",
+        "Tiến độ":  "Đã xong",
+        "Precondition":  "Tài khoản test@example.com (pass: 123456) đã tồn tại trên Firebase."
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo lỗi (ví dụ: \"Email hoặc mật khẩu không chính xác.\" hoặc \"Lỗi: ...\")- Vẫn ở màn hình Đăng nhập.",
+        "Data":  "Account: test@example.comPassword: wrongpassword",
+        "ID":  "2",
+        "Category":  "DANG_NHAP",
+        "RowNumber":  3,
+        "Step":  "1. Mở màn hình Đăng nhập.2. Nhập Account.3. Nhập Password (sai).4. Nhấn nút \"Đăng nhập\".",
+        "Tiến độ":  "Đã xong",
+        "Precondition":  "Tài khoản test@example.com đã tồn tại."
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo lỗi (ví dụ: \"Tài khoản không tồn tại.\" hoặc \"Email hoặc mật khẩu không chính xác.\")- Vẫn ở màn hình Đăng nhập.",
+        "Data":  "Account: nouser@example.comPassword: 123456",
+        "ID":  "3",
+        "Category":  "DANG_NHAP",
+        "RowNumber":  4,
+        "Step":  "1. Mở màn hình Đăng nhập.2. Nhập Account (không tồn tại).3. Nhập Password.4. Nhấn nút \"Đăng nhập\".",
+        "Precondition":  "Tài khoản nouser@example.com không tồn tại."
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo lỗi (ví dụ: \"Vui lòng nhập email.\" hoặc lỗi tương ứng từ state.error).- Vẫn ở màn hình Đăng nhập.",
+        "Data":  "Account: (để trống)Password: 123456",
+        "ID":  "4",
+        "Category":  "DANG_NHAP",
+        "RowNumber":  5,
+        "Step":  "1. Mở màn hình Đăng nhập.2. Không nhập Account.3. Nhập Password.4. Nhấn nút \"Đăng nhập\".",
+        "Precondition":  "-"
+    },
+    {
+        "Expexted results":  "- Chuyển hướng đến màn hình Đăng ký (\"authEntry\").",
+        "Data":  "-",
+        "ID":  "5",
+        "Category":  "DANG_NHAP",
+        "RowNumber":  6,
+        "Step":  "1. Nhấn nút \"Đăng kí\".",
+        "Precondition":  "Đang ở màn hình Đăng nhập."
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo \"Đã gửi link xác thực thành công!\"- Chuyển hướng đến màn hình \"registerInfoInput1\".",
+        "Data":  "Email: newuser@example.comPassword: password123 (\u003e= 6 ký tự)",
+        "ID":  "6",
+        "Category":  "DANG_KY",
+        "RowNumber":  7,
+        "Step":  "1. Mở màn hình Đăng ký.2. Nhập Email.3. Nhập Password.4. Nhấn nút \"Tếp theo\".",
+        "Precondition":  "Tài khoản newuser@example.com chưa tồn tại."
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo lỗi (ví dụ: \"Lỗi: Mật khẩu phải có ít nhất 6 ký tự.\" hoặc \"Mật khẩu yếu\").- Vẫn ở màn hình Đăng ký.",
+        "Data":  "Email: newuser@example.comPassword: 12345 (\u003c 6 ký tự)",
+        "ID":  "7",
+        "Category":  "DANG_KY",
+        "RowNumber":  8,
+        "Step":  "1. Mở màn hình Đăng ký.2. Nhập Email.3. Nhập Password.4. Nhấn nút \"Tếp theo\".",
+        "Precondition":  "-"
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo lỗi \"Sai dạng email\" (như trong code) hoặc \"Lỗi: Email không hợp lệ.\"- Vẫn ở màn hình Đăng ký.",
+        "Data":  "Email: invalid-email.com (sai định dạng)Password: password123",
+        "ID":  "8",
+        "Category":  "DANG_KY",
+        "RowNumber":  9,
+        "Step":  "1. Mở màn hình Đăng ký.2. Nhập Email sai định dạng.3. Nhập Password.4. Nhấn nút \"Tếp theo\".",
+        "Precondition":  "-"
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo lỗi (ví dụ: \"Lỗi: Email này đã được sử dụng.\" hoặc \"Lỗi: ...\").- Vẫn ở màn hình Đăng ký.",
+        "Data":  "Email: test@example.comPassword: password123",
+        "ID":  "9",
+        "Category":  "DANG_KY",
+        "RowNumber":  10,
+        "Step":  "1. Mở màn hình Đăng ký.2. Nhập Email (đã tồn tại).3. Nhập Password.4. Nhấn nút \"Tếp theo\".",
+        "Precondition":  "Tài khoản test@example.com đã tồn tại."
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo lỗi (ví dụ: \"Lỗi: Vui lòng nhập email và mật khẩu.\" hoặc \"Sai dạng email\").- Vẫn ở màn hình Đăng ký.",
+        "Data":  "Email: (để trống)Password: (để trống)",
+        "ID":  "10",
+        "Category":  "DANG_KY",
+        "RowNumber":  11,
+        "Step":  "1. Mở màn hình Đăng ký.2. Nhấn nút \"Tếp theo\".",
+        "Precondition":  "-"
+    },
+    {
+        "Expexted results":  "- Xác thực thành công.- Chuyển sang màn hình nhập SĐT / Giới tính.",
+        "Data":  "Tên: \"Nguyễn Văn A\"Ngày sinh: \"01/01/2000\" (Hợp lệ)",
+        "ID":  "11",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  12,
+        "Step":  "1. Nhập Tên.2. Nhập Ngày sinh hợp lệ.3. Nhấn \"Tiếp theo\".",
+        "Precondition":  "Đã đăng ký, ở màn hình Nhập Thông Tin 1."
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Ngày sinh không hợp lệ\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "Tên: \"Nguyễn Văn A\"Ngày sinh: \"32/01/2000\" (Ngày không hợp lệ)",
+        "ID":  "12",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  13,
+        "Step":  "1. Nhập Tên.2. Nhập Ngày sinh (sai logic).3. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Ngày sinh không đúng định dạng (DD/MM/YYYY)\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "Tên: \"Nguyễn Văn A\"Ngày sinh: \"abcxyz\" (Sai định dạng)",
+        "ID":  "13",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  14,
+        "Step":  "1. Nhập Tên.2. Nhập Ngày sinh (sai định dạng).3. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Vui lòng nhập tên của bạn\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "Tên: (Để trống)Ngày sinh: \"01/01/2000\"",
+        "ID":  "14",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  15,
+        "Step":  "1. Không nhập Tên.2. Nhập Ngày sinh.3. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Xác thực thành công.- Chuyển sang màn hình \"Viết giới thiệu\".",
+        "Data":  "SĐT: \"0987654321\" (10 số, hợp lệ)Giới tính: \"Nam\"",
+        "ID":  "15",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  16,
+        "Step":  "1. Nhập SĐT hợp lệ.2. Chọn Giới tính.3. Nhấn \"Tiếp theo\".",
+        "Precondition":  "Đã qua màn hình 1 (Tên/Ngày sinh)."
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Số điện thoại phải có 10 chữ số\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "SĐT: \"098765\" (6 số)",
+        "ID":  "16",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  17,
+        "Step":  "1. Nhập SĐT (ít hơn 10 số).2. Chọn Giới tính.3. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Số điện thoại không hợp lệ\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "SĐT: \"098765432a\" (có chữ)",
+        "ID":  "17",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  18,
+        "Step":  "1. Nhập SĐT (có ký tự lạ).2. Chọn Giới tính.3. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Vui lòng chọn giới tính\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "SĐT: \"0987654321\"Giới tính: (Không chọn)",
+        "ID":  "18",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  19,
+        "Step":  "1. Nhập SĐT hợp lệ.2. Không chọn Giới tính.3. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Lưu thành công.- Chuyển sang màn hình \"Chọn sở thích\".",
+        "Data":  "Giới thiệu: \"Xin chào, mình là...\"",
+        "ID":  "19",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  20,
+        "Step":  "1. Nhập nội dung Giới thiệu.2. Nhấn \"Tiếp theo\".",
+        "Precondition":  "Đã qua màn hình 2 (SĐT/Giới tính)."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình \"Chọn sở thích\". (Giả định trường này không bắt buộc).",
+        "Data":  "Giới thiệu: (Để trống)",
+        "ID":  "20",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  21,
+        "Step":  "1. Không nhập Giới thiệu.2. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Lưu thành công.- Chuyển sang màn hình \"Tải ảnh\".",
+        "Data":  "Sở thích: {\"Đọc sách\", \"Du lịch\", \"Nấu ăn\"} (3 sở thích)",
+        "ID":  "21",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  22,
+        "Step":  "1. Chọn 3 sở thích.2. Nhấn \"Tiếp theo\".",
+        "Precondition":  "Đã qua màn hình 3 (Giới thiệu)."
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Vui lòng chọn ít nhất 3 sở thích\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "Sở thích: {\"Đọc sách\", \"Du lịch\"} (2 sở thích)",
+        "ID":  "22",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  23,
+        "Step":  "1. Chọn 2 sở thích.2. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Vui lòng chọn ít nhất 3 sở thích\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "Sở thích: (Không chọn)",
+        "ID":  "23",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  24,
+        "Step":  "1. Không chọn sở thích.2. Nhấn \"Tiếp theo\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Tải ảnh thành công.- Tạo hồ sơ thành công.- Chuyển hướng vào màn hình chính của ứng dụng hẹn hò.",
+        "Data":  "Ảnh: avatar.jpg (hợp lệ)",
+        "ID":  "24",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  25,
+        "Step":  "1. Nhấn Tải ảnh.2. Chọn 1 ảnh hợp lệ.3. Nhấn \"Hoàn tất\".",
+        "Precondition":  "Đã qua màn hình 4 (Sở thích)."
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Vui lòng tải lên ít nhất 1 ảnh\". (Giả định ảnh là bắt buộc).- Vẫn ở màn hình hiện tại.",
+        "Data":  "Ảnh: (Không tải)",
+        "ID":  "25",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  26,
+        "Step":  "1. Không tải ảnh.2. Nhấn \"Hoàn tất\".",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Định dạng file không hỗ trợ, vui lòng chọn ảnh (JPG, PNG)\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "Ảnh: document.pdf (Sai định dạng)",
+        "ID":  "26",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  27,
+        "Step":  "1. Nhấn Tải ảnh.2. Chọn 1 file PDF.",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Dung lượng ảnh quá lớn (tối đa 10MB)\".- Vẫn ở màn hình hiện tại.",
+        "Data":  "Ảnh: large_image.jpg (Dung lượng \u003e 10MB)",
+        "ID":  "27",
+        "Category":  "TAO_PROFILE",
+        "RowNumber":  28,
+        "Step":  "1. Nhấn Tải ảnh.2. Chọn ảnh có dung lượng lớn.",
+        "Precondition":  "(Như trên)"
+    },
+    {
+        "Expexted results":  "- Hồ sơ A biến mất.- Hồ sơ tiếp theo (B) hiển thị.- Hành động \"Like\" được ghi lại.",
+        "Data":  "-",
+        "ID":  "28",
+        "Category":  "QUET",
+        "RowNumber":  29,
+        "Step":  "1. Quẹt hồ sơ A sang phải (Like).",
+        "Precondition":  "User đã đăng nhập, ở màn hình chính (quẹt).Hồ sơ A đang hiển thị."
+    },
+    {
+        "Expexted results":  "- Hồ sơ A biến mất.- Hồ sơ tiếp theo (B) hiển thị.- Hành động \"Dislike\" được ghi lại.",
+        "Data":  "-",
+        "ID":  "29",
+        "Category":  "QUET",
+        "RowNumber":  30,
+        "Step":  "1. Quẹt hồ sơ A sang trái (Dislike).",
+        "Precondition":  "User đã đăng nhập, ở màn hình chính (quẹt).Hồ sơ A đang hiển thị."
+    },
+    {
+        "Expexted results":  "- Hiển thị ngay lập tức màn hình/animation \"It\u0027s a Match!\" (Đã match).",
+        "Data":  "-",
+        "ID":  "30",
+        "Category":  "QUET",
+        "RowNumber":  31,
+        "Step":  "1. User A quẹt hồ sơ User B sang phải.",
+        "Precondition":  "User A đã đăng nhập.User B (người khác) đã \"Like\" User A.Hồ sơ User B đang hiển thị cho User A."
+    },
+    {
+        "Expexted results":  "- Menu điều hướng (như ảnh 2) trượt ra từ bên trái.",
+        "Data":  "-",
+        "ID":  "31",
+        "Category":  "QUET",
+        "RowNumber":  32,
+        "Step":  "1. Tap vào icon \"3 gạch\" (menu) ở góc trên bên trái.",
+        "Precondition":  "User đã đăng nhập, ở màn hình chính."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình Thông báo.",
+        "Data":  "-",
+        "ID":  "32",
+        "Category":  "QUET",
+        "RowNumber":  33,
+        "Step":  "1. Tap vào icon \"chuông\" (thông báo) ở góc trên bên phải.",
+        "Precondition":  "User đã đăng nhập, ở màn hình chính."
+    },
+    {
+        "Expexted results":  "- Menu đóng lại, quay về màn hình QUET.",
+        "Data":  "-",
+        "ID":  "33",
+        "Category":  "MENU",
+        "RowNumber":  34,
+        "Step":  "1. Tap vào vùng mờ bên ngoài menu (hoặc tap lại icon menu).",
+        "Precondition":  "Menu điều hướng đang mở."
+    },
+    {
+        "Expexted results":  "- Giao diện ứng dụng ngay lập tức chuyển sang Chế độ Tối (Dark mode).- Nút gạt chuyển sang trạng thái \"Bật\" (tối).",
+        "Data":  "-",
+        "ID":  "34",
+        "Category":  "GIAO_DIEN",
+        "RowNumber":  35,
+        "Step":  "1. Tap vào nút gạt (toggle) \"Chế độ sáng/tối\".",
+        "Precondition":  "Menu đang mở.App đang ở chế độ Sáng."
+    },
+    {
+        "Expexted results":  "- Giao diện ứng dụng ngay lập tức chuyển sang Chế độ Sáng (Light mode).- Nút gạt chuyển sang trạng thái \"Tắt\" (sáng).",
+        "Data":  "-",
+        "ID":  "35",
+        "Category":  "GIAO_DIEN",
+        "RowNumber":  36,
+        "Step":  "1. Tap vào nút gạt \"Chế độ sáng/tối\".",
+        "Precondition":  "Menu đang mở.App đang ở chế độ Tối."
+    },
+    {
+        "Expexted results":  "- Mở ra một màn hình/popup hiển thị mã QR cá nhân của user.",
+        "Data":  "-",
+        "ID":  "36",
+        "Category":  "QR_CODE",
+        "RowNumber":  37,
+        "Step":  "1. Tap vào \"Mã QR của bạn\".",
+        "Precondition":  "Menu đang mở."
+    },
+    {
+        "Expexted results":  "- Mở camera của thiết bị.- (Nếu chưa cấp quyền) Hiển thị thông báo yêu cầu cấp quyền truy cập Camera.",
+        "Data":  "-",
+        "ID":  "37",
+        "Category":  "QR_CODE",
+        "RowNumber":  38,
+        "Step":  "1. Tap vào \"Quét mã QR\".",
+        "Precondition":  "Menu đang mở."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình Chatbot, hiển thị giao diện chat.",
+        "Data":  "-",
+        "ID":  "38",
+        "Category":  "CHATBOT_AI",
+        "RowNumber":  39,
+        "Step":  "1. Tap vào \"AI Chatbot\".",
+        "Precondition":  "Menu đang mở."
+    },
+    {
+        "Expexted results":  "- Màn hình hiển thị rõ ràng 2 mục: 1. Danh sách \"Match mới\" (gồm 2 user). 2. Danh sách \"Đã thích bạn\" (gồm 3 user).",
+        "Data":  "-",
+        "ID":  "39",
+        "Category":  "THONG_BAO",
+        "RowNumber":  40,
+        "Step":  "1. Tap vào icon \"chuông\".2. Quan sát màn hình Thông báo.",
+        "Precondition":  "User có 2 match mới và 3 lượt thích (like) mới."
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo \"Không có thông báo mới\" hoặc \"Bạn đã xem hết\".",
+        "Data":  "-",
+        "ID":  "40",
+        "Category":  "THONG_BAO",
+        "RowNumber":  41,
+        "Step":  "1. Tap vào icon \"chuông\".",
+        "Precondition":  "User không có thông báo mới (không match, không like)."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình \"Những ai đã thích bạn\".- Hiển thị hồ sơ của User B và User C dưới dạng lưới.",
+        "Data":  "-",
+        "ID":  "41",
+        "Category":  "LUOT_THICH",
+        "RowNumber":  42,
+        "Step":  "1. Nhấn vào icon Trái tim (thứ 2) ở thanh điều hướng dưới cùng.",
+        "Precondition":  "User A (bạn) đang ở màn hình chính.User B và User C đã \"Like\" User A."
+    },
+    {
+        "Expexted results":  "- Hiển thị ngay lập tức màn hình/animation \"It\u0027s a Match!\" (Đã match).- Hồ sơ User B biến mất khỏi lưới \"Những ai đã thích bạn\".",
+        "Data":  "-",
+        "ID":  "42",
+        "Category":  "LUOT_THICH",
+        "RowNumber":  43,
+        "Step":  "1. Nhấn vào icon trái tim nhỏ ở góc dưới bên phải của hồ sơ User B.",
+        "Precondition":  "User A đang ở màn hình \"Những ai đã thích bạn\".Hồ sơ User B đang hiển thị trong lưới."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình hồ sơ chi tiết của User C (như Ảnh 2).",
+        "Data":  "-",
+        "ID":  "43",
+        "Category":  "LUOT_THICH",
+        "RowNumber":  44,
+        "Step":  "1. Nhấn vào ảnh (hoặc vùng trung tâm) của hồ sơ User C.",
+        "Precondition":  "User A đang ở màn hình \"Những ai đã thích bạn\".Hồ sơ User C đang hiển thị trong lưới."
+    },
+    {
+        "Expexted results":  "- Hiển thị ngay lập tức màn hình/animation \"It\u0027s a Match!\" (Đã match).- (Khi quay lại) Hồ sơ User C biến mất khỏi lưới \"Những ai đã thích bạn\".",
+        "Data":  "-",
+        "ID":  "44",
+        "Category":  "LUOT_THICH",
+        "RowNumber":  45,
+        "Step":  "1. Kéo xuống cuối hồ sơ.2. Nhấn nút \"Match\".",
+        "Precondition":  "User A đang xem hồ sơ chi tiết của User C (từ màn hình LUOT_THICH)."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình \"Những ai đã thích bạn\".- Hiển thị thông báo (ví dụ: \"Chưa có ai thích bạn\" hoặc \"Hãy tích cực quẹt để có thêm lượt thích\").",
+        "Data":  "-",
+        "ID":  "45",
+        "Category":  "LUOT_THICH",
+        "RowNumber":  46,
+        "Step":  "1. Nhấn vào icon Trái tim (thứ 2) ở thanh điều hướng dưới cùng.",
+        "Precondition":  "User A đang ở màn hình chính.Không có ai \"Like\" User A."
+    },
+    {
+        "Expexted results":  "- Màn hình \"Tin nhắn\" hiển thị.- Cả 2 danh sách \"Matches\" (avatar) và \"Tin nhắn\" (list) đều trống.- Hiển thị thông báo (ví dụ: \"Bạn chưa có kết đôi nào\").",
+        "Data":  "-",
+        "ID":  "46",
+        "Category":  "TIN_NHAN",
+        "RowNumber":  47,
+        "Step":  "1. Nhấn vào icon \"Tin nhắn\" (thường là tab thứ 3) ở thanh điều hướng dưới.",
+        "Precondition":  "User đã đăng nhập, chưa có match nào."
+    },
+    {
+        "Expexted results":  "- Avatar của User B hiển thị ở danh sách \"Matches\" (phía trên).- Danh sách \"Tin nhắn\" (phía dưới) trống.",
+        "Data":  "-",
+        "ID":  "47",
+        "Category":  "TIN_NHAN",
+        "RowNumber":  48,
+        "Step":  "1. Nhấn vào icon \"Tin nhắn\".",
+        "Precondition":  "User A đã match với User B.Chưa có tin nhắn nào được gửi giữa 2 người."
+    },
+    {
+        "Expexted results":  "- Avatar của User B hiển thị ở danh sách \"Matches\".- Một mục hội thoại với User B hiển thị ở danh sách \"Tin nhắn\", với nội dung xem trước là \"Chào bạn\".",
+        "Data":  "-",
+        "ID":  "48",
+        "Category":  "TIN_NHAN",
+        "RowNumber":  49,
+        "Step":  "1. Nhấn vào icon \"Tin nhắn\".",
+        "Precondition":  "User A đã match và chat với User B.Tin nhắn cuối cùng: \"Chào bạn\"."
+    },
+    {
+        "Expexted results":  "- Mở màn hình chat chi tiết (hộp chat) với User B.",
+        "Data":  "-",
+        "ID":  "49",
+        "Category":  "TIN_NHAN",
+        "RowNumber":  50,
+        "Step":  "1. Nhấn vào avatar của User B trong danh sách \"Matches\".",
+        "Precondition":  "Đang ở màn hình \"Tin nhắn\".User B có trong danh sách \"Matches\" (phía trên)."
+    },
+    {
+        "Expexted results":  "- Mở màn hình chat chi tiết (hộp chat) với User B, hiển thị lịch sử chat.",
+        "Data":  "-",
+        "ID":  "50",
+        "Category":  "TIN_NHAN",
+        "RowNumber":  51,
+        "Step":  "1. Nhấn vào hàng hội thoại của User B trong danh sách \"Tin nhắn\".",
+        "Precondition":  "Đang ở màn hình \"Tin nhắn\".Hội thoại với User B có trong danh sách \"Tin nhắn\" (phía dưới)."
+    },
+    {
+        "Expexted results":  "- Hội thoại với User C tự động nhảy lên đầu danh sách \"Tin nhắn\".- Nội dung tin nhắn xem trước được cập nhật.- Hiển thị chỉ báo \"tin nhắn chưa đọc\".",
+        "Data":  "-",
+        "ID":  "51",
+        "Category":  "TIN_NHAN",
+        "RowNumber":  52,
+        "Step":  "1. (Quan sát màn hình, không cần thao tác).",
+        "Precondition":  "User A đang ở màn hình \"Tin nhắn\".User C (đã match) gửi 1 tin nhắn mới cho User A."
+    },
+    {
+        "Expexted results":  "- Tin nhắn \"Chào bạn...\" xuất hiện ngay lập tức trong khung chat (ở phía User A).- Ô gõ tin nhắn trở nên trống.- (User B nhận được tin nhắn).",
+        "Data":  "Tin nhắn: \"Chào bạn, mình làm quen nhé.\"",
+        "ID":  "52",
+        "Category":  "HOP_CHAT",
+        "RowNumber":  53,
+        "Step":  "1. Gõ nội dung tin nhắn vào ô \"Nhắn tin...\"2. Nhấn nút \"Gửi\" (mũi tên).",
+        "Precondition":  "User A và User B đã match, đang ở màn hình chat."
+    },
+    {
+        "Expexted results":  "- Nút \"Gửi\" bị vô hiệu hóa (màu xám, không thể nhấn).",
+        "Data":  "Tin nhắn: (Để trống)",
+        "ID":  "53",
+        "Category":  "HOP_CHAT",
+        "RowNumber":  54,
+        "Step":  "1. Không gõ gì vào ô \"Nhắn tin...\"2. Quan sát nút \"Gửi\".",
+        "Precondition":  "Đang ở màn hình chat."
+    },
+    {
+        "Expexted results":  "- Một danh sách/popup \"Câu hỏi ngẫu nhiên\" (như Ảnh 2) hiển thị lên.",
+        "Data":  "-",
+        "ID":  "54",
+        "Category":  "HOP_CHAT",
+        "RowNumber":  55,
+        "Step":  "1. Nhấn vào icon \"Dấu hỏi\" (Gợi ý câu hỏi mở).",
+        "Precondition":  "Đang ở màn hình chat."
+    },
+    {
+        "Expexted results":  "- Danh sách câu hỏi đóng lại.- Câu hỏi đó được tự động gửi đi (xuất hiện trong khung chat).",
+        "Data":  "Câu hỏi được chọn: \"Bạn thích đi du lịch ở đâu nhất?\"",
+        "ID":  "55",
+        "Category":  "HOP_CHAT",
+        "RowNumber":  56,
+        "Step":  "1. Nhấn vào 1 câu hỏi bất kỳ trong danh sách.",
+        "Precondition":  "Danh sách \"Câu hỏi ngẫu nhiên\" đang hiển thị."
+    },
+    {
+        "Expexted results":  "- Một câu gợi ý (ví dụ: \"Hôm nay của bạn thế nào?\") được tự động điền vào ô \"Nhắn tin...\".- Người dùng vẫn phải nhấn nút \"Gửi\" để gửi tin nhắn.",
+        "Data":  "-",
+        "ID":  "56",
+        "Category":  "HOP_CHAT",
+        "RowNumber":  57,
+        "Step":  "1. Nhấn vào icon \"Bóng đèn\" (Gợi ý nhắn).",
+        "Precondition":  "Đang ở màn hình chat."
+    },
+    {
+        "Expexted results":  "- Lịch sử 10 tin nhắn được tải chính xác.- Màn hình tự động cuộn xuống tin nhắn cuối cùng.",
+        "Data":  "-",
+        "ID":  "57",
+        "Category":  "HOP_CHAT",
+        "RowNumber":  58,
+        "Step":  "1. Thoát ra màn hình \"Tin nhắn\" (danh sách).2. Vào lại hộp chat với User B.",
+        "Precondition":  "User A và User B đã có lịch sử chat (10 tin nhắn)."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình hồ sơ chi tiết của User B.",
+        "Data":  "-",
+        "ID":  "58",
+        "Category":  "HOP_CHAT",
+        "RowNumber":  59,
+        "Step":  "1. Nhấn vào avatar hoặc tên của User B ở thanh trên cùng.",
+        "Precondition":  "Đang ở màn hình chat."
+    },
+    {
+        "Expexted results":  "- Hiển thị thông báo \"Hủy kết đôi thành công\".- User A được tự động đưa trở lại màn hình \"Tin nhắn\" (danh sách).- Hội thoại với User B biến mất khỏi danh sách \"Matches\" và \"Tin nhắn\".",
+        "Data":  "-",
+        "ID":  "59",
+        "Category":  "UNMATCH",
+        "RowNumber":  60,
+        "Step":  "1. Nhấn vào nút \"Thông tin\" (ở góc trên bên phải).2. Mở ra màn hình thông tin của User B.3. Kéo xuống cuối hồ sơ.4. Nhấn nút \"Chia tay\".5. Nhấn \"Xác nhận\" trên popup cảnh báo.",
+        "Precondition":  "User A đang ở màn hình chat với User B (đã match)."
+    },
+    {
+        "Expexted results":  "- Không hủy kết đôi.- User A vẫn ở màn hình thông tin của User B (hoặc quay lại màn hình chat).- Hội thoại với User B vẫn tồn tại.",
+        "Data":  "-",
+        "ID":  "60",
+        "Category":  "UNMATCH",
+        "RowNumber":  61,
+        "Step":  "1. Thực hiện các bước 1-4 như ID 59.2. Nhấn \"Hủy\" (Cancel) trên popup cảnh báo.",
+        "Precondition":  "User A đang ở màn hình chat với User B."
+    },
+    {
+        "Expexted results":  "- (Phía User B) Hội thoại với User A cũng biến mất khỏi danh sách \"Matches\" và \"Tin nhắn\".",
+        "Data":  "(Đăng nhập bằng tài khoản User B).",
+        "ID":  "61",
+        "Category":  "UNMATCH",
+        "RowNumber":  62,
+        "Step":  "1. Đăng nhập bằng tài khoản của User B.2. Mở màn hình \"Tin nhắn\".",
+        "Precondition":  "User A đã \"Chia tay\" User B (đã thực hiện ID 59)."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình Hồ sơ cá nhân.- Tải và hiển thị đúng ảnh đại diện, tên, tuổi.- Hiển thị các nút: \"Cài đặt\", \"Sửa hồ sơ\", \"Hẹn hò thôi\".",
+        "Data":  "-",
+        "ID":  "62",
+        "Category":  "HO_SO_CA_NHAN",
+        "RowNumber":  63,
+        "Step":  "1. Nhấn vào icon \"Hồ sơ\" (tab cuối cùng) ở thanh điều hướng dưới.",
+        "Precondition":  "User đã đăng nhập, ở màn hình chính."
+    },
+    {
+        "Expexted results":  "- Quay lại màn hình QUET (matching).",
+        "Data":  "-",
+        "ID":  "63",
+        "Category":  "HO_SO_CA_NHAN",
+        "RowNumber":  64,
+        "Step":  "1. Nhấn nút \"Hẹn hò thôi\" (nút dưới cùng bên trái).",
+        "Precondition":  "Đang ở màn hình Hồ sơ cá nhân."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình \"Cài đặt\" (như Ảnh 2).",
+        "Data":  "-",
+        "ID":  "64",
+        "Category":  "HO_SO_CA_NHAN",
+        "RowNumber":  65,
+        "Step":  "1. Nhấn nút \"Cài đặt\".",
+        "Precondition":  "Đang ở màn hình Hồ sơ cá nhân."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình \"Sửa hồ sơ\" (như Ảnh 3, 4).",
+        "Data":  "-",
+        "ID":  "65",
+        "Category":  "HO_SO_CA_NHAN",
+        "RowNumber":  66,
+        "Step":  "1. Nhấn nút \"Sửa hồ sơ\".",
+        "Precondition":  "Đang ở màn hình Hồ sơ cá nhân."
+    },
+    {
+        "Expexted results":  "- Chuyển sang màn hình \"Hỗ trợ\" (như Ảnh 5).",
+        "Data":  "-",
+        "ID":  "66",
+        "Category":  "CAI_DAT",
+        "RowNumber":  67,
+        "Step":  "1. Nhấn vào \"Hỗ trợ\".",
+        "Precondition":  "Đang ở màn hình \"Cài đặt\"."
+    },
+    {
+        "Expexted results":  "- User đăng xuất thành công.- Quay về màn hình \"Đăng nhập\" (Login).",
+        "Data":  "-",
+        "ID":  "67",
+        "Category":  "CAI_DAT",
+        "RowNumber":  68,
+        "Step":  "1. Nhấn vào \"Đăng xuất\".2. Nhấn \"Đồng ý\" trên popup xác nhận.",
+        "Precondition":  "Đang ở màn hình \"Cài đặt\"."
+    },
+    {
+        "Expexted results":  "- Popup đóng lại, User vẫn đăng nhập và ở màn hình \"Cài đặt\".",
+        "Data":  "-",
+        "ID":  "68",
+        "Category":  "CAI_DAT",
+        "RowNumber":  69,
+        "Step":  "1. Nhấn vào \"Đăng xuất\".2. Nhấn \"Hủy\" trên popup xác nhận.",
+        "Precondition":  "Đang ở màn hình \"Cài đặt\"."
+    },
+    {
+        "Expexted results":  "- Thông tin được cập nhật thành công.- (Khi xem lại) Mục \"Giới thiệu\" hiển thị \"Text mới\".",
+        "Data":  "Giới thiệu: \"Text mới\".",
+        "ID":  "69",
+        "Category":  "CHINH_SUA_HS",
+        "RowNumber":  70,
+        "Step":  "1. Nhấn vào sửa mục \"Giới thiệu\".2. Nhập \"Text mới\".3. Nhấn \"Lưu\" (hoặc nút quay lại để tự động lưu).",
+        "Precondition":  "Đang ở màn hình \"Sửa hồ sơ\".Mục \"Giới thiệu\" đang là \"Text cũ\"."
+    },
+    {
+        "Expexted results":  "- Sở thích được cập nhật thành công (tổng cộng 4 sở thích).",
+        "Data":  "Sở thích: Thêm \"Chạy bộ\".",
+        "ID":  "70",
+        "Category":  "CHINH_SUA_HS",
+        "RowNumber":  71,
+        "Step":  "1. Nhấn vào sửa mục \"Sở thích\".2. Chọn thêm \"Chạy bộ\".3. Nhấn \"Lưu\".",
+        "Precondition":  "Đang ở màn hình \"Sửa hồ sơ\".User đang có 3 sở thích."
+    },
+    {
+        "Expexted results":  "- Hiển thị lỗi \"Vui lòng chọn ít nhất 3 sở thích\" (Giả định quy tắc từ lúc tạo tài khoản vẫn áp dụng).",
+        "Data":  "Sở thích: Bỏ chọn 2 sở thích.",
+        "ID":  "71",
+        "Category":  "CHINH_SUA_HS",
+        "RowNumber":  72,
+        "Step":  "1. Nhấn vào sửa mục \"Sở thích\".2. Bỏ chọn 2 sở thích (chỉ còn 1).3. Nhấn \"Lưu\".",
+        "Precondition":  "Đang ở màn hình \"Sửa hồ sơ\".User đang có 3 sở thích."
+    },
+    {
+        "Expexted results":  "- Ảnh mới được tải lên và hiển thị trong danh sách ảnh.",
+        "Data":  "Ảnh: anh_moi.jpg",
+        "ID":  "72",
+        "Category":  "CHINH_SUA_HS",
+        "RowNumber":  73,
+        "Step":  "1. Nhấn vào ô dấu \"+\" để thêm ảnh.2. Chọn anh_moi.jpg từ thư viện.3. Nhấn \"Lưu\".",
+        "Precondition":  "Đang ở màn hình \"Sửa hồ sơ\"."
+    },
+    {
+        "Expexted results":  "- Mở ra danh sách các câu hỏi/câu trả lời (FAQ).",
+        "Data":  "-",
+        "ID":  "73",
+        "Category":  "HO_TRO",
+        "RowNumber":  74,
+        "Step":  "1. Nhấn vào \"Câu hỏi thường gặp\".",
+        "Precondition":  "Đang ở màn hình \"Hỗ trợ\"."
+    },
+    {
+        "Expexted results":  "- Mở ra màn hình/form để nhập phản hồi.",
+        "Data":  "-",
+        "ID":  "74",
+        "Category":  "HO_TRO",
+        "RowNumber":  75,
+        "Step":  "1. Nhấn vào \"Gửi phản hồi\".",
+        "Precondition":  "Đang ở màn hình \"Hỗ trợ\"."
+    }
+]

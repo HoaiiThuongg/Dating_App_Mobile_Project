@@ -30,25 +30,33 @@ class GeminiViewModelTest {
     }
 
     @Test
-    fun `loadIcebreakers sets loading state immediately`() = runTest {
+    fun `loadIcebreakers sets loading state immediately`() {
+        // Skip test if Dispatchers are not available in unit test environment
         try {
             // Act
             viewModel.loadIcebreakers("music, movies")
 
-            // Assert - loading should be set immediately
+            // Assert - loading should be set immediately (before coroutine completes)
             assertTrue("State should be loading", viewModel.uiState.value.isLoading)
             assertEquals("Suggestion input should show thinking", "Đang suy nghĩ...", viewModel.suggestionInput.value)
         } catch (e: IllegalStateException) {
-            // Coroutine dispatcher not available
-            throw org.junit.AssumptionViolatedException("Coroutine dispatcher not available in unit test environment", e)
+            // Dispatchers not available - skip test
+            org.junit.Assume.assumeNoException("Coroutine dispatcher not available in unit test environment", e)
         } catch (e: RuntimeException) {
-            // Services not available
-            throw org.junit.AssumptionViolatedException("Services not available in unit test environment", e)
+            // Check if it's from Dispatchers
+            val message = e.message ?: ""
+            val cause = e.cause
+            if (cause is IllegalStateException || message.contains("Dispatchers") || message.contains("Main")) {
+                org.junit.Assume.assumeNoException("Coroutine dispatcher not available in unit test environment", e)
+            }
+            // Re-throw if it's a different RuntimeException
+            throw e
         }
     }
 
     @Test
-    fun `loadIcebreakers does nothing if already loading`() = runTest {
+    fun `loadIcebreakers does nothing if already loading`() {
+        // Skip test if Dispatchers are not available in unit test environment
         try {
             // Arrange - set loading state
             viewModel.loadIcebreakers("test")
@@ -59,27 +67,23 @@ class GeminiViewModelTest {
             // Assert - should still be in loading state from first call
             assertTrue("State should still be loading", viewModel.uiState.value.isLoading)
         } catch (e: IllegalStateException) {
-            // Coroutine dispatcher not available
-            throw org.junit.AssumptionViolatedException("Coroutine dispatcher not available in unit test environment", e)
+            // Dispatchers not available - skip test
+            org.junit.Assume.assumeNoException("Coroutine dispatcher not available in unit test environment", e)
         } catch (e: RuntimeException) {
-            // Services not available
-            throw org.junit.AssumptionViolatedException("Services not available in unit test environment", e)
-        } catch (e: Exception) {
-            // Any other exception
-            throw org.junit.AssumptionViolatedException("Services not available in unit test environment", e)
+            // Check if it's from Dispatchers
+            val message = e.message ?: ""
+            val cause = e.cause
+            if (cause is IllegalStateException || message.contains("Dispatchers") || message.contains("Main")) {
+                org.junit.Assume.assumeNoException("Coroutine dispatcher not available in unit test environment", e)
+            }
+            // Re-throw if it's a different RuntimeException
+            throw e
         }
     }
 
     @Test
     fun `clearSuggestionInput clears suggestion`() {
-        try {
-            // Arrange
-            viewModel.loadIcebreakers("test")
-        } catch (e: Exception) {
-            // Ignore if loadIcebreakers fails
-        }
-        
-        // Act
+        // Act - clearSuggestionInput doesn't need loadIcebreakers to work
         viewModel.clearSuggestionInput()
 
         // Assert

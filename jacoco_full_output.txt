@@ -1,0 +1,17 @@
+﻿Initialized native services in: C:\Users\Acer\.gradle\native
+Initialized jansi services in: C:\Users\Acer\.gradle\native
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Starting process 'Gradle build daemon'. Working directory: C:\Users\Acer\.gradle\daemon\8.13 Command: E:\jdk-17\bin\java.exe --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED -Xmx2048m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp C:\Users\Acer\.gradle\wrapper\dists\gradle-8.13-bin\5xuhj0ry160q40clulazy9h7d\gradle-8.13\lib\gradle-daemon-main-8.13.jar -javaagent:C:\Users\Acer\.gradle\wrapper\dists\gradle-8.13-bin\5xuhj0ry160q40clulazy9h7d\gradle-8.13\lib\agents\gradle-instrumentation-agent-8.13.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 8.13
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 5.59 secs.
+The client will now receive all logging from the daemon (pid: 3168). The daemon log file: C:\Users\Acer\.gradle\daemon\8.13\daemon-3168.out.log
+Daemon will be stopped at the end of the build 
+Using 20 worker leases.
+Received JVM installation metadata from 'E:\jdk-17': {JAVA_HOME=E:\jdk-17, JAVA_VERSION=17.0.12, JAVA_VENDOR=Oracle Corporation, RUNTIME_NAME=Java(TM) SE Runtime Environment, RUNTIME_VERSION=17.0.12+8-LTS-286, VM_NAME=Java HotSpot(TM) 64-Bit Server VM, VM_VERSION=17.0.12+8-LTS-286, VM_VENDOR=Oracle Corporation, OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Now considering [E:\UET\Project\Dating_App_Mobile_Project] as hierarchies to watch
+File system watching is active
+Starting Build
+Settings evaluated using settings file 'E:\UET\Project\Dating_App_Mobile_Project\settings.gradle.kts'.
+Projects loaded. Root project using build file 'E:\UET\Project\Dating_App_Mobile_Project\build.gradle.kts'.
+Included projects: [root project 'Try', project ':app']

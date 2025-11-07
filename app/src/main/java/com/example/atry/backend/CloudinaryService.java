@@ -17,7 +17,7 @@ public class CloudinaryService {
     private Cloudinary cloudinary;
 
     public CloudinaryService() {
-        Map config = new HashMap();
+        Map<String, Object> config = new HashMap<String, Object>();
         config.put("cloud_name", "dosnqohav");
         config.put("api_key", "663186432432511");
         config.put("api_secret", "m6OuOwx9gRrXHa1zQC8Q34JFFK8");
@@ -27,7 +27,7 @@ public class CloudinaryService {
     }
 
     public String uploadImage(String imagePath) throws IOException {
-        Map uploadResult = cloudinary.uploader().upload(imagePath, ObjectUtils.emptyMap());
+        Map<?, ?> uploadResult = cloudinary.uploader().upload(imagePath, ObjectUtils.emptyMap());
         return (String) uploadResult.get("secure_url");
     }
 

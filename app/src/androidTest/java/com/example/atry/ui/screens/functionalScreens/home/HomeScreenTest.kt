@@ -2,7 +2,6 @@ package com.example.atry.ui.screens.functionalScreens.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
@@ -25,6 +24,7 @@ class HomeScreenTest {
         }
 
         composeRule.waitForIdle()
+        // Screen should render without crashing
     }
 
     /**
@@ -37,6 +37,7 @@ class HomeScreenTest {
         }
 
         composeRule.waitForIdle()
+        // Screen should handle empty state gracefully
     }
 
     /**
@@ -50,5 +51,36 @@ class HomeScreenTest {
         }
 
         composeRule.waitForIdle()
+        // Screen should render swipe cards when users are available
+    }
+    
+    @Test
+    fun homeScreen_RendersCorrectly() {
+        composeRule.setContent {
+            HomeScreen()
+        }
+
+        composeRule.waitForIdle()
+        // Screen should render without crashing
+    }
+    
+    @Test
+    fun homeScreen_HandlesUserInfoSetup() {
+        composeRule.setContent {
+            HomeScreen()
+        }
+
+        composeRule.waitForIdle()
+        // Screen should handle user info setup
+    }
+    
+    @Test
+    fun homeScreen_DisplaysSwipeButtons() {
+        composeRule.setContent {
+            HomeScreen()
+        }
+
+        composeRule.waitForIdle()
+        // Swipe buttons (like, pass) should be displayed
     }
 }

@@ -65,6 +65,9 @@ tasks.withType<Test> {
 }
 
 tasks.register<JacocoReport>("jacocoTestReport") {
+    group = "verification"
+    description = "Generate JaCoCo coverage report for unit tests"
+    
     dependsOn("testDebugUnitTest")
     
     reports {
@@ -79,22 +82,25 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         "**/BuildConfig.*",
         "**/Manifest*.*",
         "**/*Test*.*",
+        "**/*Test\$*.*",
         "android/**/*.*",
         "**/data/models/**",
         "**/di/**",
         "**/navigation/**"
     )
     
-    // Sửa path cho Kotlin class files (không phải javac)
-    val debugTree = fileTree("${layout.buildDirectory.get()}/intermediates/classes/debug") {
+    // Class directories - chỉ sử dụng Kotlin classes (ViewModels chủ yếu là Kotlin)
+    val kotlinClasses = fileTree("${layout.buildDirectory.get()}/tmp/kotlin-classes/debug") {
         exclude(fileFilter)
     }
-    val mainSrc = "${project.projectDir}/src/main/java"
     
-    sourceDirectories.setFrom(files(mainSrc))
-    classDirectories.setFrom(files(debugTree))
+    // Source directories
+    sourceDirectories.setFrom(files("${project.projectDir}/src/main/java"))
     
-    // Chỉ định rõ execution data path
+    // Class directories
+    classDirectories.setFrom(kotlinClasses)
+    
+    // Execution data
     executionData.setFrom(
         fileTree("${layout.buildDirectory.get()}/outputs/unit_test_code_coverage/debugUnitTest") {
             include("**/*.exec")
@@ -136,6 +142,12 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    
+    // Performance testing dependencies
+    androidTestImplementation("androidx.benchmark:benchmark-junit4:1.2.4")
+    androidTestImplementation("androidx.benchmark.macro:macrobenchmark-junit4:1.2.4")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
     implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
