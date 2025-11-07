@@ -21,3 +21,4 @@ interface IMessageViewModel {
     fun markChatAsRead(matchId: String)
 }
 
+

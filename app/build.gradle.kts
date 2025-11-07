@@ -36,6 +36,13 @@ android {
                 "proguard-rules.pro"
             )
         }
+        // Benchmark build type - không debuggable để chạy macrobenchmark
+        create("benchmark") {
+            initWith(getByName("release"))
+            matchingFallbacks += "release"
+            signingConfig = signingConfigs.getByName("debug")
+            isDebuggable = false
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -145,7 +152,7 @@ dependencies {
     
     // Performance testing dependencies
     androidTestImplementation("androidx.benchmark:benchmark-junit4:1.2.4")
-    androidTestImplementation("androidx.benchmark.macro:macrobenchmark-junit4:1.2.4")
+    androidTestImplementation(libs.androidx.benchmark.macro.junit4)
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
     implementation(platform("com.google.firebase:firebase-bom:34.5.0"))

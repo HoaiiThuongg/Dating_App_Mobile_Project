@@ -102,3 +102,4 @@ Mở report và xem:
 - **Cần đảm bảo tests thực sự chạy code** (không chỉ skip)
 - **Sử dụng mocks** cho Firebase services nếu có thể
 
+

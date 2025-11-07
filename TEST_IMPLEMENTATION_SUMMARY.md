@@ -122,3 +122,4 @@ fun screenName_RendersCorrectly() {
 - [ ] Run tests và check coverage (cần chạy trên device/emulator)
 - [ ] Improve coverage nếu cần
 
+

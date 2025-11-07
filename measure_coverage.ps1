@@ -51,3 +51,4 @@ if ($LASTEXITCODE -eq 0) {
 
 Write-Host "`n✅ Coverage measurement completed!" -ForegroundColor Green
 
+
