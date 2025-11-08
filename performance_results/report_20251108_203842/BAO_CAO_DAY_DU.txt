@@ -1,0 +1,116 @@
+========================================
+BÁO CÁO TỔNG HỢP PERFORMANCE TESTS
+========================================
+
+Generated: 08/11/2025 23:35:00
+Report Directory: performance_results\report_20251108_203842
+
+========================================
+TỔNG QUAN
+========================================
+
+Total Reports: 4 / 12
+
+✅ Đã hoàn thành: 4 tests
+⏳ Đang chờ: 8 tests
+
+========================================
+KẾT QUẢ CHI TIẾT
+========================================
+
+1. RENDER PERFORMANCE ✅
+   - SplashScreen: 405 ms
+   - MyProfileScreen: 521 ms
+   - MessageScreen: 808 ms
+   - ChatScreen: 831 ms
+   
+   Đánh giá: 
+   - SplashScreen và MyProfileScreen: Tốt (< 600ms)
+   - MessageScreen và ChatScreen: Cần tối ưu (> 800ms)
+
+2. SCROLL PERFORMANCE ✅
+   - MessageScreen Scroll: 11.1 ms
+   - ChatScreen Scroll: 11.1 ms
+   
+   Đánh giá: Rất tốt (< 15ms)
+
+3. VIEWMODEL PERFORMANCE ✅
+   - Tests đã chạy thành công
+   - Metrics đã được thu thập
+
+4. MEMORY PERFORMANCE ✅
+   - Tests đã chạy thành công
+   - Metrics đã được thu thập
+
+========================================
+TESTS CHƯA HOÀN THÀNH
+========================================
+
+5. App Startup Benchmarks ⏳
+   - Lý do: Cần non-debuggable build
+   - Yêu cầu: Build với benchmark variant
+   - Ghi chú: Macrobenchmark tests yêu cầu release build
+
+6. System Resource Performance ⏳
+   - Lý do: Tests đang được kiểm tra
+   - Ghi chú: Cần kiểm tra lại build configuration
+   
+7. Network Performance ⏳
+   - Lý do: Tests đang được kiểm tra
+   - Ghi chú: Cần kiểm tra lại build configuration
+
+8. Frame Rate Performance ⏳
+   - Lý do: Tests đang được kiểm tra
+   - Ghi chú: Cần kiểm tra lại build configuration
+
+9. App Size Performance ⏳
+   - Lý do: Tests đang được kiểm tra
+   - Ghi chú: Cần kiểm tra lại build configuration
+
+10. Database Performance ⏳
+    - Lý do: Tests đang được kiểm tra
+    - Ghi chú: Cần kiểm tra lại build configuration
+
+11. Image Loading Performance ⏳
+    - Lý do: Tests đang được kiểm tra
+    - Ghi chú: Cần kiểm tra lại build configuration
+
+12. Touch Response Performance ⏳
+    - Lý do: Tests đang được kiểm tra
+    - Ghi chú: Cần kiểm tra lại build configuration
+
+========================================
+KHUYẾN NGHỊ
+========================================
+
+1. Tối ưu hóa Render Performance:
+   - MessageScreen: Giảm thời gian render từ 808ms xuống < 600ms
+   - ChatScreen: Giảm thời gian render từ 831ms xuống < 600ms
+   - Kiểm tra số lượng composables được render
+   - Sử dụng LazyColumn thay vì Column
+   - Tối ưu hóa image loading
+
+2. Tiếp tục chạy các tests còn lại:
+   - Sửa lỗi build (nếu có)
+   - Chạy tests với device/emulator ổn định
+   - Thu thập metrics đầy đủ
+
+========================================
+FILES BÁO CÁO
+========================================
+
+- Báo cáo tổng hợp: performance_results\report_20251108_203842\BAO_CAO_TONG_HOP.txt
+- Metrics chi tiết: performance_results\report_20251108_203842\performance_metrics_detailed.txt
+- Metrics CSV: performance_results\report_20251108_203842\performance_metrics_detailed.csv
+- HTML Reports: performance_results\report_20251108_203842\reports\[test_type]\androidTests\connected\debug\index.html
+
+========================================
+GHI CHÚ
+========================================
+
+- Các tests còn lại sẽ được chạy trong lần tiếp theo
+- Metrics sẽ được cập nhật khi có thêm kết quả
+- Báo cáo sẽ được làm mới tự động khi có tests mới hoàn thành
+
+========================================
+

@@ -14,14 +14,6 @@
 
 ## 🎯 Cách sử dụng nhanh
 
-### ⚠️ Lưu ý: PowerShell Execution Policy
-
-Nếu gặp lỗi "cannot be loaded" hoặc "not digitally signed", xem file `FIX_POWERSHELL_EXECUTION_POLICY.md` hoặc dùng file `.bat` thay thế:
-
-```cmd
-run_performance_tests.bat
-```
-
 ### Bước 1: Kết nối device/emulator
 ```powershell
 # Kiểm tra device đã kết nối
@@ -29,20 +21,8 @@ adb devices
 ```
 
 ### Bước 2: Chạy tất cả performance tests
-
-**Cách 1: Dùng PowerShell (nếu không có lỗi execution policy)**
 ```powershell
 .\run_performance_tests.ps1
-```
-
-**Cách 2: Bypass execution policy**
-```powershell
-powershell -ExecutionPolicy Bypass -File .\run_performance_tests.ps1
-```
-
-**Cách 3: Dùng file .bat (không cần PowerShell)**
-```cmd
-run_performance_tests.bat
 ```
 
 ### Bước 3: Xem kết quả

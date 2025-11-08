@@ -1,0 +1,7 @@
+﻿"Category","Screen","Metric","Value","Unit"
+"Render Performance","ChatScreen","Render Time","831","ms"
+"Render Performance","MessageScreen","Render Time","808","ms"
+"Render Performance","MyProfileScreen","Render Time","521","ms"
+"Render Performance","SplashScreen","Render Time","405","ms"
+"Scroll Performance","ChatScreen Scroll","Average Idle","11.1","ms"
+"Scroll Performance","MessageScreen Scroll","Average Idle","11.1","ms"

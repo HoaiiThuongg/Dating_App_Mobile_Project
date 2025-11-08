@@ -1,0 +1,121 @@
+========================================
+PERFORMANCE TESTS SUMMARY
+========================================
+Generated: Sat 11/08/2025 20:25:03.18
+Report Directory: performance_results\report_20251108_202457
+
+========================================
+TEST RESULTS
+========================================
+
+[1/12] Screen Render Performance
+  Type: render
+  Class: com.example.atry.performance.ScreenRenderPerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[2/12] Scroll Performance
+  Type: scroll
+  Class: com.example.atry.performance.ScrollPerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[1/12] Screen Render Performance
+  Type: render
+  Class: com.example.atry.performance.ScreenRenderPerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[2/12] Scroll Performance
+  Type: scroll
+  Class: com.example.atry.performance.ScrollPerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[3/12] ViewModel Performance
+  Type: viewmodel
+  Class: com.example.atry.performance.ViewModelPerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[4/12] Memory Performance
+  Type: memory
+  Class: com.example.atry.performance.MemoryPerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[5/12] App Startup (Macrobenchmark
+[6/12] System Resource Performance
+  Type: system
+  Class: com.example.atry.performance.SystemResourcePerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[7/12] Network Performance
+  Type: network
+  Class: com.example.atry.performance.NetworkPerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[8/12] Frame Rate Performance
+  Type: framerate
+  Class: com.example.atry.performance.FrameRatePerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[9/12] App Size Performance
+  Type: size
+  Class: com.example.atry.performance.AppSizePerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[10/12] Database Performance
+  Type: database
+  Class: com.example.atry.performance.DatabasePerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[11/12] Image Loading Performance
+  Type: image
+  Class: com.example.atry.performance.ImageLoadingPerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+[12/12] Touch Response Performance
+  Type: touch
+  Class: com.example.atry.performance.TouchResponsePerformanceTest
+  Exit Code: 1
+  Reports: ✗ Not found
+
+========================================
+SUMMARY
+========================================
+Total Tests: 15
+Passed: 0
+Failed/Issues: 14
+
+========================================
+REPORT LOCATIONS
+========================================
+
+Base Directory: performance_results\report_20251108_202457
+
+Reports by Type:
+  - Render: performance_results\report_20251108_202457\reports\render\
+  - Scroll: performance_results\report_20251108_202457\reports\scroll\
+  - ViewModel: performance_results\report_20251108_202457\reports\viewmodel\
+  - Memory: performance_results\report_20251108_202457\reports\memory\
+  - Startup: performance_results\report_20251108_202457\reports\startup\
+  - System: performance_results\report_20251108_202457\reports\system\
+  - Network: performance_results\report_20251108_202457\reports\network\
+  - Frame Rate: performance_results\report_20251108_202457\reports\framerate\
+  - App Size: performance_results\report_20251108_202457\reports\size\
+  - Database: performance_results\report_20251108_202457\reports\database\
+  - Image: performance_results\report_20251108_202457\reports\image\
+  - Touch: performance_results\report_20251108_202457\reports\touch\
+
+Files:
+  - Full Output: performance_results\report_20251108_202457\full_output.log
+  - Build Log: performance_results\report_20251108_202457\build_log.txt
+  - Summary: performance_results\report_20251108_202457\TEST_SUMMARY.txt
+

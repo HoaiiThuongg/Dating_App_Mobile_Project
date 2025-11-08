@@ -253,12 +253,14 @@ Các file JSON chứa metrics chi tiết.
 
 ## 📈 Metrics tổng hợp
 
-Sau khi chạy tất cả tests, bạn sẽ có:
+Sau khi chạy tất cả tests, bạn sẽ có **HƠN 60 METRICS** khác nhau:
 
 ### Startup Performance:
 - Cold start: X ms
 - Warm start: X ms
 - Hot start: X ms
+- Time to initial display: X ms
+- Time to full display: X ms
 
 ### Render Performance:
 - SplashScreen: X ms
@@ -266,23 +268,70 @@ Sau khi chạy tất cả tests, bạn sẽ có:
 - ChatScreen: X ms
 - MessageScreen: X ms
 - ProfileScreen: X ms
+- Composition time: X ms
+- First frame time: X ms
 
 ### Scroll Performance:
 - HomeScreen swipe: X ms
 - MessageScreen scroll: X ms (avg), X ms (max)
 - ChatScreen scroll: X ms (avg), X ms (max)
+- Initial composition: X ms
 
 ### ViewModel Performance:
-- LoadUsers: X ms
-- LoadMessages: X ms
+- LoadUsers: X ms (avg), X ms (min), X ms (max)
+- LoadMessages: X ms (avg), X ms (max)
 - SwipeAction: X ms (avg), X ms (P95)
-- SendMessage: X ms
+- SendMessage: X ms (avg), X ms (max)
+- Throughput: X ops/s
 
 ### Memory Performance:
 - Initial: X MB
 - After navigation: X MB
 - Peak: X MB
 - Memory growth: X MB
+- Memory leak detection: Yes/No
+
+### System Resource Performance: ⭐ MỚI
+- CPU usage: X%
+- Thread count: X
+- Heap size: X MB
+- Available memory: X MB
+- Thread leak detection: Yes/No
+
+### Network Performance: ⭐ MỚI
+- Connection time: X ms
+- Network latency: X ms (avg), X ms (min), X ms (max)
+- Jitter: X ms
+- Throughput: X KB/s
+- Success rate: X%
+
+### Frame Rate Performance: ⭐ MỚI
+- Frame rate (FPS): X FPS
+- Average frame time: X ms
+- Jank count: X
+- Jank percentage: X%
+- Smoothness: X/10
+
+### App Size Performance: ⭐ MỚI
+- APK size: X MB
+- Installed size: X MB
+- Cache size: X MB
+- Data size: X MB
+
+### Database Performance: ⭐ MỚI
+- Query time: X ms (avg), X ms (P95), X ms (max)
+- Insert time: X ms (avg), X ms (max)
+- Batch throughput: X ops/s
+
+### Image Loading Performance: ⭐ MỚI
+- Image load time: X ms (avg), X ms (P95), X ms (max)
+- Memory usage: X MB
+- Cache hit rate: X%
+
+### Touch Response Performance: ⭐ MỚI
+- Touch latency: X ms
+- Click response time: X ms (avg), X ms (P95), X ms (max)
+- Gesture recognition: X ms
 
 ---
 
@@ -355,15 +404,49 @@ Sau khi chạy tất cả tests, bạn sẽ có:
 
 ---
 
+## 📊 Lấy Kết Quả Để Làm Báo Cáo
+
+### Cách Nhanh (Khuyến Nghị)
+
+1. **Chạy tất cả tests:**
+   ```powershell
+   .\run_all_performance_tests.bat
+   ```
+
+2. **Thu thập kết quả:**
+   ```powershell
+   .\collect_performance_results.bat
+   ```
+
+3. **Xem kết quả:**
+   - Mở `performance_results/report_*/summary.md` - Báo cáo Markdown
+   - Mở `performance_results/report_*/metrics.csv` - Metrics CSV (cho Excel)
+   - Mở `performance_results/report_*/reports/androidTests/index.html` - HTML report
+
+### Chi Tiết
+
+Xem file **`HUONG_DAN_LAY_KET_QUA_BAO_CAO.md`** để biết:
+- Cách lấy kết quả từ console, HTML reports, JSON files
+- Format kết quả (CSV, JSON, Markdown)
+- Template báo cáo mẫu
+- Cách parse và analyze kết quả
+
+---
+
 ## 📚 Files liên quan
 
 - `run_performance_tests.bat` - Script chạy custom performance tests
 - `run_macrobenchmark.bat` - Script chạy macrobenchmark
-- `run_all_performance_tests.bat` - Script chạy tất cả (cần tạo)
+- `run_all_performance_tests.bat` - Script chạy tất cả
+- `collect_performance_results.bat` - Script thu thập kết quả
+- `extract_metrics.ps1` - Script extract metrics từ reports
+- `generate_report.ps1` - Script tạo báo cáo Markdown
+- `HUONG_DAN_LAY_KET_QUA_BAO_CAO.md` - Hướng dẫn lấy kết quả chi tiết
 - `HUONG_DAN_TEST_HIEU_NANG.md` - Hướng dẫn tổng quan
 - `PERFORMANCE_TESTING_GUIDE.md` - Hướng dẫn chi tiết (tiếng Anh)
 
 ---
 
 Chúc bạn test hiệu năng thành công! 🚀
+
 

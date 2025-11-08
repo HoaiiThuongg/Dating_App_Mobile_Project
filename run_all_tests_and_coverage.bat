@@ -60,3 +60,4 @@ if exist "app\build\outputs\code_coverage\debugAndroidTest\connected\index.html"
 echo.
 echo ✅ All tests completed!
 
+

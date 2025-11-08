@@ -1,0 +1,68 @@
+========================================
+BÁO CÁO TỔNG HỢP PERFORMANCE TESTS
+========================================
+
+Generated: Sat 11/08/2025 23:30:38.35
+Report Directory: performance_results\report_20251108_203842
+
+========================================
+TỔNG QUAN
+========================================
+
+Total Reports: 4 / 12
+
+========================================
+REPORTS THEO TỪNG LOẠI
+========================================
+
+✅ Render Performance: performance_results\report_20251108_203842\reports\render\androidTests\connected\debug\index.html
+✅ Scroll Performance: performance_results\report_20251108_203842\reports\scroll\androidTests\connected\debug\index.html
+✅ ViewModel Performance: performance_results\report_20251108_203842\reports\viewmodel\androidTests\connected\debug\index.html
+✅ Memory Performance: performance_results\report_20251108_203842\reports\memory\androidTests\connected\debug\index.html
+⏳ App Startup: Chưa có
+⏳ System Resource Performance: Chưa có
+⏳ Network Performance: Chưa có
+⏳ Frame Rate Performance: Chưa có
+⏳ App Size Performance: Chưa có
+⏳ Database Performance: Chưa có
+⏳ Image Loading Performance: Chưa có
+⏳ Touch Response Performance: Chưa có
+
+========================================
+METRICS
+========================================
+
+﻿========================================
+PERFORMANCE METRICS SUMMARY
+========================================
+Generated: 2025-11-08 23:30:38
+Report Location: performance_results\report_20251108_203842
+
+========================================
+RENDER PERFORMANCE
+========================================
+
+  ChatScreen: 831 ms
+  MessageScreen: 808 ms
+  MyProfileScreen: 521 ms
+  SplashScreen: 405 ms
+
+========================================
+SCROLL PERFORMANCE
+========================================
+
+  ChatScreen Scroll Average Idle: 11.1 ms
+  MessageScreen Scroll Average Idle: 11.1 ms
+
+
+
+========================================
+FILES
+========================================
+
+- Summary: performance_results\report_20251108_203842\TEST_SUMMARY.txt
+- Metrics: performance_results\report_20251108_203842\performance_metrics_detailed.txt
+- Full Output: performance_results\report_20251108_203842\full_output.log
+- Build Log: performance_results\report_20251108_203842\build_log.txt
+- Comprehensive Report: performance_results\report_20251108_203842\BAO_CAO_TONG_HOP.txt
+

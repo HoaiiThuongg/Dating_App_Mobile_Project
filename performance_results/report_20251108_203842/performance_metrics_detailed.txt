@@ -1,0 +1,23 @@
+﻿========================================
+PERFORMANCE METRICS SUMMARY
+========================================
+Generated: 2025-11-08 23:30:38
+Report Location: performance_results\report_20251108_203842
+
+========================================
+RENDER PERFORMANCE
+========================================
+
+  ChatScreen: 831 ms
+  MessageScreen: 808 ms
+  MyProfileScreen: 521 ms
+  SplashScreen: 405 ms
+
+========================================
+SCROLL PERFORMANCE
+========================================
+
+  ChatScreen Scroll Average Idle: 11.1 ms
+  MessageScreen Scroll Average Idle: 11.1 ms
+
+

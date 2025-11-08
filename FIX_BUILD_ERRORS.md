@@ -69,3 +69,4 @@ BUILD SUCCESSFUL
 3. **Kiểm tra Gradle version**:
    - Đảm bảo Gradle version tương thích với AGP 8.13.0
 
+

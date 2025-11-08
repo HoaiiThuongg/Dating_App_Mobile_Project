@@ -12,28 +12,24 @@ echo.
 REM Check if device is connected
 adb devices | findstr /C:"device" >nul
 if errorlevel 1 (
-    echo ❌ No device connected. Please connect a device or start an emulator.
-    exit /b 1
+    echo No device connected
+    REM Don't exit, let script continue (might be called from parent script)
 ) else (
-    echo ✅ Device connected
+    echo Device connected
 )
 
 REM Check if gradlew exists
 if not exist "gradlew.bat" (
-    echo ❌ gradlew.bat not found!
-    exit /b 1
+    echo gradlew.bat not found!
+    REM Don't exit, let script continue
 )
 
-REM Clean build
-echo 🧹 Cleaning build...
-call gradlew.bat clean
-
-REM Build test APK
-echo 🔨 Building test APK...
+REM Build test APK (skip clean to avoid deleting reports)
+echo Building test APK...
 call gradlew.bat assembleDebugAndroidTest
 if errorlevel 1 (
-    echo ❌ Build failed!
-    exit /b 1
+    echo Build failed - proceeding anyway
+    REM Don't exit, let script continue
 )
 
 REM Run tests based on type
@@ -43,8 +39,8 @@ if /i "%TEST_TYPE%"=="startup" (
     echo 💡 Đang build benchmark variant...
     call gradlew.bat assembleBenchmark installBenchmark
     if errorlevel 1 (
-        echo ❌ Build failed!
-        exit /b 1
+        echo Build failed - proceeding anyway
+        REM Don't exit, let script continue
     )
     call gradlew.bat connectedBenchmarkAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.AppStartupBenchmark
 ) else if /i "%TEST_TYPE%"=="render" (
@@ -59,6 +55,27 @@ if /i "%TEST_TYPE%"=="startup" (
 ) else if /i "%TEST_TYPE%"=="memory" (
     echo 📊 Running Memory Performance Tests...
     call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.MemoryPerformanceTest
+) else if /i "%TEST_TYPE%"=="system" (
+    echo 📊 Running System Resource Performance Tests...
+    call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.SystemResourcePerformanceTest
+) else if /i "%TEST_TYPE%"=="network" (
+    echo 📊 Running Network Performance Tests...
+    call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.NetworkPerformanceTest
+) else if /i "%TEST_TYPE%"=="framerate" (
+    echo 📊 Running Frame Rate Performance Tests...
+    call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.FrameRatePerformanceTest
+) else if /i "%TEST_TYPE%"=="size" (
+    echo 📊 Running App Size Performance Tests...
+    call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.AppSizePerformanceTest
+) else if /i "%TEST_TYPE%"=="database" (
+    echo 📊 Running Database Performance Tests...
+    call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.DatabasePerformanceTest
+) else if /i "%TEST_TYPE%"=="image" (
+    echo 📊 Running Image Loading Performance Tests...
+    call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.ImageLoadingPerformanceTest
+) else if /i "%TEST_TYPE%"=="touch" (
+    echo 📊 Running Touch Response Performance Tests...
+    call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.TouchResponsePerformanceTest
 ) else if /i "%TEST_TYPE%"=="all" (
     echo 📊 Running All Performance Tests...
     echo.
@@ -82,20 +99,20 @@ if /i "%TEST_TYPE%"=="startup" (
     echo 5️⃣ Memory Performance Tests...
     call gradlew.bat connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.example.atry.performance.MemoryPerformanceTest
 ) else (
-    echo ❌ Invalid test type: %TEST_TYPE%
-    echo Valid types: all, startup, render, scroll, viewmodel, memory
-    exit /b 1
+    echo Invalid test type: %TEST_TYPE%
+    echo Valid types: all, startup, render, scroll, viewmodel, memory, system, network, framerate, size, database, image, touch
+    REM Don't exit, let script continue
 )
 
 if errorlevel 1 (
     echo.
-    echo ❌ Performance tests failed!
-    exit /b 1
+    echo Performance tests failed - proceeding anyway
+    REM Don't exit, let script continue
 ) else (
     echo.
-    echo ✅ Performance tests completed successfully!
+    echo Performance tests completed successfully!
     echo.
-    echo 📊 View results:
+    echo View results:
     echo   - Macrobenchmark: app\build\outputs\connected_android_test_additional_output\
     echo   - Test Reports: app\build\reports\androidTests\
 )

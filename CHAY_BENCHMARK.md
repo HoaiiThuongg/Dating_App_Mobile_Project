@@ -149,3 +149,4 @@ Sau khi chạy benchmark thành công:
 - **Dùng device thật** thay vì emulator để có kết quả chính xác hơn
 - **Đo baseline trước** khi optimize để so sánh
 
+

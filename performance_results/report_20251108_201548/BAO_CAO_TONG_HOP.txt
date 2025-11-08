@@ -1,0 +1,17 @@
+========================================
+BÁO CÁO TỔNG HỢP PERFORMANCE TESTS
+========================================
+
+Generated: Sat 11/08/2025 20:20:07.82
+Report Location: performance_results\report_20251108_201548
+
+========================================
+DANH SÁCH BÁO CÁO THEO LOẠI
+========================================
+
+========================================
+METRICS SUMMARY
+========================================
+
+⚠️  Metrics file chưa được tạo
+   Chạy: powershell -ExecutionPolicy Bypass -File "EXTRACT_METRICS_SIMPLE.ps1" -ReportPath "performance_results\report_20251108_201548"
