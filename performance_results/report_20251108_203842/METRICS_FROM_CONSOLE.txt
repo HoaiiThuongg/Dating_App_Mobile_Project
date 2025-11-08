@@ -1,0 +1,30 @@
+﻿========================================
+METRICS TU CONSOLE OUTPUT (PASSED TESTS)
+========================================
+
+Generated: 2025-11-09 02:15:19
+Log File: E:\UET\Project\Dating_App_Mobile_Project\performance_results\report_20251108_203842\full_output.log
+
+========================================
+TEST 3: VIEWMODEL PERFORMANCE
+========================================
+
+========================================
+TEST 4: MEMORY PERFORMANCE
+========================================
+
+========================================
+TEST 5: SYSTEM RESOURCE PERFORMANCE
+========================================
+
+========================================
+TEST 6: NETWORK PERFORMANCE
+========================================
+
+========================================
+TONG KET
+========================================
+
+Tong so metrics da extract: 0
+
+Phan loai theo category:

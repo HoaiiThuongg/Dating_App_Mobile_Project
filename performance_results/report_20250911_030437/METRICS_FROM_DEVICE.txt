@@ -1,0 +1,28 @@
+﻿========================================
+METRICS FROM DEVICE (PerformanceMetricsLogger)
+========================================
+
+Generated: 2025-11-09 03:07:52
+Report Directory: performance_results\report_20250911_030437
+
+Total Metrics: 3
+
+========================================
+RENDER
+========================================
+
+- ChatScreen - Render Time: 893 ms
+  Status: FAILED, Target: 300ms
+- MessageScreen - Render Time: 883 ms
+  Status: FAILED, Target: 250ms
+- MyProfileScreen - Render Time: 944 ms
+  Status: FAILED, Target: 200ms
+
+========================================
+SUMMARY
+========================================
+
+Total Metrics: 3
+  - PASSED: 0
+  - FAILED: 3
+

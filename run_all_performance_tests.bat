@@ -10,10 +10,10 @@ echo.
 REM Check if device is connected
 adb devices | findstr /C:"device" >nul
 if errorlevel 1 (
-    echo ❌ No device connected. Please connect a device or start an emulator.
-    exit /b 1
+    echo No device connected. Please connect a device or start an emulator.
+    echo Continuing anyway...
 ) else (
-    echo ✅ Device connected
+    echo Device connected
     echo.
 )
 
@@ -171,7 +171,7 @@ echo.
 
 REM Wait a moment for reports to be written
 echo Waiting 3 seconds for reports to be written...
-timeout /t 3 /nobreak >nul
+ping 127.0.0.1 -n 4 >nul
 echo.
 
 REM Check if reports were generated

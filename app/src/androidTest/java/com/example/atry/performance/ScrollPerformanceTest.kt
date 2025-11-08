@@ -30,6 +30,18 @@ class ScrollPerformanceTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
     
+    private fun logMetric(testName: String, metricName: String, value: Double, unit: String, status: String, target: String? = null) {
+        PerformanceMetricsLogger.logMetric(
+            testCategory = "Scroll",
+            testName = testName,
+            metricName = metricName,
+            value = value,
+            unit = unit,
+            status = status,
+            target = target
+        )
+    }
+    
     @Test
     fun measureHomeScreenSwipePerformance() {
         // HomeScreen may not have scrollable content, so we'll measure render time instead
@@ -49,6 +61,9 @@ class ScrollPerformanceTest {
         
         println("HomeScreen render time (swipe test placeholder): ${renderTime}ms")
         println("Note: Actual swipe performance would require testing with swipe cards")
+        
+        val status = if (renderTime < 2000) "PASSED" else "FAILED"
+        logMetric("HomeScreen", "Render Time (Swipe)", renderTime.toDouble(), "ms", status, "2000ms")
         
         // Target: < 2000ms for render (HomeScreen may load data from Firebase)
         // This is a placeholder test - actual swipe would be measured separately
@@ -101,6 +116,11 @@ class ScrollPerformanceTest {
         
         println("MessageScreen scrollable container composition - Initial: ${compositionTime}ms, Average idle: ${avgTime}ms, Max: ${maxTime}ms")
         
+        val status = if (compositionTime < 100 && avgTime < 10) "PASSED" else "FAILED"
+        logMetric("MessageScreen", "Initial Composition Time", compositionTime.toDouble(), "ms", status, "100ms")
+        logMetric("MessageScreen", "Scroll Average Idle", avgTime, "ms", status, "10ms")
+        logMetric("MessageScreen", "Max Idle Time", maxTime.toDouble(), "ms", status)
+        
         // Target: Initial composition < 100ms, Average idle < 10ms
         assert(compositionTime < 100) { 
             "MessageScreen initial composition time ($compositionTime ms) exceeds target (100ms)" 
@@ -152,6 +172,11 @@ class ScrollPerformanceTest {
         val maxTime = times.maxOrNull() ?: compositionTime
         
         println("ChatScreen scrollable container composition - Initial: ${compositionTime}ms, Average idle: ${avgTime}ms, Max: ${maxTime}ms")
+        
+        val status = if (compositionTime < 100 && avgTime < 10) "PASSED" else "FAILED"
+        logMetric("ChatScreen", "Initial Composition Time", compositionTime.toDouble(), "ms", status, "100ms")
+        logMetric("ChatScreen", "Scroll Average Idle", avgTime, "ms", status, "10ms")
+        logMetric("ChatScreen", "Max Idle Time", maxTime.toDouble(), "ms", status)
         
         // Target: Initial composition < 100ms, Average idle < 10ms
         assert(compositionTime < 100) { 

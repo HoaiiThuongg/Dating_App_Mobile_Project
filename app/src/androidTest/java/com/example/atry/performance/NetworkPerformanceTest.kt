@@ -19,6 +19,18 @@ import java.net.URL
 @RunWith(AndroidJUnit4::class)
 class NetworkPerformanceTest {
     
+    private fun logMetric(testName: String, metricName: String, value: Double, unit: String, status: String, target: String? = null) {
+        PerformanceMetricsLogger.logMetric(
+            testCategory = "Network",
+            testName = testName,
+            metricName = metricName,
+            value = value,
+            unit = unit,
+            status = status,
+            target = target
+        )
+    }
+    
     private fun measureConnectionTime(urlString: String): Long {
         val startTime = System.currentTimeMillis()
         try {
@@ -61,6 +73,13 @@ class NetworkPerformanceTest {
             println("Average connection time: ${String.format("%.2f", avgTime)}ms")
             println("Max connection time: ${maxTime}ms")
             
+            val status = if (avgTime < 2000) "PASSED" else "FAILED"
+            connectionTimes.forEachIndexed { index, time ->
+                logMetric("Connection", "Connection Time", time.toDouble(), "ms", status, "2000ms")
+            }
+            logMetric("Connection", "Average Connection Time", avgTime, "ms", status, "2000ms")
+            logMetric("Connection", "Max Connection Time", maxTime.toDouble(), "ms", status)
+            
             // Target: Average < 2000ms
             assert(avgTime < 2000) {
                 "Average connection time (${avgTime}ms) exceeds target (2000ms)"
@@ -88,6 +107,12 @@ class NetworkPerformanceTest {
             val jitter = maxLatency - minLatency
             
             println("Network latency - Avg: ${String.format("%.2f", avgLatency)}ms, Min: ${minLatency}ms, Max: ${maxLatency}ms, Jitter: ${jitter}ms")
+            
+            val status = if (avgLatency < 1000 && jitter < 500) "PASSED" else "FAILED"
+            logMetric("Latency", "Average Latency", avgLatency, "ms", status, "1000ms")
+            logMetric("Latency", "Min Latency", minLatency.toDouble(), "ms", status)
+            logMetric("Latency", "Max Latency", maxLatency.toDouble(), "ms", status)
+            logMetric("Latency", "Jitter", jitter.toDouble(), "ms", status, "500ms")
             
             // Target: Average < 1000ms, Jitter < 500ms
             assert(avgLatency < 1000) {
@@ -127,6 +152,11 @@ class NetworkPerformanceTest {
             println("Network throughput: ${String.format("%.2f", throughput)} KB/s")
             println("Bytes downloaded: ${bytesRead} bytes in ${duration}ms")
             
+            val status = if (throughput > 10) "PASSED" else "FAILED"
+            logMetric("Throughput", "Throughput", throughput, "KB/s", status, "10 KB/s")
+            logMetric("Throughput", "Bytes Downloaded", bytesRead.toDouble(), "bytes", status)
+            logMetric("Throughput", "Duration", duration.toDouble(), "ms", status)
+            
             // Target: Throughput > 10 KB/s
             assert(throughput > 10) {
                 "Network throughput (${throughput}KB/s) below target (10KB/s)"
@@ -136,4 +166,5 @@ class NetworkPerformanceTest {
         }
     }
 }
+
 

@@ -23,6 +23,18 @@ class ScreenRenderPerformanceTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
     
+    private fun logMetric(testName: String, metricName: String, value: Double, unit: String, status: String, target: String? = null) {
+        PerformanceMetricsLogger.logMetric(
+            testCategory = "Render",
+            testName = testName,
+            metricName = metricName,
+            value = value,
+            unit = unit,
+            status = status,
+            target = target
+        )
+    }
+    
     @Test
     fun measureSplashScreenRenderTime() {
         val startTime = System.currentTimeMillis()
@@ -42,6 +54,9 @@ class ScreenRenderPerformanceTest {
         val renderTime = endTime - startTime
         
         println("SplashScreen render time: ${renderTime}ms")
+        
+        val status = if (renderTime < 100) "PASSED" else "FAILED"
+        logMetric("SplashScreen", "Render Time", renderTime.toDouble(), "ms", status, "100ms")
         
         // Target: < 100ms
         assert(renderTime < 100) { 
@@ -69,6 +84,9 @@ class ScreenRenderPerformanceTest {
         
         println("HomeScreen render time: ${renderTime}ms")
         
+        val status = if (renderTime < 200) "PASSED" else "FAILED"
+        logMetric("HomeScreen", "Render Time", renderTime.toDouble(), "ms", status, "200ms")
+        
         // Target: < 200ms
         assert(renderTime < 200) { 
             "HomeScreen render time ($renderTime ms) exceeds target (200ms)" 
@@ -95,6 +113,9 @@ class ScreenRenderPerformanceTest {
         
         println("ChatScreen render time: ${renderTime}ms (placeholder)")
         
+        val status = if (renderTime < 300) "PASSED" else "FAILED"
+        logMetric("ChatScreen", "Render Time", renderTime.toDouble(), "ms", status, "300ms")
+        
         // Target: < 300ms (vì cần load messages)
         // Note: This is a placeholder test, actual ChatScreen needs proper setup
         assert(renderTime < 300) { 
@@ -119,6 +140,9 @@ class ScreenRenderPerformanceTest {
         
         println("MessageScreen render time: ${renderTime}ms")
         
+        val status = if (renderTime < 250) "PASSED" else "FAILED"
+        logMetric("MessageScreen", "Render Time", renderTime.toDouble(), "ms", status, "250ms")
+        
         // Target: < 250ms
         assert(renderTime < 250) { 
             "MessageScreen render time ($renderTime ms) exceeds target (250ms)" 
@@ -141,6 +165,9 @@ class ScreenRenderPerformanceTest {
         val renderTime = endTime - startTime
         
         println("MyProfileScreen render time: ${renderTime}ms")
+        
+        val status = if (renderTime < 200) "PASSED" else "FAILED"
+        logMetric("MyProfileScreen", "Render Time", renderTime.toDouble(), "ms", status, "200ms")
         
         // Target: < 200ms
         assert(renderTime < 200) { 

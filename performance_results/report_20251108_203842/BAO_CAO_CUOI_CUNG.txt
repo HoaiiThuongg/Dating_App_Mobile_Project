@@ -1,0 +1,137 @@
+========================================
+BÁO CÁO CUỐI CÙNG - PERFORMANCE TESTS
+========================================
+
+Generated: 09/11/2025 01:15:00
+Report Directory: performance_results\report_20251108_203842
+
+========================================
+TỔNG QUAN
+========================================
+
+Total Reports: 6 / 12 tests
+
+✅ Đã hoàn thành: 6 tests
+⏳ Chưa hoàn thành: 6 tests
+
+========================================
+TESTS ĐÃ HOÀN THÀNH
+========================================
+
+1. ✅ Render Performance
+   - SplashScreen: 405 ms
+   - MyProfileScreen: 521 ms
+   - MessageScreen: 808 ms
+   - ChatScreen: 831 ms
+   
+2. ✅ Scroll Performance
+   - MessageScreen Scroll: 11.1 ms
+   - ChatScreen Scroll: 11.1 ms
+   
+3. ✅ ViewModel Performance
+   - Tests đã chạy thành công
+   
+4. ✅ Memory Performance
+   - Tests đã chạy thành công
+   
+5. ✅ System Resource Performance
+   - Tests đã chạy thành công
+   
+6. ✅ Image Loading Performance
+   - Tests đã chạy (có 1 test failed nhưng vẫn có report)
+   
+7. ✅ Touch Response Performance
+   - Tests đã chạy thành công
+
+========================================
+TESTS CHƯA HOÀN THÀNH
+========================================
+
+8. ❌ Network Performance
+   - Lý do: Lỗi Gradle lock files
+   - Vấn đề: Cannot access output property 'resultsDir'
+   
+9. ❌ Frame Rate Performance
+   - Lý do: Lỗi Gradle lock files
+   - Vấn đề: Cannot access output property 'resultsDir'
+   
+10. ❌ App Size Performance
+    - Lý do: Lỗi Gradle lock files
+    - Vấn đề: Cannot access output property 'resultsDir'
+    
+11. ❌ Database Performance
+    - Lý do: Lỗi Gradle lock files
+    - Vấn đề: Cannot access output property 'resultsDir'
+    
+12. ❌ App Startup Benchmark
+    - Lý do: Cần non-debuggable build
+    - Yêu cầu: Build với benchmark variant
+
+========================================
+VẤN ĐỀ GẶP PHẢI
+========================================
+
+1. **Gradle Lock Files**
+   - Lỗi: "Cannot access output property 'resultsDir'"
+   - Nguyên nhân: Lock files từ các lần chạy test trước
+   - Giải pháp đã thử:
+     * Xóa lock files trước mỗi test
+     * Clean build
+     * Chạy với --rerun-tasks
+   - Vẫn còn vấn đề với một số tests
+
+2. **Image Loading Test Failure**
+   - Test: measureImageLoadTime
+   - Lỗi: Image load average time (2016.5ms) exceeds target (200ms)
+   - Nguyên nhân: Test đang đo thời gian waitForIdle() thay vì thời gian load image thực tế
+   - Ghi chú: Test vẫn có report, chỉ là assertion failed
+
+3. **App Startup Benchmark**
+   - Yêu cầu: Non-debuggable build (benchmark variant)
+   - Hiện tại: Chưa có build configuration phù hợp
+
+========================================
+KHUYẾN NGHỊ
+========================================
+
+1. **Tối ưu hóa Render Performance:**
+   - MessageScreen: Giảm từ 808ms xuống < 600ms
+   - ChatScreen: Giảm từ 831ms xuống < 600ms
+   - Sử dụng LazyColumn, tối ưu image loading
+
+2. **Sửa lỗi Gradle Lock Files:**
+   - Kill tất cả Gradle daemon processes
+   - Xóa toàn bộ build directory
+   - Chạy tests từng cái một với delay giữa các test
+
+3. **Sửa Image Loading Test:**
+   - Sử dụng thư viện image loading thực tế (Coil/Glide)
+   - Đo thời gian load image thực tế thay vì waitForIdle()
+
+4. **Hoàn thành các tests còn lại:**
+   - Network Performance
+   - Frame Rate Performance
+   - App Size Performance
+   - Database Performance
+   - App Startup Benchmark
+
+========================================
+FILES BÁO CÁO
+========================================
+
+- Báo cáo tổng hợp: performance_results\report_20251108_203842\BAO_CAO_TONG_HOP.txt
+- Metrics chi tiết: performance_results\report_20251108_203842\performance_metrics_detailed.txt
+- Metrics CSV: performance_results\report_20251108_203842\performance_metrics_detailed.csv
+- HTML Reports: performance_results\report_20251108_203842\reports\[test_type]\androidTests\connected\debug\index.html
+
+========================================
+GHI CHÚ
+========================================
+
+- 6/12 tests đã hoàn thành thành công
+- Các tests còn lại gặp vấn đề về Gradle lock files
+- Báo cáo sẽ được cập nhật khi có thêm kết quả
+- Cần sửa lỗi lock files để chạy được các tests còn lại
+
+========================================
+

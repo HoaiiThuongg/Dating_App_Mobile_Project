@@ -1,0 +1,3 @@
+﻿{"testCategory":"Render","testName":"ChatScreen","metricName":"Render Time","value":893,"unit":"ms","status":"FAILED","target":"300ms","timestamp":1762632330599,"date":"2025-11-09 03:05:30"}
+{"testCategory":"Render","testName":"MessageScreen","metricName":"Render Time","value":883,"unit":"ms","status":"FAILED","target":"250ms","timestamp":1762632380287,"date":"2025-11-09 03:06:20"}
+{"testCategory":"Render","testName":"MyProfileScreen","metricName":"Render Time","value":944,"unit":"ms","status":"FAILED","target":"200ms","timestamp":1762632428630,"date":"2025-11-09 03:07:08"}

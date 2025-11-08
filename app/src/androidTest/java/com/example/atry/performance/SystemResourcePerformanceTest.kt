@@ -56,6 +56,18 @@ class SystemResourcePerformanceTest {
         return memInfo.availMem / (1024 * 1024) // MB
     }
     
+    private fun logMetric(testName: String, metricName: String, value: Double, unit: String, status: String, target: String? = null) {
+        PerformanceMetricsLogger.logMetric(
+            testCategory = "System",
+            testName = testName,
+            metricName = metricName,
+            value = value,
+            unit = unit,
+            status = status,
+            target = target
+        )
+    }
+    
     @Test
     fun measureInitialSystemResources() {
         composeTestRule.waitForIdle()
@@ -69,6 +81,12 @@ class SystemResourcePerformanceTest {
         println("Initial thread count: $threadCount")
         println("Initial heap size: ${heapSize}MB")
         println("Initial available memory: ${availableMemory}MB")
+        
+        val status = if (threadCount < 50 && heapSize < 200) "PASSED" else "FAILED"
+        logMetric("Initial", "CPU Usage", cpuUsage, "%", status)
+        logMetric("Initial", "Thread Count", threadCount.toDouble(), "", status, "50")
+        logMetric("Initial", "Heap Size", heapSize.toDouble(), "MB", status, "200MB")
+        logMetric("Initial", "Available Memory", availableMemory.toDouble(), "MB", status)
         
         // Targets
         assert(threadCount < 50) {
@@ -99,6 +117,12 @@ class SystemResourcePerformanceTest {
         
         println("Thread count after operations: $finalThreadCount (increase: $threadIncrease)")
         println("Heap size after operations: ${finalHeapSize}MB (increase: ${heapIncrease}MB)")
+        
+        val status = if (threadIncrease < 10 && heapIncrease < 50) "PASSED" else "FAILED"
+        logMetric("After Operations", "Thread Count", finalThreadCount.toDouble(), "", status)
+        logMetric("After Operations", "Thread Increase", threadIncrease.toDouble(), "", status, "10")
+        logMetric("After Operations", "Heap Size", finalHeapSize.toDouble(), "MB", status)
+        logMetric("After Operations", "Heap Increase", heapIncrease.toDouble(), "MB", status, "50MB")
         
         // Targets
         assert(threadIncrease < 10) {
@@ -133,6 +157,11 @@ class SystemResourcePerformanceTest {
         println("Peak thread count: $peakThreadCount")
         println("Peak heap size: ${peakHeapSize}MB")
         
+        val status = if (peakThreadCount < 100 && peakHeapSize < 300) "PASSED" else "FAILED"
+        logMetric("Peak", "CPU Usage", peakCpuUsage, "%", status)
+        logMetric("Peak", "Thread Count", peakThreadCount.toDouble(), "", status, "100")
+        logMetric("Peak", "Heap Size", peakHeapSize.toDouble(), "MB", status, "300MB")
+        
         // Targets
         assert(peakThreadCount < 100) {
             "Peak thread count ($peakThreadCount) exceeds target (100)"
@@ -142,4 +171,5 @@ class SystemResourcePerformanceTest {
         }
     }
 }
+
 

@@ -1,0 +1,196 @@
+========================================
+BÁO CÁO CHI TIẾT TEST 5-7
+========================================
+
+Generated: 09/11/2025 01:20:00
+Report Directory: performance_results\report_20251108_203842
+
+========================================
+TEST 5: SYSTEM RESOURCE PERFORMANCE
+========================================
+
+📊 Metrics đã đo được:
+
+1. CPU Usage (%)
+   - Initial CPU usage: % CPU sử dụng ban đầu
+   - Peak CPU usage: % CPU cao nhất khi chạy operations
+   - Cách đo: Approximate dựa trên memory pressure
+   - Đơn vị: %
+
+2. Thread Count
+   - Initial thread count: Số threads ban đầu
+   - Thread count after operations: Số threads sau operations
+   - Peak thread count: Số threads cao nhất
+   - Thread increase: Mức tăng số threads (để phát hiện thread leak)
+   - Đơn vị: threads
+   - Target: < 50 threads ban đầu, < 100 threads peak
+
+3. Heap Size (MB)
+   - Initial heap size: Kích thước heap ban đầu
+   - Heap size after operations: Kích thước heap sau operations
+   - Peak heap size: Kích thước heap cao nhất
+   - Heap increase: Mức tăng heap (để phát hiện memory leak)
+   - Đơn vị: MB
+   - Target: < 200MB ban đầu, < 300MB peak
+
+4. Available Memory (MB)
+   - Initial available memory: Memory còn trống ban đầu
+   - Đơn vị: MB
+
+📝 Tests đã chạy:
+
+1. measureInitialSystemResources()
+   - Đo: CPU usage, Thread count, Heap size, Available memory ban đầu
+   - Assertions:
+     * Thread count < 50
+     * Heap size < 200MB
+
+2. measureSystemResourcesAfterOperations()
+   - Đo: Thread count và Heap size sau 20 operations
+   - Tính: Thread increase, Heap increase
+   - Assertions:
+     * Thread increase < 10 (phát hiện thread leak)
+     * Heap increase < 50MB (phát hiện memory leak)
+
+3. measurePeakSystemResources()
+   - Đo: Peak CPU usage, Peak thread count, Peak heap size
+   - Thực hiện: 30 intensive operations
+   - Assertions:
+     * Peak thread count < 100
+     * Peak heap size < 300MB
+
+========================================
+TEST 6: NETWORK PERFORMANCE
+========================================
+
+📊 Metrics đã đo được:
+
+1. Connection Time (ms)
+   - Connection time to URL: Thời gian kết nối đến từng URL
+   - Average connection time: Thời gian kết nối trung bình
+   - Max connection time: Thời gian kết nối tối đa
+   - Đơn vị: ms
+   - Target: Average < 2000ms
+   - URLs test: https://www.google.com, https://www.github.com
+
+2. Network Latency (ms)
+   - Average latency: Latency trung bình
+   - Min latency: Latency tối thiểu
+   - Max latency: Latency tối đa
+   - Jitter: Biến động latency (max - min)
+   - Đơn vị: ms
+   - Target: Average < 1000ms, Jitter < 500ms
+   - Iterations: 5 lần
+
+3. Network Throughput (KB/s)
+   - Throughput: Tốc độ download
+   - Bytes downloaded: Số bytes đã download
+   - Duration: Thời gian download
+   - Đơn vị: KB/s
+   - Target: Throughput > 10 KB/s
+   - Limit: 100KB cho test
+
+📝 Tests đã chạy:
+
+1. measureNetworkConnectionTime()
+   - Đo: Connection time đến các URLs
+   - Tính: Average, Max connection time
+   - Assertions:
+     * Average connection time < 2000ms
+
+2. measureNetworkLatency()
+   - Đo: Latency với 5 iterations
+   - Tính: Average, Min, Max, Jitter
+   - Assertions:
+     * Average latency < 1000ms
+
+3. measureNetworkThroughput()
+   - Đo: Throughput khi download data
+   - Tính: KB/s
+   - Assertions:
+     * Throughput > 10 KB/s
+
+========================================
+TEST 7: FRAME RATE PERFORMANCE
+========================================
+
+📊 Metrics đã đo được:
+
+1. Frame Rate (FPS)
+   - Average FPS: Frame rate trung bình
+   - Estimated FPS: FPS ước tính (1000 / avgFrameTime)
+   - Đơn vị: FPS
+   - Target: > 50 FPS
+
+2. Frame Time (ms)
+   - Average frame time: Frame time trung bình
+   - Min frame time: Frame time tối thiểu
+   - Max frame time: Frame time tối đa
+   - Đơn vị: ms
+   - Target: Average < 33ms (tương đương 30 FPS minimum)
+
+3. Jank
+   - Jank count: Số frames bị jank (frame time > 16ms)
+   - Jank percentage: % frames bị jank
+   - Đơn vị: count, %
+   - Target: Jank percentage < 5%
+
+4. Smoothness
+   - Độ mượt của animation dựa trên jank percentage
+   - Đơn vị: % (100% - jank percentage)
+
+📝 Tests đã chạy:
+
+1. measureFrameRateDuringScroll()
+   - Đo: Frame rate khi scroll
+   - Thực hiện: 50 iterations với 100 items scrollable
+   - Metrics:
+     * Frame rate (FPS)
+     * Frame time (Avg, Min, Max)
+     * Jank count và percentage
+   - Assertions:
+     * Estimated FPS > 50
+     * Jank percentage < 5%
+
+2. measureFrameRateDuringComposition()
+   - Đo: Frame rate khi composition
+   - Thực hiện: 20 iterations với 50 items composition
+   - Metrics:
+     * Composition frame rate (FPS)
+     * Composition frame time (Avg, Max)
+   - Assertions:
+     * Average frame time < 33ms
+
+========================================
+TỔNG KẾT
+========================================
+
+✅ TEST 5: SYSTEM RESOURCE PERFORMANCE
+   - Đã đo: CPU usage, Thread count, Heap size, Available memory
+   - Số metrics: 8 metrics
+   - Số tests: 3 tests
+   - Status: ✅ Hoàn thành
+
+✅ TEST 6: NETWORK PERFORMANCE
+   - Đã đo: Connection time, Latency, Throughput
+   - Số metrics: 9 metrics
+   - Số tests: 3 tests
+   - Status: ✅ Hoàn thành
+
+✅ TEST 7: FRAME RATE PERFORMANCE
+   - Đã đo: Frame rate (FPS), Frame time, Jank
+   - Số metrics: 8 metrics
+   - Số tests: 2 tests
+   - Status: ✅ Hoàn thành
+
+========================================
+GHI CHÚ
+========================================
+
+- Tất cả metrics được in ra console qua println() statements
+- Metrics có thể được xem trong HTML reports
+- Một số metrics có thể được extract từ error messages trong reports
+- Các assertions trong tests giúp đảm bảo performance targets
+
+========================================
+

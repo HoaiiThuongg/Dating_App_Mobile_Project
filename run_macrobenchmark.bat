@@ -26,7 +26,7 @@ REM Uninstall existing app (debug or release) to avoid conflicts
 echo 🗑️  Uninstalling existing app (if any)...
 adb uninstall com.example.datingapp >nul 2>&1
 adb uninstall com.example.datingapp.test >nul 2>&1
-timeout /t 3 /nobreak >nul
+ping 127.0.0.1 -n 4 >nul
 
 REM Clean build (skip if files are locked)
 echo 🧹 Cleaning build...
@@ -63,7 +63,7 @@ if errorlevel 1 (
 
 REM Wait for installation to complete
 echo Waiting for installation to complete...
-timeout /t 5 >nul 2>&1
+ping 127.0.0.1 -n 6 >nul
 
 REM Verify benchmark APK is installed and is non-debuggable
 echo 🔍 Verifying benchmark APK installation...
@@ -81,9 +81,9 @@ if not errorlevel 1 (
     echo ⚠️  Warning: App may still be debuggable!
     echo    Trying to force reinstall...
     adb uninstall com.example.datingapp >nul 2>&1
-    timeout /t 2 /nobreak >nul
+    ping 127.0.0.1 -n 3 >nul
     call gradlew.bat installBenchmark
-    timeout /t 5 /nobreak >nul
+    ping 127.0.0.1 -n 6 >nul
 )
 echo ✅ Benchmark APK installed (non-debuggable)
 
@@ -102,12 +102,12 @@ call gradlew.bat installDebugAndroidTest
 if errorlevel 1 (
     echo Install test APK failed - proceeding anyway
 )
-timeout /t 5 /nobreak >nul
+ping 127.0.0.1 -n 6 >nul
 
 REM Force stop app to ensure clean state
-echo 🛑 Stopping app to ensure clean state...
+echo Stopping app to ensure clean state...
 adb shell am force-stop com.example.datingapp >nul 2>&1
-timeout /t 2 /nobreak >nul
+ping 127.0.0.1 -n 4 >nul
 
 REM Run macrobenchmark tests
 echo.

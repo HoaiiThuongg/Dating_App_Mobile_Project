@@ -109,3 +109,4 @@ $report | Out-File $reportFile -Encoding UTF8
 
 Write-Host "  ✓ Report generated: $reportFile" -ForegroundColor Green
 
+

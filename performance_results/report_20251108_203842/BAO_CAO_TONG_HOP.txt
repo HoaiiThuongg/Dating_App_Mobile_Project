@@ -2,14 +2,14 @@
 BÁO CÁO TỔNG HỢP PERFORMANCE TESTS
 ========================================
 
-Generated: Sat 11/08/2025 23:30:38.35
+Generated: Sun 11/09/2025  1:13:45.57
 Report Directory: performance_results\report_20251108_203842
 
 ========================================
 TỔNG QUAN
 ========================================
 
-Total Reports: 4 / 12
+Total Reports: 8 / 12
 
 ========================================
 REPORTS THEO TỪNG LOẠI
@@ -20,13 +20,13 @@ REPORTS THEO TỪNG LOẠI
 ✅ ViewModel Performance: performance_results\report_20251108_203842\reports\viewmodel\androidTests\connected\debug\index.html
 ✅ Memory Performance: performance_results\report_20251108_203842\reports\memory\androidTests\connected\debug\index.html
 ⏳ App Startup: Chưa có
-⏳ System Resource Performance: Chưa có
-⏳ Network Performance: Chưa có
-⏳ Frame Rate Performance: Chưa có
+✅ System Resource Performance: performance_results\report_20251108_203842\reports\system\androidTests\connected\debug\index.html
+✅ Network Performance: performance_results\report_20251108_203842\reports\network\androidTests\connected\debug\index.html
+✅ Frame Rate Performance: performance_results\report_20251108_203842\reports\framerate\androidTests\connected\debug\index.html
 ⏳ App Size Performance: Chưa có
 ⏳ Database Performance: Chưa có
 ⏳ Image Loading Performance: Chưa có
-⏳ Touch Response Performance: Chưa có
+✅ Touch Response Performance: performance_results\report_20251108_203842\reports\touch\androidTests\connected\debug\index.html
 
 ========================================
 METRICS
@@ -35,7 +35,7 @@ METRICS
 ﻿========================================
 PERFORMANCE METRICS SUMMARY
 ========================================
-Generated: 2025-11-08 23:30:38
+Generated: 2025-11-09 01:13:45
 Report Location: performance_results\report_20251108_203842
 
 ========================================

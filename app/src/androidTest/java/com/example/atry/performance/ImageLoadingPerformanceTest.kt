@@ -22,6 +22,18 @@ class ImageLoadingPerformanceTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
     
+    private fun logMetric(testName: String, metricName: String, value: Double, unit: String, status: String, target: String? = null) {
+        PerformanceMetricsLogger.logMetric(
+            testCategory = "Image Loading",
+            testName = testName,
+            metricName = metricName,
+            value = value,
+            unit = unit,
+            status = status,
+            target = target
+        )
+    }
+    
     @Test
     fun measureImageLoadTime() {
         val iterations = 20
@@ -40,10 +52,16 @@ class ImageLoadingPerformanceTest {
         }
         
         val avgTime = loadTimes.average()
-        val p95Time = loadTimes.sorted()[loadTimes.size * 95 / 100]
+        val p95Index = loadTimes.size * 95 / 100
+        val p95Time = loadTimes.sorted()[p95Index].toDouble()
         val maxTime = loadTimes.maxOrNull() ?: 0
         
-        println("Image load time - Avg: ${String.format("%.2f", avgTime)}ms, P95: ${p95Time}ms, Max: ${maxTime}ms")
+        println("Image load time - Avg: ${String.format("%.2f", avgTime)}ms, P95: ${String.format("%.2f", p95Time)}ms, Max: ${maxTime}ms")
+        
+        val status = if (avgTime < 200 && p95Time < 500) "PASSED" else "FAILED"
+        logMetric("Image Load", "Average Time", avgTime, "ms", status, "200ms")
+        logMetric("Image Load", "P95 Time", p95Time, "ms", status, "500ms")
+        logMetric("Image Load", "Max Time", maxTime.toDouble(), "ms", status)
         
         // Target: Average < 200ms, P95 < 500ms
         assert(avgTime < 200) {
@@ -66,6 +84,10 @@ class ImageLoadingPerformanceTest {
         
         println("Memory increase after loading images: ${memoryIncrease}MB")
         
+        val status = if (memoryIncrease < 50) "PASSED" else "FAILED"
+        logMetric("Image Memory", "Memory Increase", memoryIncrease.toDouble(), "MB", status, "50MB")
+        logMetric("Image Memory", "Final Memory", finalMemory.toDouble(), "MB", status)
+        
         // Target: Memory increase < 50 MB
         assert(memoryIncrease < 50) {
             "Memory increase (${memoryIncrease}MB) exceeds target (50MB)"
@@ -78,4 +100,5 @@ class ImageLoadingPerformanceTest {
         return usedMemory / (1024 * 1024) // Convert to MB
     }
 }
+
 

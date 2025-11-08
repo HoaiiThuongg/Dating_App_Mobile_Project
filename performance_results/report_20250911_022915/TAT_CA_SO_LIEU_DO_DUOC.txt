@@ -1,0 +1,133 @@
+﻿========================================
+TAT CA SO LIEU DO DUOC - TEST 1-8
+========================================
+
+Generated: 2025-11-09 02:36:41
+Report Directory: performance_results\report_20250911_022915
+
+LUU Y: Bao cao nay bao gom TAT CA so lieu do duoc,
+       ke ca tu cac tests da FAILED.
+
+========================================
+TEST 1: RENDER PERFORMANCE
+========================================
+
+
+========================================
+TEST 2: SCROLL PERFORMANCE
+========================================
+
+
+========================================
+TEST 3: VIEWMODEL PERFORMANCE
+========================================
+
+1. LoadUsers Performance: PASSED (0.134s)
+   - Average time, Min time, Max time
+   - Target: Average < 500ms
+
+2. LoadMessages Performance: PASSED (0.145s)
+   - Average time, Max time
+   - Target: Average < 300ms
+
+3. SwipeAction Performance: PASSED (0.008s)
+   - Average time, P95 time
+   - Target: Average < 10ms, P95 < 20ms
+
+4. SendMessage Performance: PASSED (0.347s)
+   - Average time, Max time
+   - Target: Average < 100ms
+
+========================================
+TEST 4: MEMORY PERFORMANCE
+========================================
+
+1. Initial Memory Usage: PASSED (46.084s)
+   - Memory usage (MB)
+   - Target: < 100MB
+
+2. Memory After Navigation: PASSED (46.491s)
+   - Memory usage (MB), Memory increase (MB)
+   - Target: Memory increase < 50MB
+
+3. Memory After Operations: PASSED (46.867s)
+   - Memory usage (MB), Memory increase (MB)
+   - Target: Memory increase < 30MB
+
+4. Peak Memory Usage: PASSED (50.828s)
+   - Peak memory (MB)
+   - Target: Peak < 200MB
+
+========================================
+TEST 5: SYSTEM RESOURCE PERFORMANCE
+========================================
+
+1. Initial System Resources: PASSED (49.246s)
+   - Initial CPU Usage (%)
+   - Initial Thread Count
+   - Initial Heap Size (MB)
+   - Initial Available Memory (MB)
+   - Targets: Thread count < 50, Heap size < 200MB
+
+2. System Resources After Operations: PASSED (1m29.55s)
+   - Thread Count After Operations
+   - Thread Increase
+   - Heap Size After Operations
+   - Heap Increase (MB)
+   - Targets: Thread increase < 10, Heap increase < 50MB
+
+3. Peak System Resources: PASSED (1m50.12s)
+   - Peak CPU Usage (%)
+   - Peak Thread Count
+   - Peak Heap Size (MB)
+   - Targets: Peak thread count < 100, Peak heap size < 300MB
+
+========================================
+TEST 6: NETWORK PERFORMANCE
+========================================
+
+1. Network Connection Time: PASSED (0.426s)
+   - Connection time to URLs (ms)
+   - Average connection time (ms)
+   - Max connection time (ms)
+   - Target: Average < 2000ms
+
+2. Network Latency: PASSED (3.721s)
+   - Average latency (ms)
+   - Min latency (ms)
+   - Max latency (ms)
+   - Jitter (ms)
+   - Target: Average < 1000ms, Jitter < 500ms
+
+3. Network Throughput: PASSED (0.536s)
+   - Throughput (KB/s)
+   - Bytes downloaded
+   - Duration (ms)
+   - Target: Throughput > 10 KB/s
+
+========================================
+TEST 7: FRAME RATE PERFORMANCE
+========================================
+
+========================================
+TEST 8: TOUCH RESPONSE PERFORMANCE
+========================================
+
+========================================
+TONG KET
+========================================
+
+Tong so metrics da do: 0
+Metrics tu tests PASSED: 0
+Metrics tu tests FAILED: 0
+
+Phan loai theo category:
+
+========================================
+GHI CHU
+========================================
+
+- Tat ca so lieu duoc extract tu HTML reports
+- Bao gom ca tests PASSED va FAILED
+- Mot so metrics chi co trong console output (khong co trong HTML)
+- File CSV chua cac metrics co gia tri so cu the

@@ -29,6 +29,18 @@ class TouchResponsePerformanceTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
     
+    private fun logMetric(testName: String, metricName: String, value: Double, unit: String, status: String, target: String? = null) {
+        PerformanceMetricsLogger.logMetric(
+            testCategory = "Touch",
+            testName = testName,
+            metricName = metricName,
+            value = value,
+            unit = unit,
+            status = status,
+            target = target
+        )
+    }
+    
     @Test
     fun measureClickResponseTime() {
         var clickCount = 0
@@ -62,11 +74,18 @@ class TouchResponsePerformanceTest {
         }
         
         val avgTime = responseTimes.average()
-        val p95Time = responseTimes.sorted()[responseTimes.size * 95 / 100]
+        val p95Index = responseTimes.size * 95 / 100
+        val p95Time = responseTimes.sorted()[p95Index].toDouble()
         val maxTime = responseTimes.maxOrNull() ?: 0
         
-        println("Click response time - Avg: ${String.format("%.2f", avgTime)}ms, P95: ${p95Time}ms, Max: ${maxTime}ms")
+        println("Click response time - Avg: ${String.format("%.2f", avgTime)}ms, P95: ${String.format("%.2f", p95Time)}ms, Max: ${maxTime}ms")
         println("Total clicks registered: $clickCount")
+        
+        val status = if (avgTime < 50 && p95Time < 100) "PASSED" else "FAILED"
+        logMetric("Click Response", "Average Time", avgTime, "ms", status, "50ms")
+        logMetric("Click Response", "P95 Time", p95Time, "ms", status, "100ms")
+        logMetric("Click Response", "Max Time", maxTime.toDouble(), "ms", status)
+        logMetric("Click Response", "Total Clicks", clickCount.toDouble(), "", status)
         
         // Target: Average < 50ms, P95 < 100ms
         assert(avgTime < 50) {
@@ -105,10 +124,15 @@ class TouchResponsePerformanceTest {
         
         println("Touch latency - Avg: ${String.format("%.2f", avgLatency)}ms, Max: ${maxLatency}ms")
         
+        val status = if (avgLatency < 16) "PASSED" else "FAILED"
+        logMetric("Touch Latency", "Average Latency", avgLatency, "ms", status, "16ms")
+        logMetric("Touch Latency", "Max Latency", maxLatency.toDouble(), "ms", status)
+        
         // Target: Average < 16ms (60 FPS)
         assert(avgLatency < 16) {
             "Touch latency (${avgLatency}ms) exceeds target (16ms)"
         }
     }
 }
+
 

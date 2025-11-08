@@ -24,6 +24,18 @@ class AppSizePerformanceTest {
         return InstrumentationRegistry.getInstrumentation().targetContext
     }
     
+    private fun logMetric(testName: String, metricName: String, value: Double, unit: String, status: String, target: String? = null) {
+        PerformanceMetricsLogger.logMetric(
+            testCategory = "App Size",
+            testName = testName,
+            metricName = metricName,
+            value = value,
+            unit = unit,
+            status = status,
+            target = target
+        )
+    }
+    
     private fun getAppSize(): Long {
         try {
             val packageManager = getContext().packageManager
@@ -73,6 +85,9 @@ class AppSizePerformanceTest {
         if (apkSize > 0) {
             println("APK size: ${apkSize}MB")
             
+            val status = if (apkSize < 50) "PASSED" else "FAILED"
+            logMetric("APK Size", "APK Size", apkSize.toDouble(), "MB", status, "50MB")
+            
             // Target: APK size < 50 MB
             assert(apkSize < 50) {
                 "APK size (${apkSize}MB) exceeds target (50MB)"
@@ -88,6 +103,9 @@ class AppSizePerformanceTest {
         
         if (appSize > 0) {
             println("Installed app size: ${appSize}MB")
+            
+            val status = if (appSize < 200) "PASSED" else "FAILED"
+            logMetric("Installed Size", "Installed App Size", appSize.toDouble(), "MB", status, "200MB")
             
             // Target: Installed size < 200 MB
             assert(appSize < 200) {
@@ -115,10 +133,15 @@ class AppSizePerformanceTest {
             if (apkSize > 0 && appSize > 0) {
                 val additionalSize = appSize - apkSize
                 println("Additional size (cache + data): ${additionalSize}MB")
+                
+                logMetric("Size Breakdown", "APK Size", apkSize.toDouble(), "MB", "PASSED")
+                logMetric("Size Breakdown", "Installed Size", appSize.toDouble(), "MB", "PASSED")
+                logMetric("Size Breakdown", "Additional Size", additionalSize.toDouble(), "MB", "PASSED")
             }
         } catch (e: Exception) {
             println("Could not get app size breakdown: ${e.message}")
         }
     }
 }
+
 

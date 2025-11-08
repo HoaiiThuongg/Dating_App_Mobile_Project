@@ -29,6 +29,18 @@ class FrameRatePerformanceTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
     
+    private fun logMetric(testName: String, metricName: String, value: Double, unit: String, status: String, target: String? = null) {
+        PerformanceMetricsLogger.logMetric(
+            testCategory = "Frame Rate",
+            testName = testName,
+            metricName = metricName,
+            value = value,
+            unit = unit,
+            status = status,
+            target = target
+        )
+    }
+    
     @Test
     fun measureFrameRateDuringScroll() {
         composeTestRule.setContent {
@@ -69,6 +81,14 @@ class FrameRatePerformanceTest {
         println("Frame time - Avg: ${String.format("%.2f", avgFrameTime)}ms, Min: ${minFrameTime}ms, Max: ${maxFrameTime}ms")
         println("Jank - Count: $jankCount, Percentage: ${String.format("%.2f", jankPercentage)}%")
         
+        val status = if (estimatedFPS > 50 && jankPercentage < 5) "PASSED" else "FAILED"
+        logMetric("Scroll", "Frame Rate (FPS)", estimatedFPS, "FPS", status, "50 FPS")
+        logMetric("Scroll", "Average Frame Time", avgFrameTime, "ms", status)
+        logMetric("Scroll", "Min Frame Time", minFrameTime.toDouble(), "ms", status)
+        logMetric("Scroll", "Max Frame Time", maxFrameTime.toDouble(), "ms", status)
+        logMetric("Scroll", "Jank Count", jankCount.toDouble(), "", status)
+        logMetric("Scroll", "Jank Percentage", jankPercentage, "%", status, "5%")
+        
         // Targets
         assert(estimatedFPS > 50) {
             "Frame rate (${estimatedFPS}FPS) below target (50FPS)"
@@ -106,6 +126,11 @@ class FrameRatePerformanceTest {
         
         println("Composition frame rate - Avg: ${String.format("%.2f", estimatedFPS)} FPS")
         println("Composition frame time - Avg: ${String.format("%.2f", avgFrameTime)}ms, Max: ${maxFrameTime}ms")
+        
+        val status = if (avgFrameTime < 33) "PASSED" else "FAILED"
+        logMetric("Composition", "Frame Rate (FPS)", estimatedFPS, "FPS", status)
+        logMetric("Composition", "Average Frame Time", avgFrameTime, "ms", status, "33ms")
+        logMetric("Composition", "Max Frame Time", maxFrameTime.toDouble(), "ms", status)
         
         // Target: Average frame time < 33ms (30 FPS minimum)
         assert(avgFrameTime < 33) {

@@ -1,0 +1,3 @@
+﻿"Category","Test","Metric","Value","Unit","Status","Source"
+"Scroll","MessageScreen","Scroll Average Idle","11.1","ms","FAILED","Console"
+"Scroll","ChatScreen","Scroll Average Idle","11.1","ms","FAILED","Console"

@@ -1,0 +1,60 @@
+﻿========================================
+BAO CAO TONG HOP - TAT CA SO LIEU DO DUOC
+========================================
+
+Generated: 2025-11-09 02:15:38
+Report Directory: E:\UET\Project\Dating_App_Mobile_Project\performance_results\report_20251108_203842
+
+TONG SO METRICS: 10
+  - PASSED: 0 metrics
+  - FAILED: 10 metrics
+
+PHAN LOAI THEO CATEGORY:
+  - Render: 4 metrics
+  - Scroll: 3 metrics
+  - Frame Rate: 1 metrics
+  - Touch: 2 metrics
+
+PHAN LOAI THEO SOURCE:
+  - : 10 metrics
+
+========================================
+FRAME RATE
+========================================
+
+- Scroll - Frame Rate (FPS): 46.5983224603914 FPS
+  Status: FAILED, Target: 50 FPS
+
+========================================
+RENDER
+========================================
+
+- ChatScreen - Render Time: 831 ms
+  Status: FAILED, Target: 300ms
+- MessageScreen - Render Time: 808 ms
+  Status: FAILED, Target: 250ms
+- MyProfileScreen - Render Time: 521 ms
+  Status: FAILED, Target: 200ms
+- SplashScreen - Render Time: 405 ms
+  Status: FAILED, Target: 100ms
+
+========================================
+SCROLL
+========================================
+
+- ChatScreen - Scroll Average Idle: 11.1 ms
+  Status: FAILED, Target: 10ms
+- HomeScreen - Render Time (Swipe): 2212 ms
+  Status: FAILED, Target: 2000ms
+- MessageScreen - Scroll Average Idle: 11.1 ms
+  Status: FAILED, Target: 10ms
+
+========================================
+TOUCH
+========================================
+
+- Click Response - Average Time: 61.9 ms
+  Status: FAILED, Target: 50ms
+- Touch Latency - Average Latency: 33.6333333333333 ms
+  Status: FAILED, Target: 16ms
+

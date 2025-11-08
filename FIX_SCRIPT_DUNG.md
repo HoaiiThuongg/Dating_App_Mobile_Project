@@ -85,3 +85,4 @@ Nếu log không cập nhật > 2 phút → Script có thể đã dừng
 - Nếu một test fail, script vẫn tiếp tục test tiếp theo
 - Báo cáo sẽ được tạo với các tests đã hoàn thành
 
+

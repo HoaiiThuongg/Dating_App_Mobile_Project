@@ -1,0 +1,66 @@
+﻿========================================
+TAT CA SO LIEU DO DUOC - TEST 1-8
+========================================
+
+Generated: 2025-11-09 01:42:25
+Report Directory: E:\UET\Project\Dating_App_Mobile_Project\performance_results\report_20251108_203842
+
+LUU Y: Bao cao nay bao gom TAT CA so lieu do duoc,
+       ke ca tu cac tests PASSED va FAILED.
+
+========================================
+TEST 1: RENDER PERFORMANCE
+========================================
+
+1. SplashScreen Render Time: 405 ms (FAILED - vuot target 100ms)
+3. MessageScreen Render Time: 808 ms (FAILED - vuot target 250ms)
+4. ChatScreen Render Time: 831 ms (FAILED - vuot target 300ms)
+5. MyProfileScreen Render Time: 521 ms (FAILED - vuot target 200ms)
+
+========================================
+TEST 2: SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time: 11.1 ms (FAILED - vuot target 10ms)
+2. ChatScreen Scroll Average Idle Time: 11.1 ms (FAILED - vuot target 10ms)
+3. HomeScreen Render Time (Swipe Test): 2212 ms (FAILED - vuot target 2000ms)
+
+========================================
+TEST 7: FRAME RATE PERFORMANCE
+========================================
+
+1. Frame Rate During Scroll: FAILED
+   - Frame Rate: 46.5983224603914 FPS (FAILED - duoi target 50 FPS)
+
+========================================
+TEST 8: TOUCH RESPONSE PERFORMANCE
+========================================
+
+1. Click Response Time: FAILED
+   - Click Response Average Time: 61.9 ms (FAILED - vuot target 50ms)
+2. Touch Latency: FAILED
+   - Touch Latency: 33.6333333333333 ms (FAILED - vuot target 16ms)
+
+========================================
+METRICS TU CONSOLE OUTPUT (PASSED TESTS)
+========================================
+
+
+TEST 5: SYSTEM RESOURCE PERFORMANCE
+
+========================================
+TONG KET
+========================================
+
+Tong so metrics da do: 10
+Metrics tu tests PASSED: 0
+Metrics tu tests FAILED: 10
+
+Phan loai theo category:
+  - Render: 4 metrics
+  - Scroll: 3 metrics
+  - Frame Rate: 1 metrics
+  - Touch: 2 metrics
+
+Phan loai theo source:
+  - HTML: 10 metrics

@@ -1,0 +1,59 @@
+﻿========================================
+METRICS TU CONSOLE OUTPUT
+========================================
+
+Generated: 2025-11-09 02:10:37
+Log File: E:\UET\Project\Dating_App_Mobile_Project\performance_results\report_20251108_203842\full_output.log
+
+========================================
+TEST 1: RENDER PERFORMANCE
+========================================
+
+
+========================================
+TEST 2: SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle: 11.1 ms
+2. ChatScreen Scroll Average Idle: 11.1 ms
+
+========================================
+TEST 3: VIEWMODEL PERFORMANCE
+========================================
+
+
+========================================
+TEST 4: MEMORY PERFORMANCE
+========================================
+
+
+========================================
+TEST 5: SYSTEM RESOURCE PERFORMANCE
+========================================
+
+
+========================================
+TEST 6: NETWORK PERFORMANCE
+========================================
+
+
+========================================
+TEST 7: FRAME RATE PERFORMANCE
+========================================
+
+
+========================================
+TEST 8: TOUCH RESPONSE PERFORMANCE
+========================================
+
+
+========================================
+TONG KET
+========================================
+
+Tong so metrics extract duoc: 2
+Metrics tu tests PASSED: 0
+Metrics tu tests FAILED: 2
+
+Phan loai theo category:
+  - Scroll: 2 metrics

@@ -1,0 +1,15 @@
+﻿========================================
+BAO CAO TONG HOP - TAT CA SO LIEU DO DUOC
+========================================
+
+Generated: 2025-11-09 03:07:54
+Report Directory: performance_results\report_20250911_030437
+
+TONG SO METRICS: 0
+  - PASSED: 0 metrics
+  - FAILED: 0 metrics
+
+PHAN LOAI THEO CATEGORY:
+
+PHAN LOAI THEO SOURCE:
+

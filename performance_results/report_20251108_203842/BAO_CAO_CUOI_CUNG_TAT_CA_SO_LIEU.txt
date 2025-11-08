@@ -1,0 +1,330 @@
+========================================
+BAO CAO CUOI CUNG - TAT CA SO LIEU DO DUOC
+========================================
+
+Generated: 2025-11-09 02:20:00
+Report Directory: performance_results\report_20251108_203842
+
+LUU Y: Bao cao nay bao gom TAT CA so lieu do duoc tu tests,
+       ke ca PASSED va FAILED. So lieu cu the duoc extract tu
+       HTML reports (FAILED tests) va test execution logs.
+
+========================================
+TONG KET TONG QUAT
+========================================
+
+Tong so test methods: 27
+  - PASSED: 14 tests (52%)
+  - FAILED: 13 tests (48%)
+
+Tong so metrics co so lieu cu the: 10 metrics
+  - Tu tests FAILED: 10 metrics (co so lieu trong HTML reports)
+  - Tu tests PASSED: 0 metrics (khong co trong HTML reports, 
+    metrics duoc in ra console khi chay tests)
+
+========================================
+CHI TIET SO LIEU DO DUOC
+========================================
+
+========================================
+TEST 1: RENDER PERFORMANCE
+========================================
+
+1. SplashScreen Render Time
+   - Gia tri: 405 ms
+   - Status: FAILED (vuot target 100ms)
+   - Target: < 100ms
+   - Nguon: HTML Report
+
+2. HomeScreen Render Time
+   - Gia tri: PASSED (khong vuot target 200ms)
+   - Status: PASSED
+   - Target: < 200ms
+   - Nguon: HTML Report (khong co so lieu cu the vi PASSED)
+
+3. MessageScreen Render Time
+   - Gia tri: 808 ms
+   - Status: FAILED (vuot target 250ms)
+   - Target: < 250ms
+   - Nguon: HTML Report
+
+4. ChatScreen Render Time
+   - Gia tri: 831 ms
+   - Status: FAILED (vuot target 300ms)
+   - Target: < 300ms
+   - Nguon: HTML Report
+
+5. MyProfileScreen Render Time
+   - Gia tri: 521 ms
+   - Status: FAILED (vuot target 200ms)
+   - Target: < 200ms
+   - Nguon: HTML Report
+
+========================================
+TEST 2: SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time
+   - Gia tri: 11.1 ms
+   - Status: FAILED (vuot target 10ms)
+   - Target: < 10ms
+   - Nguon: HTML Report
+
+2. ChatScreen Scroll Average Idle Time
+   - Gia tri: 11.1 ms
+   - Status: FAILED (vuot target 10ms)
+   - Target: < 10ms
+   - Nguon: HTML Report
+
+3. HomeScreen Render Time (Swipe Test)
+   - Gia tri: 2212 ms
+   - Status: FAILED (vuot target 2000ms)
+   - Target: < 2000ms
+   - Nguon: HTML Report
+
+========================================
+TEST 3: VIEWMODEL PERFORMANCE
+========================================
+
+1. LoadUsers Performance
+   - Status: PASSED (0.134s)
+   - Metrics: Average time, Min time, Max time
+   - Target: Average < 500ms
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+2. LoadMessages Performance
+   - Status: PASSED (0.145s)
+   - Metrics: Average time, Max time
+   - Target: Average < 300ms
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+3. SwipeAction Performance
+   - Status: PASSED (0.008s)
+   - Metrics: Average time, P95 time
+   - Target: Average < 10ms, P95 < 20ms
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+4. SendMessage Performance
+   - Status: PASSED (0.347s)
+   - Metrics: Average time, Max time
+   - Target: Average < 100ms
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+========================================
+TEST 4: MEMORY PERFORMANCE
+========================================
+
+1. Initial Memory Usage
+   - Status: PASSED (46.084s)
+   - Metrics: Memory usage (MB)
+   - Target: < 100MB
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+2. Memory After Navigation
+   - Status: PASSED (46.491s)
+   - Metrics: Memory usage (MB), Memory increase (MB)
+   - Target: Memory increase < 50MB
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+3. Memory After Operations
+   - Status: PASSED (46.867s)
+   - Metrics: Memory usage (MB), Memory increase (MB)
+   - Target: Memory increase < 30MB
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+4. Peak Memory Usage
+   - Status: PASSED (50.828s)
+   - Metrics: Peak memory (MB)
+   - Target: Peak < 200MB
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+========================================
+TEST 5: SYSTEM RESOURCE PERFORMANCE
+========================================
+
+1. Initial System Resources
+   - Status: PASSED (49.246s)
+   - Metrics:
+     * Initial CPU Usage (%)
+     * Initial Thread Count
+     * Initial Heap Size (MB)
+     * Initial Available Memory (MB)
+   - Targets: Thread count < 50, Heap size < 200MB
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+2. System Resources After Operations
+   - Status: PASSED (1m29.55s)
+   - Metrics:
+     * Thread Count After Operations
+     * Thread Increase
+     * Heap Size After Operations
+     * Heap Increase (MB)
+   - Targets: Thread increase < 10, Heap increase < 50MB
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+3. Peak System Resources
+   - Status: PASSED (1m50.12s)
+   - Metrics:
+     * Peak CPU Usage (%)
+     * Peak Thread Count
+     * Peak Heap Size (MB)
+   - Targets: Peak thread count < 100, Peak heap size < 300MB
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+========================================
+TEST 6: NETWORK PERFORMANCE
+========================================
+
+1. Network Connection Time
+   - Status: PASSED (0.426s)
+   - Metrics:
+     * Connection time to URLs (ms)
+     * Average connection time (ms)
+     * Max connection time (ms)
+   - Target: Average < 2000ms
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+2. Network Latency
+   - Status: PASSED (3.721s)
+   - Metrics:
+     * Average latency (ms)
+     * Min latency (ms)
+     * Max latency (ms)
+     * Jitter (ms)
+   - Target: Average < 1000ms, Jitter < 500ms
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+3. Network Throughput
+   - Status: PASSED (0.536s)
+   - Metrics:
+     * Throughput (KB/s)
+     * Bytes downloaded
+     * Duration (ms)
+   - Target: Throughput > 10 KB/s
+   - Nguon: Test Execution (PASSED - metrics in ra console)
+
+========================================
+TEST 7: FRAME RATE PERFORMANCE
+========================================
+
+1. Frame Rate During Scroll
+   - Gia tri: 46.5983224603914 FPS
+   - Status: FAILED (duoi target 50 FPS)
+   - Metrics:
+     * Frame Rate (FPS): 46.6 FPS
+     * Frame Time (Average, Min, Max)
+     * Jank Count
+     * Jank Percentage (%)
+   - Target: > 50 FPS, Jank < 5%
+   - Nguon: HTML Report
+
+2. Frame Rate During Composition
+   - Status: FAILED (52.553s)
+   - Error: IllegalStateException - Activity da set content
+   - Metrics: Khong do duoc do loi implementation
+   - Nguon: HTML Report
+   - Ghi chu: Can fix test implementation de do duoc metrics
+
+========================================
+TEST 8: TOUCH RESPONSE PERFORMANCE
+========================================
+
+1. Click Response Time
+   - Gia tri: 61.9 ms
+   - Status: FAILED (vuot target 50ms)
+   - Metrics:
+     * Click Response Average Time: 61.9 ms
+     * P95 time
+     * Max time
+     * Total clicks registered
+   - Target: Average < 50ms, P95 < 100ms
+   - Nguon: HTML Report
+
+2. Touch Latency
+   - Gia tri: 33.6333333333333 ms
+   - Status: FAILED (vuot target 16ms)
+   - Metrics:
+     * Touch Latency: 33.6 ms
+     * Max latency
+   - Target: Average < 16ms
+   - Nguon: HTML Report
+
+========================================
+PHAN TICH KET QUA
+========================================
+
+1. Tests PASSED (14 tests - 52%):
+   - ViewModel Performance: 4/4 tests PASSED
+   - Memory Performance: 4/4 tests PASSED
+   - System Resource Performance: 3/3 tests PASSED
+   - Network Performance: 3/3 tests PASSED
+   - Render Performance: 1/5 tests PASSED (HomeScreen)
+
+2. Tests FAILED (13 tests - 48%):
+   - Render Performance: 4/5 tests FAILED
+   - Scroll Performance: 3/3 tests FAILED
+   - Frame Rate Performance: 2/2 tests FAILED (1 do loi implementation)
+   - Touch Response Performance: 2/2 tests FAILED
+
+3. So lieu cu the:
+   - Co so lieu: 10 metrics (tu tests FAILED)
+   - Khong co so lieu: Tests PASSED (metrics in ra console nhung
+     khong duoc capture vao log file)
+
+========================================
+KHUYEN NGHI
+========================================
+
+1. De cai thien test infrastructure:
+   - Capture console output tu tests PASSED
+   - Luu metrics vao file JSON/CSV trong tests
+   - Su dung test listeners de capture metrics
+
+2. De fix tests FAILED:
+   - Render Performance: Toi uu UI composition, giam so luong
+     components render trong lan dau
+   - Scroll Performance: Toi uu lazy loading, giam idle time
+   - Frame Rate: Fix loi setContent trong FrameRatePerformanceTest
+   - Touch Response: Giam touch latency, toi uu gesture recognition
+
+3. De lay so lieu day du:
+   - Chay lai tests va capture console output
+   - Modify tests de luu metrics vao file
+   - Su dung Android Test Orchestrator de capture metrics
+
+========================================
+FILE BAO CAO
+========================================
+
+1. TAT_CA_SO_LIEU_DO_DUOC.txt
+   - So lieu tu HTML reports (FAILED tests)
+   - 10 metrics co so lieu cu the
+
+2. TAT_CA_SO_LIEU_DO_DUOC.csv
+   - CSV format voi 10 metrics
+
+3. BAO_CAO_TONG_HOP_TAT_CA_SO_LIEU.txt
+   - Bao cao tong hop tu CSV files
+
+4. BAO_CAO_CUOI_CUNG_TAT_CA_SO_LIEU.txt
+   - Bao cao cuoi cung nay (tong hop day du)
+
+5. BAO_CAO_CHI_TIET_TEST_1_8_FINAL.txt
+   - Chi tiet ve cac metrics da do duoc trong test 1-8
+
+========================================
+KET LUAN
+========================================
+
+- Da do duoc 10 metrics co so lieu cu the tu tests FAILED
+- Tests PASSED (14 tests) da chay thanh cong nhung metrics
+  khong duoc luu vao HTML reports
+- Can cai thien test infrastructure de luu tat ca metrics
+  (PASSED va FAILED) vao file de phan tich sau
+
+- Tong so metrics da do: 10 metrics co so lieu cu the
+- Tests PASSED: 14 tests (52%) - metrics trong console output
+- Tests FAILED: 13 tests (48%) - metrics trong HTML reports
+
+========================================
+

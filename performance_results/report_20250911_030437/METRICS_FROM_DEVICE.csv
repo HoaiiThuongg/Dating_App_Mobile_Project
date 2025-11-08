@@ -1,0 +1,4 @@
+﻿"Category","Test","Metric","Value","Unit","Status","Target","Timestamp","Date"
+"Render","ChatScreen","Render Time","893","ms","FAILED","300ms","1762632330599","2025-11-09 03:05:30"
+"Render","MessageScreen","Render Time","883","ms","FAILED","250ms","1762632380287","2025-11-09 03:06:20"
+"Render","MyProfileScreen","Render Time","944","ms","FAILED","200ms","1762632428630","2025-11-09 03:07:08"
