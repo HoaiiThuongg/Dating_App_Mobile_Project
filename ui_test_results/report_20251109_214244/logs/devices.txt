@@ -1,0 +1,4 @@
+[ADB DEVICES SNAPSHOT] 
+List of devices attached
+emulator-5554	device
+

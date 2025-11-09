@@ -8,6 +8,8 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.atry.backend.MatchedUser
 import com.example.atry.backend.MessageService
 import com.example.atry.backend.UserService
+import com.example.atry.backend.SwipeService
+import com.example.atry.backend.UserProfile
 import com.example.atry.viewmodel.functional.ChatViewModel
 
 /**

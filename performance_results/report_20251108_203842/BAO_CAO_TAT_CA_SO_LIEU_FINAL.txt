@@ -301,3 +301,5 @@ KET LUAN
 - Tests PASSED da chay thanh cong nhung metrics khong duoc luu vao HTML reports
 - Can cai thien test infrastructure de luu tat ca metrics (PASSED va FAILED)
 
+
+

@@ -1,0 +1,67 @@
+Reusing configuration cache.
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugAndroidTest FROM-CACHE
+> Task :app:javaPreCompileDebug FROM-CACHE
+> Task :app:processDebugAndroidTestNavigationResources
+> Task :app:generateDebugAndroidTestResValues
+> Task :app:generateDebugResValues
+> Task :app:desugarDebugAndroidTestFileDependencies
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:validateSigningDebugAndroidTest
+> Task :app:generateDebugResources
+> Task :app:writeDebugAndroidTestSigningConfigVersions
+> Task :app:generateDebugAndroidTestResources
+> Task :app:mapDebugAndroidTestSourceSetPaths
+> Task :app:processDebugGoogleServices
+> Task :app:compileDebugAndroidTestNavigationResources
+> Task :app:mergeDebugJniLibFolders
+> Task :app:mergeDebugAndroidTestJniLibFolders
+> Task :app:mergeDebugAndroidTestShaders
+> Task :app:compileDebugAndroidTestShaders NO-SOURCE
+> Task :app:generateDebugAndroidTestAssets UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths
+> Task :app:extractDeepLinksDebug
+> Task :app:checkDebugAndroidTestAarMetadata
+> Task :app:processDebugMainManifest FROM-CACHE
+> Task :app:processDebugManifest FROM-CACHE
+> Task :app:processDebugManifestForPackage FROM-CACHE
+> Task :app:processDebugAndroidTestManifest
+> Task :app:processDebugNavigationResources
+> Task :app:compileDebugNavigationResources FROM-CACHE
+> Task :app:mergeDebugAndroidTestAssets
+> Task :app:checkDebugAndroidTestDuplicateClasses
+> Task :app:checkDebugAarMetadata
+> Task :app:mergeLibDexDebugAndroidTest
+> Task :app:packageDebugResources
+> Task :app:compressDebugAndroidTestAssets
+> Task :app:mergeDebugNativeLibs
+> Task :app:parseDebugLocalResources
+> Task :app:mergeDebugAndroidTestNativeLibs
+> Task :app:mergeExtDexDebugAndroidTest
+> Task :app:mergeDebugAndroidTestResources
+
+> Task :app:stripDebugAndroidTestDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libbenchmarkNative.so, libtracing_perfetto.so. Run with --info option to learn more.
+
+> Task :app:processDebugAndroidTestResources FROM-CACHE
+> Task :app:mergeDebugResources
+> Task :app:processDebugResources FROM-CACHE
+> Task :app:compileDebugKotlin FROM-CACHE
+> Task :app:compileDebugJavaWithJavac FROM-CACHE
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:compileDebugAndroidTestKotlin FROM-CACHE
+> Task :app:compileDebugAndroidTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugAndroidTestJavaRes
+> Task :app:dexBuilderDebugAndroidTest FROM-CACHE
+> Task :app:mergeProjectDexDebugAndroidTest
+> Task :app:mergeDebugAndroidTestJavaResource
+> Task :app:packageDebugAndroidTest
+> Task :app:assembleDebugAndroidTest
+> Task :app:createDebugAndroidTestApkListingFileRedirect
+
+BUILD SUCCESSFUL in 34s
+51 actionable tasks: 39 executed, 12 from cache
+Configuration cache entry reused.

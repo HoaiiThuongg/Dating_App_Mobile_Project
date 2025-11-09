@@ -29,9 +29,6 @@
       <SelectionState runConfigName="AiChatScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ForgetPasswordTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="screenDisplaysCorrectly()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -47,6 +44,9 @@
         <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="measureMemoryUsageAfterNavigation()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="DetailedProfileScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

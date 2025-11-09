@@ -1,0 +1,27 @@
+Calculating task graph as no cached configuration is available for tasks: clean
+> Task :app:clean FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:clean'.
+> java.io.IOException: Unable to delete directory 'E:\UET\Project\Dating_App_Mobile_Project\app\build'
+    Failed to delete some children. This might happen because a process has files open or has its working directory set in the target directory.
+    - E:\UET\Project\Dating_App_Mobile_Project\app\build\outputs\androidTest-results\connected\debug\Pixel_8(AVD) - 16\logcat-com.example.atry.performance.ImageLoadingPerformanceTest-measureImageLoadTime.txt
+    - E:\UET\Project\Dating_App_Mobile_Project\app\build\outputs\androidTest-results\connected\debug\Pixel_8(AVD) - 16\logcat-com.example.datingapp-crash-report.txt
+    - E:\UET\Project\Dating_App_Mobile_Project\app\build\outputs\androidTest-results\connected\debug\Pixel_8(AVD) - 16\utp.0.log
+    - E:\UET\Project\Dating_App_Mobile_Project\app\build\outputs\androidTest-results\connected\debug\Pixel_8(AVD) - 16
+    - E:\UET\Project\Dating_App_Mobile_Project\app\build\outputs\androidTest-results\connected\debug
+    - E:\UET\Project\Dating_App_Mobile_Project\app\build\outputs\androidTest-results\connected
+    - E:\UET\Project\Dating_App_Mobile_Project\app\build\outputs\androidTest-results
+    - E:\UET\Project\Dating_App_Mobile_Project\app\build\outputs
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 5s
+1 actionable task: 1 executed
+Configuration cache entry stored.

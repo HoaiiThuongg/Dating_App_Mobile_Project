@@ -1,4 +1,4 @@
-﻿package com.example.atry.ui.screens.functionalScreens.chat
+package com.example.atry.ui.screens.functionalScreens.chat
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -10,6 +10,8 @@ import com.example.atry.backend.MatchedUser
 import com.example.atry.backend.MessageService
 import com.example.atry.backend.User
 import com.example.atry.backend.UserService
+import com.example.atry.backend.SwipeService
+import com.example.atry.backend.UserProfile
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.functional.ChatViewModelFactory
 import org.junit.Rule
@@ -34,9 +36,7 @@ class ChatScreenTest {
             // Create a minimal factory for testing
             val messageService = MessageService()
             val userService = UserService()
-            val user = User()
-            user.userId = "test_user"
-            user.name = "Test User"
+            val user = User("test_user", "Test User", "test@example.com", "", "male")
             
             val matchedUser = MatchedUser(user, "match123")
             

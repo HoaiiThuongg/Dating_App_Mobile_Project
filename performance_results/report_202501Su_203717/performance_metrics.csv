@@ -1,0 +1,127 @@
+﻿"Name","Metric","Value","Unit","Target","Status"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"??? Scroll Performance
+   - MessageScreen Scroll","??? Scroll Performance
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time
+   - Gia tri","MessageScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gia tri","ChatScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"Frame Rate During Scroll
+   - Gia tri","Frame Rate During Scroll
+   - Gia tri","46.5983224603914","FPS","50","FAIL"
+"Click Response Time
+   - Gia tri","Click Response Time
+   - Gia tri","61.9","ms","0",""
+"Touch Latency
+   - Gia tri","Touch Latency
+   - Gia tri","33.6333333333333","ms","50","PASS"
+"SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle","MessageScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"ChatScreen Scroll Average Idle","ChatScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time
+   - GiÃ¡ trá»‹","MessageScreen Scroll Average Idle Time
+   - GiÃ¡ trá»‹","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - GiÃ¡ trá»‹","ChatScreen Scroll Average Idle Time
+   - GiÃ¡ trá»‹","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - GiÃ¡ trá»‹ Ä‘o Ä‘Æ°á»£c","MessageScreen Scroll Average Idle Time
+   - GiÃ¡ trá»‹ Ä‘o Ä‘Æ°á»£c","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - GiÃ¡ trá»‹ Ä‘o Ä‘Æ°á»£c","ChatScreen Scroll Average Idle Time
+   - GiÃ¡ trá»‹ Ä‘o Ä‘Æ°á»£c","11.1","ms","300","PASS"
+"âœ… Scroll Performance
+   - MessageScreen Scroll","âœ… Scroll Performance
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"SCROLL PERFORMANCE âœ…
+   - MessageScreen Scroll","SCROLL PERFORMANCE âœ…
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"com.example.atry.performance.AppSizePerformanceTest","Class Success Rate","66","%","100","FAIL"
+"com.example.atry.performance.AppSizePerformanceTest","Tests","3","","0",""
+"com.example.atry.performance.AppSizePerformanceTest","Failures","1","","0",""
+"com.example.atry.performance.AppSizePerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.AppSizePerformanceTest","Duration","0.040s","","0",""
+"com.example.atry.performance.AppStartupBenchmark","Class Success Rate","0","%","100","FAIL"
+"com.example.atry.performance.AppStartupBenchmark","Tests","3","","0",""
+"com.example.atry.performance.AppStartupBenchmark","Failures","0","","0",""
+"com.example.atry.performance.AppStartupBenchmark","Skipped","3","","0",""
+"com.example.atry.performance.AppStartupBenchmark","Duration","0.019s","","0",""
+"com.example.atry.performance.DatabasePerformanceTest","Class Success Rate","100","%","100","PASS"
+"com.example.atry.performance.DatabasePerformanceTest","Tests","3","","0",""
+"com.example.atry.performance.DatabasePerformanceTest","Failures","0","","0",""
+"com.example.atry.performance.DatabasePerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.DatabasePerformanceTest","Duration","0.387s","","0",""
+"com.example.atry.performance.FrameRatePerformanceTest","Class Success Rate","0","%","100","FAIL"
+"com.example.atry.performance.FrameRatePerformanceTest","Tests","2","","0",""
+"com.example.atry.performance.FrameRatePerformanceTest","Failures","2","","0",""
+"com.example.atry.performance.FrameRatePerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.FrameRatePerformanceTest","Duration","1m36.49s","","0",""
+"com.example.atry.performance.ImageLoadingPerformanceTest","Class Success Rate","50","%","100","FAIL"
+"com.example.atry.performance.ImageLoadingPerformanceTest","Tests","2","","0",""
+"com.example.atry.performance.ImageLoadingPerformanceTest","Failures","1","","0",""
+"com.example.atry.performance.ImageLoadingPerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.ImageLoadingPerformanceTest","Duration","2m33.20s","","0",""
+"com.example.atry.performance.MemoryPerformanceTest","Class Success Rate","100","%","100","PASS"
+"com.example.atry.performance.MemoryPerformanceTest","Tests","4","","0",""
+"com.example.atry.performance.MemoryPerformanceTest","Failures","0","","0",""
+"com.example.atry.performance.MemoryPerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.MemoryPerformanceTest","Duration","3m22.98s","","0",""
+"com.example.atry.performance.NetworkPerformanceTest","Class Success Rate","100","%","100","PASS"
+"com.example.atry.performance.NetworkPerformanceTest","Tests","3","","0",""
+"com.example.atry.performance.NetworkPerformanceTest","Failures","0","","0",""
+"com.example.atry.performance.NetworkPerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.NetworkPerformanceTest","Duration","3.908s","","0",""
+"com.example.atry.performance.ScreenRenderPerformanceTest","Class Success Rate","80","%","100","FAIL"
+"com.example.atry.performance.ScreenRenderPerformanceTest","Tests","5","","0",""
+"com.example.atry.performance.ScreenRenderPerformanceTest","Failures","1","","0",""
+"com.example.atry.performance.ScreenRenderPerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.ScreenRenderPerformanceTest","Duration","3m57.57s","","0",""
+"com.example.atry.performance.ScrollPerformanceTest","Class Success Rate","33","%","100","FAIL"
+"com.example.atry.performance.ScrollPerformanceTest","Tests","3","","0",""
+"com.example.atry.performance.ScrollPerformanceTest","Failures","2","","0",""
+"com.example.atry.performance.ScrollPerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.ScrollPerformanceTest","Duration","2m21.15s","","0",""
+"com.example.atry.performance.SystemResourcePerformanceTest","Class Success Rate","100","%","100","PASS"
+"com.example.atry.performance.SystemResourcePerformanceTest","Tests","3","","0",""
+"com.example.atry.performance.SystemResourcePerformanceTest","Failures","0","","0",""
+"com.example.atry.performance.SystemResourcePerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.SystemResourcePerformanceTest","Duration","4m9.85s","","0",""
+"com.example.atry.performance.TouchResponsePerformanceTest","Class Success Rate","50","%","100","FAIL"
+"com.example.atry.performance.TouchResponsePerformanceTest","Tests","2","","0",""
+"com.example.atry.performance.TouchResponsePerformanceTest","Failures","1","","0",""
+"com.example.atry.performance.TouchResponsePerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.TouchResponsePerformanceTest","Duration","1m39.78s","","0",""
+"com.example.atry.performance.ViewModelPerformanceTest","Class Success Rate","100","%","100","PASS"
+"com.example.atry.performance.ViewModelPerformanceTest","Tests","4","","0",""
+"com.example.atry.performance.ViewModelPerformanceTest","Failures","0","","0",""
+"com.example.atry.performance.ViewModelPerformanceTest","Skipped","0","","0",""
+"com.example.atry.performance.ViewModelPerformanceTest","Duration","0.658s","","0",""

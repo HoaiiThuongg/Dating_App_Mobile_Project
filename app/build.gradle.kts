@@ -26,8 +26,9 @@ android {
 
     buildTypes {
         debug {
+            // Chỉ bật coverage cho unit tests để tránh cấu hình nặng cho androidTest
+            // (androidTest coverage có thể gây treo ở bước configure với AGP mới)
             enableUnitTestCoverage = true
-            enableAndroidTestCoverage = true
         }
         release {
             isMinifyEnabled = false

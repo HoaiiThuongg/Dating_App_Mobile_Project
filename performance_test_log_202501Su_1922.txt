@@ -1,0 +1,67 @@
+======================================== 
+PERFORMANCE TESTS LOG 
+Started: Sun 11/09/2025 19:22:17.55 
+======================================== 
+ 
+TEST 1/12: ScreenRenderPerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: FAILED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 2/12: ScrollPerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: FAILED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 3/12: ViewModelPerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: FAILED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 4/12: MemoryPerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: FAILED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 5/12: SystemResourcePerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: PASSED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 6/12: NetworkPerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: PASSED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 7/12: FrameRatePerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: FAILED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 8/12: AppSizePerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: FAILED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 9/12: DatabasePerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: PASSED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 10/12: ImageLoadingPerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: FAILED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+TEST 11/12: TouchResponsePerformanceTest 
+Started: Sun 11/09/2025 19:22:17.56 
+Status: FAILED 
+Finished: Sun 11/09/2025 19:22:17.56 
+ 
+======================================== 
+SUMMARY 
+Total: 11 
+Passed: 3 
+Failed: 8 
+Finished: Sun 11/09/2025 19:43:36.29 
+======================================== 

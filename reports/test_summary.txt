@@ -1,0 +1,37 @@
+﻿================================================================================
+Dating App Mobile Project - TEST RESULTS SUMMARY
+================================================================================
+Generated: 2025-11-09 17:15:42
+
+PERFORMANCE METRICS:
+-------------------
+Total Metrics: 29
+Passed: 13
+Failed: 5
+Pass Rate: 44.83%
+
+UI TEST RESULTS:
+----------------
+Total Test Runs: 0
+Total Tests: 0
+Passed: 0
+Failed: 0
+Pass Rate: 0%
+
+TOP FAILED PERFORMANCE METRICS:
+-------------------------------
+??? Scroll Performance
+   - MessageScreen Scroll - ??? Scroll Performance
+   - MessageScreen Scroll: 11.1 ms (Target: 0) Frame Rate During Scroll
+   - Gia tri - Frame Rate During Scroll
+   - Gia tri: 46.5983224603914 FPS (Target: 50) SCROLL PERFORMANCE ???
+   - MessageScreen Scroll - SCROLL PERFORMANCE ???
+   - MessageScreen Scroll: 11.1 ms (Target: 0) MessageScreen Scroll Average Idle - MessageScreen Scroll Average Idle: 11.1 ms (Target: 0) ChatScreen Scroll Average Idle - ChatScreen Scroll Average Idle: 11.1 ms (Target: 0)
+
+RECOMMENDATIONS:
+---------------
+â€¢ Performance tests need optimization - current pass rate is only 44.83%
+â€¢ UI tests have high failure rate - investigate test stability
+â€¢ No UI test results found - check test execution
+
+================================================================================

@@ -61,6 +61,27 @@ object PerformanceMetricsLogger {
                 put("date", SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(timestamp)))
             }
             
+            // Tránh log trùng: nếu dòng cuối cùng có cùng category/testName/metricName và value giống nhau thì bỏ qua
+            if (metricsFile.exists()) {
+                val lastLine = metricsFile.readLines().lastOrNull()
+                if (lastLine != null) {
+                    try {
+                        val lastJson = JSONObject(lastLine)
+                        val isDuplicate =
+                            lastJson.optString("testCategory") == testCategory &&
+                            lastJson.optString("testName") == testName &&
+                            lastJson.optString("metricName") == metricName &&
+                            lastJson.optDouble("value") == value &&
+                            lastJson.optString("unit") == unit
+                        if (isDuplicate) {
+                            println("PerformanceMetricsLogger: Skipped duplicate metric: $testCategory | $testName | $metricName")
+                            return
+                        }
+                    } catch (_: Exception) {
+                        // ignore parse error and proceed to append
+                    }
+                }
+            }
             // Append to file (one JSON object per line)
             metricsFile.appendText(metric.toString() + "\n")
             

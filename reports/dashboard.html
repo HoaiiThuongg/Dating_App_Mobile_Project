@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dating App Mobile Project - Test Results Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-pass { color: #27ae60; }
+        .stat-fail { color: #e74c3c; }
+        .stat-neutral { color: #3498db; }
+        
+        .charts-section {
+            padding: 30px;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .chart-container h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.4em;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+        
+        .details-section {
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .details-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .details-panel h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+        }
+        
+        .metric-pass { color: #27ae60; }
+        .metric-fail { color: #e74c3c; }
+        
+        .timestamp {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 30px;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dating App Mobile Project</h1>
+            <p>Test Results Dashboard</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Performance Tests</h3>
+                <div class="stat-number stat-neutral">29</div>
+                <p>Total Metrics</p>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Performance Pass Rate</h3>
+                <div class="stat-number stat-fail">44.83%</div>
+                <p>13 / 29 Passed</p>
+            </div>
+            
+            <div class="stat-card">
+                <h3>UI Test Runs</h3>
+                <div class="stat-number stat-neutral">0</div>
+                <p>Test Executions</p>
+            </div>
+            
+            <div class="stat-card">
+                <h3>UI Test Pass Rate</h3>
+                <div class="stat-number stat-fail">0%</div>
+                <p>0 / 0 Passed</p>
+            </div>
+        </div>
+        
+        <div class="charts-section">
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Performance Metrics Status</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>UI Test Results Overview</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="uiTestChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="details-section">
+            <div class="details-grid">
+                <div class="details-panel">
+                    <h3>Top Performance Metrics</h3>
+                    <div id="performanceDetails">
+                                                        <div class="metric-item">
+                                    <span class="metric-name">MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? - MessageScreen Scroll Average Idle Time
+   - Gi?? tr???</span>
+                                    <span class="metric-value metric-pass">11.1 ms (Target: 300)</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? - ChatScreen Scroll Average Idle Time
+   - Gi?? tr???</span>
+                                    <span class="metric-value metric-pass">11.1 ms (Target: 300)</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c - MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c</span>
+                                    <span class="metric-value metric-pass">11.1 ms (Target: 300)</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c - ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c</span>
+                                    <span class="metric-value metric-pass">11.1 ms (Target: 300)</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">??? Scroll Performance
+   - MessageScreen Scroll - ??? Scroll Performance
+   - MessageScreen Scroll</span>
+                                    <span class="metric-value metric-fail">11.1 ms (Target: 0)</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">MessageScreen Scroll Average Idle Time
+   - Gia tri - MessageScreen Scroll Average Idle Time
+   - Gia tri</span>
+                                    <span class="metric-value metric-pass">11.1 ms (Target: 300)</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">ChatScreen Scroll Average Idle Time
+   - Gia tri - ChatScreen Scroll Average Idle Time
+   - Gia tri</span>
+                                    <span class="metric-value metric-pass">11.1 ms (Target: 300)</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">Frame Rate During Scroll
+   - Gia tri - Frame Rate During Scroll
+   - Gia tri</span>
+                                    <span class="metric-value metric-fail">46.5983224603914 FPS (Target: 50)</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">Click Response Time
+   - Gia tri - Click Response Time
+   - Gia tri</span>
+                                    <span class="metric-value metric-neutral">61.9 ms (Target: System.Object[])</span>
+                                </div>                                 <div class="metric-item">
+                                    <span class="metric-name">Touch Latency
+   - Gia tri - Touch Latency
+   - Gia tri</span>
+                                    <span class="metric-value metric-pass">33.6333333333333 ms (Target: 50)</span>
+                                </div>
+                    </div>
+                </div>
+                
+                <div class="details-panel">
+                    <h3>Recent UI Test Results</h3>
+                    <div id="uiTestDetails">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="timestamp">
+            <p>Report generated on: 2025-11-09 17:15:42</p>
+            <p>Project: Dating App Mobile Project</p>
+        </div>
+    </div>
+    
+    <script>
+        // Performance Chart
+        const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(performanceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Passed', 'Failed'],
+                datasets: [{
+                    data: [13, 5],
+                    backgroundColor: ['#27ae60', '#e74c3c'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+        
+        // UI Test Chart
+        const uiTestCtx = document.getElementById('uiTestChart').getContext('2d');
+        new Chart(uiTestCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Passed', 'Failed', 'Skipped'],
+                datasets: [{
+                    label: 'Tests',
+                    data: [0, 0, 0],
+                    backgroundColor: ['#27ae60', '#e74c3c', '#f39c12'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
