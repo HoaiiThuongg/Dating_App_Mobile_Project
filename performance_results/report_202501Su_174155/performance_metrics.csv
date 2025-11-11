@@ -1,0 +1,253 @@
+"Name","Metric","Value","Unit","Target","Status"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"??? Scroll Performance
+   - MessageScreen Scroll","??? Scroll Performance
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time
+   - Gia tri","MessageScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gia tri","ChatScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"Frame Rate During Scroll
+   - Gia tri","Frame Rate During Scroll
+   - Gia tri","46.5983224603914","FPS","50","FAIL"
+"Click Response Time
+   - Gia tri","Click Response Time
+   - Gia tri","61.9","ms","System.Object[]",""
+"Touch Latency
+   - Gia tri","Touch Latency
+   - Gia tri","33.6333333333333","ms","50","PASS"
+"SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle","MessageScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"ChatScreen Scroll Average Idle","ChatScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"??? Scroll Performance
+   - MessageScreen Scroll","??? Scroll Performance
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time
+   - Gia tri","MessageScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gia tri","ChatScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"Frame Rate During Scroll
+   - Gia tri","Frame Rate During Scroll
+   - Gia tri","46.5983224603914","FPS","50","FAIL"
+"Click Response Time
+   - Gia tri","Click Response Time
+   - Gia tri","61.9","ms","System.Object[]",""
+"Touch Latency
+   - Gia tri","Touch Latency
+   - Gia tri","33.6333333333333","ms","50","PASS"
+"SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle","MessageScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"ChatScreen Scroll Average Idle","ChatScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"??? Scroll Performance
+   - MessageScreen Scroll","??? Scroll Performance
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time
+   - Gia tri","MessageScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gia tri","ChatScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"Frame Rate During Scroll
+   - Gia tri","Frame Rate During Scroll
+   - Gia tri","46.5983224603914","FPS","50","FAIL"
+"Click Response Time
+   - Gia tri","Click Response Time
+   - Gia tri","61.9","ms","System.Object[]",""
+"Touch Latency
+   - Gia tri","Touch Latency
+   - Gia tri","33.6333333333333","ms","50","PASS"
+"SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle","MessageScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"ChatScreen Scroll Average Idle","ChatScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","MessageScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","ChatScreen Scroll Average Idle Time
+   - Gi?? tr???","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","MessageScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","ChatScreen Scroll Average Idle Time
+   - Gi?? tr??? ??o ???????c","11.1","ms","300","PASS"
+"??? Scroll Performance
+   - MessageScreen Scroll","??? Scroll Performance
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time
+   - Gia tri","MessageScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time
+   - Gia tri","ChatScreen Scroll Average Idle Time
+   - Gia tri","11.1","ms","300","PASS"
+"Frame Rate During Scroll
+   - Gia tri","Frame Rate During Scroll
+   - Gia tri","46.5983224603914","FPS","50","FAIL"
+"Click Response Time
+   - Gia tri","Click Response Time
+   - Gia tri","61.9","ms","System.Object[]",""
+"Touch Latency
+   - Gia tri","Touch Latency
+   - Gia tri","33.6333333333333","ms","50","PASS"
+"SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","SCROLL PERFORMANCE ???
+   - MessageScreen Scroll","11.1","ms","0","FAIL"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"MessageScreen Scroll Average Idle","MessageScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"ChatScreen Scroll Average Idle","ChatScreen Scroll Average Idle","11.1","ms","0","FAIL"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","SCROLL PERFORMANCE
+========================================
+
+1. MessageScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"2. ChatScreen Scroll Average Idle Time","2. ChatScreen Scroll Average Idle Time","11.1","ms","10","FAILED"
+"Frame Rate","Frame Rate","46.5983224603914","FPS","50","FAILED"
+"Click Response Average Time","Click Response Average Time","61.9","ms","50","FAILED"
+"Touch Latency","Touch Latency","33.6333333333333","ms","16","FAILED"
+"MessageScreen Scroll Average Idle Time","MessageScreen Scroll Average Idle Time","11.1","ms","300","PASS"
+"ChatScreen Scroll Average Idle Time","ChatScreen Scroll Average Idle Time","11.1","ms","300","PASS"

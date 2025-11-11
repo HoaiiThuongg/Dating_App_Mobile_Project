@@ -39,7 +39,7 @@ if exist "app\build\reports\androidTests\connected\debug\index.html" (
     echo   ✓ Test reports copied
 ) else (
     echo   ❌ No test reports found
-    echo   💡 Run tests first: .\run_test_simple.bat
+    echo   💡 Run tests first: .\RUN_PERFORMANCE_SIMPLE.bat
 )
 echo.
 
@@ -50,6 +50,33 @@ if exist "app\build\outputs\connected_android_test_additional_output" (
     echo   ✓ Macrobenchmark results copied
 ) else (
     echo   ⚠ Macrobenchmark results not found
+)
+echo.
+
+echo [2.5/5] Pulling device metrics JSON (all_metrics.json)...
+set PKG=com.example.datingapp
+set JSON_OUT=%REPORT_DIR%\all_metrics.json
+rem Try to access app's internal files via run-as
+adb shell run-as %PKG% ls files/performance_metrics >nul 2>&1
+if !ERRORLEVEL! EQU 0 (
+    echo   Found app files directory: %PKG%/files/performance_metrics
+    rem First attempt: cat to local file
+    adb shell run-as %PKG% cat files/performance_metrics/all_metrics.json > "%JSON_OUT%" 2>nul
+    if exist "%JSON_OUT%" (
+        echo   ✓ Pulled all_metrics.json to: %JSON_OUT%
+    ) else (
+        echo   ⚠ Direct pull failed, trying via /sdcard
+        adb shell run-as %PKG% cp files/performance_metrics/all_metrics.json /sdcard/all_metrics.json >nul 2>&1
+        adb pull /sdcard/all_metrics.json "%JSON_OUT%" >nul 2>&1
+        adb shell rm /sdcard/all_metrics.json >nul 2>&1
+        if exist "%JSON_OUT%" (
+            echo   ✓ Pulled via /sdcard to: %JSON_OUT%
+        ) else (
+            echo   ⚠ all_metrics.json not found or pull failed (non-critical)
+        )
+    )
+) else (
+    echo   ⚠ run-as failed or app not installed (package: %PKG%). Skipping JSON pull.
 )
 echo.
 
@@ -72,15 +99,15 @@ echo.
 
 echo [4/5] Generating summary...
 if %FOUND_REPORTS% EQU 1 (
-    if exist "generate_report.ps1" (
-        powershell -ExecutionPolicy Bypass -File "generate_report.ps1" -OutputDir "%REPORT_DIR%" 2>nul
+    if exist "create_performance_report.ps1" (
+        powershell -ExecutionPolicy Bypass -File "create_performance_report.ps1" -OutputDir "%REPORT_DIR%" 2>nul
         if !ERRORLEVEL! EQU 0 (
             echo   ✓ Summary generated
         ) else (
             echo   ⚠ Summary generation failed (non-critical)
         )
     ) else (
-        echo   ⚠ generate_report.ps1 not found (non-critical)
+        echo   ⚠ create_performance_report.ps1 not found (non-critical)
     )
 ) else (
     echo   ⚠ Skipping (no reports)
@@ -102,7 +129,7 @@ if %FOUND_REPORTS% EQU 1 (
     echo ❌ Test Reports: NOT FOUND >> "%REPORT_DIR%\README.txt"
     echo. >> "%REPORT_DIR%\README.txt"
     echo To generate reports, run: >> "%REPORT_DIR%\README.txt"
-    echo   .\run_test_simple.bat >> "%REPORT_DIR%\README.txt"
+    echo   .\RUN_PERFORMANCE_SIMPLE.bat >> "%REPORT_DIR%\README.txt"
     echo   .\run_performance_tests.bat render >> "%REPORT_DIR%\README.txt"
     echo   .\run_all_performance_tests.bat >> "%REPORT_DIR%\README.txt"
 )
@@ -138,7 +165,7 @@ if %FOUND_REPORTS% EQU 0 (
     echo ⚠️ IMPORTANT: No test reports found! >> "%REPORT_DIR%\README.txt"
     echo. >> "%REPORT_DIR%\README.txt"
     echo Next steps: >> "%REPORT_DIR%\README.txt"
-    echo   1. Run tests: .\run_test_simple.bat >> "%REPORT_DIR%\README.txt"
+    echo   1. Run tests: .\RUN_PERFORMANCE_SIMPLE.bat >> "%REPORT_DIR%\README.txt"
     echo   2. Wait for tests to complete >> "%REPORT_DIR%\README.txt"
     echo   3. Run this script again: .\collect_performance_results.bat >> "%REPORT_DIR%\README.txt"
 )
@@ -155,7 +182,7 @@ if %FOUND_REPORTS% EQU 1 (
     echo ⚠️ No test results found!
     echo.
     echo 📋 To generate reports:
-    echo   1. Run: .\run_test_simple.bat
+    echo   1. Run: .\RUN_PERFORMANCE_SIMPLE.bat
     echo   2. Wait for completion
     echo   3. Run this script again
 )
@@ -178,7 +205,7 @@ if %FOUND_REPORTS% EQU 1 (
     )
 ) else (
     echo ⚠️ No HTML reports available.
-    echo   Run tests first: .\run_test_simple.bat
+    echo   Run tests first: .\RUN_PERFORMANCE_SIMPLE.bat
 )
 echo.
 pause
