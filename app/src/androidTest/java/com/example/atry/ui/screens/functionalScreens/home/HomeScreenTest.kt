@@ -2,7 +2,11 @@ package com.example.atry.ui.screens.functionalScreens.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.atry.backend.User
+import com.example.atry.viewmodel.functional.FakeHomeViewModel
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,12 +23,13 @@ class HomeScreenTest {
      */
     @Test
     fun homeScreen_LoadingState_DisplaysLoadingIndicator() {
+        val vm = FakeHomeViewModel(initialLoading = true)
         composeRule.setContent {
-            HomeScreen()
+            HomeScreen(viewModel = vm)
         }
 
         composeRule.waitForIdle()
-        // Screen should render without crashing
+        composeRule.onNodeWithText("Đang tải...").assertIsDisplayed()
     }
 
     /**
@@ -32,12 +37,13 @@ class HomeScreenTest {
      */
     @Test
     fun homeScreen_EmptyState_DisplaysEmptyMessage() {
+        val vm = FakeHomeViewModel(initialUsers = emptyList())
         composeRule.setContent {
-            HomeScreen()
+            HomeScreen(viewModel = vm)
         }
 
         composeRule.waitForIdle()
-        // Screen should handle empty state gracefully
+        composeRule.onNodeWithText("Hết đối tượng để hiển thị rồi").assertIsDisplayed()
     }
 
     /**
@@ -46,12 +52,19 @@ class HomeScreenTest {
      */
     @Test
     fun homeScreen_WithUsers_DisplaysSwipeCards() {
+        val users = listOf(
+            User("u1", "A", "a@example.com", "", "male"),
+            User("u2", "B", "b@example.com", "", "female")
+        )
+        val vm = FakeHomeViewModel(initialUsers = users)
         composeRule.setContent {
-            HomeScreen()
+            HomeScreen(viewModel = vm)
         }
 
         composeRule.waitForIdle()
-        // Screen should render swipe cards when users are available
+        // Verify users are displayed (not empty state)
+        composeRule.onNodeWithText("A").assertIsDisplayed()
+        composeRule.onNodeWithText("B").assertIsDisplayed()
     }
     
     @Test

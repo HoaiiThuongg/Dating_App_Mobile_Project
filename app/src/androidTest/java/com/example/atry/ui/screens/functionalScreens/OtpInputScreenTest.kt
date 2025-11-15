@@ -1,7 +1,8 @@
-﻿package com.example.atry.ui.screens.functionalScreens
+package com.example.atry.ui.screens.functionalScreens
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onRoot
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.atry.ui.screens.auth.forgetPassword.OtpInputScreen
 import org.junit.Rule
@@ -21,6 +22,22 @@ class OtpInputScreenTest {
         }
         
         composeRule.waitForIdle()
-        // Screen should render without crashing
+    }
+
+    @Test
+    fun screenAcceptsInputRender() {
+        composeRule.setContent {
+            OtpInputScreen()
+        }
+        composeRule.onRoot().assertExists()
+    }
+
+    @Test
+    fun screenStateIdle() {
+        composeRule.setContent {
+            OtpInputScreen()
+        }
+        composeRule.waitForIdle()
+        composeRule.onRoot().assertExists()
     }
 }

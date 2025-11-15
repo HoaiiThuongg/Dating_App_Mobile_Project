@@ -10,6 +10,8 @@ plugins {
     id("jacoco")
 }
 
+
+
 android {
     namespace = "com.example.atry"
     compileSdk = 36

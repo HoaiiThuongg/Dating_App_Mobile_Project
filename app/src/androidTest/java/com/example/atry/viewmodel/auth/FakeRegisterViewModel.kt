@@ -24,6 +24,15 @@ class FakeRegisterViewModel(application: Application) : AndroidViewModel(applica
         _state.value = newState
     }
     
+    /**
+     * Helper function để simulate email exists error
+     */
+    fun setEmailExists(exists: Boolean) {
+        if (exists) {
+            pushState(RegisterState(error = "Email đã tồn tại"))
+        }
+    }
+    
     override fun sendEmailToBE() {
         // Fake implementation - không làm gì, test sẽ set state bằng pushState
     }
@@ -40,4 +49,3 @@ class FakeRegisterViewModel(application: Application) : AndroidViewModel(applica
         // Fake implementation - không làm gì, test sẽ set state bằng pushState
     }
 }
-

@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -60,7 +61,8 @@ fun SettingsScreen() {
                     stringResource(id = R.string.settings),
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.testTag("settings:title")
                 )
                 Row(
                     modifier = Modifier
@@ -72,23 +74,26 @@ fun SettingsScreen() {
                         style = TextStyle(
                             fontSize = 16.sp,
                             color = MaterialTheme.colorScheme.onBackground
-                        )
+                        ),
+                        modifier = Modifier.testTag("settings:label_theme")
                     )
 
                     val isDark = ThemeSingleton.isDark.value
 
-                    AnimatedSwitch(
-                        isOn = isDark,
-                        onToggle = {
-                            scope.launch {
-                                ThemeSingleton.toggle()
-                            }
-                        },
-                        onIcon = Icons.Default.Nightlight,
-                        offIcon = Icons.Default.WbSunny,
-                        onColor = Color(0xFF1E1E2F),
-                        offColor = Color(0xFFFFF3B0)
-                    )
+                    androidx.compose.foundation.layout.Box(modifier = Modifier.testTag("settings:theme_switch")) {
+                        AnimatedSwitch(
+                            isOn = isDark,
+                            onToggle = {
+                                scope.launch {
+                                    ThemeSingleton.toggle()
+                                }
+                            },
+                            onIcon = Icons.Default.Nightlight,
+                            offIcon = Icons.Default.WbSunny,
+                            onColor = Color(0xFF1E1E2F),
+                            offColor = Color(0xFFFFF3B0)
+                        )
+                    }
                 }
 
                 Row(
@@ -97,23 +102,26 @@ fun SettingsScreen() {
                 ) {
                     Text(
                         stringResource(id = R.string.language),
-                        style = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)
+                        style = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground),
+                        modifier = Modifier.testTag("settings:label_language")
                     )
                     val isEnglish = LanguageSingleton.isEnglish.value
-                    PainterSwitch(
-                        isOn = isEnglish,
-                        onToggle = {
-                            scope.launch {
-                                LanguageSingleton.toggle()
-                                LanguageSingleton.updateLocale(context)
-                                (context as? Activity)?.recreate()
-                            }
-                        },
-                        onPainter = painterResource(R.drawable.anh), // hoặc icon lá cờ
-                        offPainter = painterResource(R.drawable.vietnam),
-                        onColor = Color(0xFF1E88E5),  // xanh = English
-                        offColor = Color(0xFFD32F2F)  // đỏ = Vietnamese
-                    )
+                    androidx.compose.foundation.layout.Box(modifier = Modifier.testTag("settings:language_switch")) {
+                        PainterSwitch(
+                            isOn = isEnglish,
+                            onToggle = {
+                                scope.launch {
+                                    LanguageSingleton.toggle()
+                                    LanguageSingleton.updateLocale(context)
+                                    (context as? Activity)?.recreate()
+                                }
+                            },
+                            onPainter = painterResource(R.drawable.anh),
+                            offPainter = painterResource(R.drawable.vietnam),
+                            onColor = Color(0xFF1E88E5),
+                            offColor = Color(0xFFD32F2F)
+                        )
+                    }
                 }
             }
         }

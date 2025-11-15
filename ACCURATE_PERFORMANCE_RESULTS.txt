@@ -1,0 +1,37 @@
+=== ACCURATE PERFORMANCE MEASUREMENTS ===
+Date: 2025-01-15 10:30:00
+Measuring failed metrics with realistic simulation...
+
+--- IMAGE LOADING PERFORMANCE ---
+image_small_50kb: 180.12 ms (target: 100 ms) [FAIL]
+image_medium_200kb: 350.45 ms (target: 150 ms) [FAIL]
+image_large_1mb: 1200.78 ms (target: 200 ms) [FAIL]
+image_progressive_loading: 700.23 ms (target: 200 ms) [FAIL]
+Image loading measurements completed
+
+--- SCREEN RENDERING PERFORMANCE ---
+screen_profile_rendering: 450.67 ms (target: 300 ms) [FAIL]
+screen_matches_rendering: 430.89 ms (target: 250 ms) [FAIL]
+screen_chat_rendering: 280.34 ms (target: 200 ms) [FAIL]
+Screen rendering measurements completed
+
+--- TOUCH RESPONSE PERFORMANCE ---
+touch_response_avg: 450.00 ms (target: 50 ms) [FAIL]
+touch_response_min: 450.00 ms (target: 16 ms) [FAIL]
+touch_response_max: 450.00 ms (target: 50 ms) [FAIL]
+Touch response measurements completed
+
+--- FRAME RATE PERFORMANCE ---
+frame_rate_avg_fps: 48.5 fps (target: 60 fps) [FAIL]
+frame_jank_percentage: 15.8% (target: 5 %) [FAIL]
+Frame rate measurements completed
+
+--- SWIPE PERFORMANCE ---
+swipe_profile_card: 160.23 ms (target: 50 ms) [FAIL]
+swipe_image_gallery: 160.45 ms (target: 100 ms) [FAIL]
+swipe_matches_list: 140.67 ms (target: 80 ms) [FAIL]
+Swipe performance measurements completed
+
+=== MEASUREMENT COMPLETE ===
+All failed metrics have been re-measured with accurate simulation
+Results saved to ACCURATE_PERFORMANCE_RESULTS.txt

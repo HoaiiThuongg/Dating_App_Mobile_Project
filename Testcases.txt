@@ -1,0 +1,436 @@
+                                                                                                                                         Tiến
+ID Category     Precondition              Data                               Step                   Expexted results
+                                                                                                                                         độ
+                                                                           1. Mở màn hình Đăng
+                Tài khoản                                                                          - Hiển thị thông báo "Chúc mừng
+                                        Account:                           nhập.2. Nhập
+                test@example.com (pass:                                                            bạn đăng nhập thành công!"-            Đã
+ 1DANG_NHAP                             test@example.comPassword:          Account.3. Nhập
+                123456) đã tồn tại trên                                                            Chuyển hướng đến màn hình chính xong
+                                        123456                             Password.4. Nhấn nút
+                Firebase.                                                                          ("main").
+                                                                           "Đăng nhập".
+                                                                           1. Mở màn hình Đăng
+                                                                           nhập.2. Nhập            - Hiển thị thông báo lỗi (ví dụ:
+                Tài khoản               Account:
+                                                                           Account.3. Nhập         "Email hoặc mật khẩu không chính Đã
+ 2DANG_NHAP     test@example.com đã     test@example.comPassword:
+                                                                           Password (sai).4.       xác." hoặc "Lỗi: ...")- Vẫn ở màn      xong
+                tồn tại.                wrongpassword
+                                                                           Nhấn nút "Đăng          hình Đăng nhập.
+                                                                           nhập".
+                                                                           1. Mở màn hình Đăng
+                                                                           nhập.2. Nhập            - Hiển thị thông báo lỗi (ví dụ: "Tài
+                Tài khoản               Account:
+                                                                           Account (không tồn khoản không tồn tại." hoặc "Email
+ 3DANG_NHAP     nouser@example.com      nouser@example.comPassword:
+                                                                           tại).3. Nhập            hoặc mật khẩu không chính xác.")-
+                không tồn tại.          123456
+                                                                           Password.4. Nhấn nút Vẫn ở màn hình Đăng nhập.
+                                                                           "Đăng nhập".
+                                                                           1. Mở màn hình Đăng
+                                                                                                   - Hiển thị thông báo lỗi (ví dụ: "Vui
+                                                                           nhập.2. Không nhập
+                                        Account: (để trống)Password:                               lòng nhập email." hoặc lỗi tương
+ 4DANG_NHAP     -                                                          Account.3. Nhập
+                                        123456                                                     ứng từ state.error).- Vẫn ở màn
+                                                                           Password.4. Nhấn nút
+                                                                                                   hình Đăng nhập.
+                                                                           "Đăng nhập".
+                Đang ở màn hình Đăng                                                               - Chuyển hướng đến màn hình
+ 5DANG_NHAP                             -                                  1. Nhấn nút "Đăng kí".
+                nhập.                                                                              Đăng ký ("authEntry").
+                                                                           1. Mở màn hình Đăng
+                Tài khoản               Email:                                                     - Hiển thị thông báo "Đã gửi link xác
+                                                                           ký.2. Nhập Email.3.
+ 6DANG_KY       newuser@example.com newuser@example.comPassword:                                   thực thành công!"- Chuyển hướng
+                                                                           Nhập Password.4.
+                chưa tồn tại.           password123 (>= 6 ký tự)                                   đến màn hình "registerInfoInput1".
+                                                                           Nhấn nút "Tếp theo".
+                                                                           1. Mở màn hình Đăng - Hiển thị thông báo lỗi (ví dụ: "Lỗi:
+                                        Email:
+                                                                           ký.2. Nhập Email.3. Mật khẩu phải có ít nhất 6 ký tự."
+ 7DANG_KY       -                       newuser@example.comPassword:
+                                                                           Nhập Password.4.        hoặc "Mật khẩu yếu").- Vẫn ở màn
+                                        12345 (< 6 ký tự)
+                                                                           Nhấn nút "Tếp theo". hình Đăng ký.
+                                                                           1. Mở màn hình Đăng
+                                                                                                   - Hiển thị thông báo lỗi "Sai dạng
+                                                                           ký.2. Nhập Email sai
+                                        Email: invalid-email.com (sai định                         email" (như trong code) hoặc "Lỗi:
+ 8DANG_KY       -                                                          định dạng.3. Nhập
+                                        dạng)Password: password123                                 Email không hợp lệ."- Vẫn ở màn
+                                                                           Password.4. Nhấn nút
+                                                                                                   hình Đăng ký.
+                                                                           "Tếp theo".
+                                                                           1. Mở màn hình Đăng
+                Tài khoản               Email:                             ký.2. Nhập Email (đã - Hiển thị thông báo lỗi (ví dụ: "Lỗi:
+ 9DANG_KY       test@example.com đã     test@example.comPassword:          tồn tại).3. Nhập        Email này đã được sử dụng." hoặc
+                tồn tại.                password123                        Password.4. Nhấn nút "Lỗi: ...").- Vẫn ở màn hình Đăng ký.
+                                                                           "Tếp theo".
+                                                                                                   - Hiển thị thông báo lỗi (ví dụ: "Lỗi:
+                                                                           1. Mở màn hình Đăng
+                                        Email: (để trống)Password: (để                             Vui lòng nhập email và mật khẩu."
+10DANG_KY       -                                                          ký.2. Nhấn nút "Tếp
+                                        trống)                                                     hoặc "Sai dạng email").- Vẫn ở màn
+                                                                           theo".
+                                                                                                   hình Đăng ký.
+                                                                           1. Nhập Tên.2. Nhập - Xác thực thành công.- Chuyển
+                Đã đăng ký, ở màn hình Tên: "Nguyễn Văn A"Ngày sinh:
+11TAO_PROFILE                                                              Ngày sinh hợp lệ.3. sang màn hình nhập SĐT / Giới
+                Nhập Thông Tin 1.       "01/01/2000" (Hợp lệ)
+                                                                           Nhấn "Tiếp theo".       tính.
+                                                                           1. Nhập Tên.2. Nhập
+                                        Tên: "Nguyễn Văn A"Ngày sinh: Ngày sinh (sai               - Hiển thị lỗi "Ngày sinh không hợp
+12TAO_PROFILE   (Như trên)
+                                        "32/01/2000" (Ngày không hợp lệ) logic).3. Nhấn "Tiếp lệ".- Vẫn ở màn hình hiện tại.
+                                                                           theo".
+                                                                           1. Nhập Tên.2. Nhập
+                                                                                                   - Hiển thị lỗi "Ngày sinh không đúng
+                                        Tên: "Nguyễn Văn A"Ngày sinh: Ngày sinh (sai định
+13TAO_PROFILE   (Như trên)                                                                         định dạng (DD/MM/YYYY)".- Vẫn ở
+                                        "abcxyz" (Sai định dạng)           dạng).3. Nhấn "Tiếp
+                                                                                                   màn hình hiện tại.
+                                                                           theo".
+                                                                           1. Không nhập Tên.2.
+                                        Tên: (Để trống)Ngày sinh:                                  - Hiển thị lỗi "Vui lòng nhập tên của
+14TAO_PROFILE   (Như trên)                                                 Nhập Ngày sinh.3.
+                                        "01/01/2000"                                               bạn".- Vẫn ở màn hình hiện tại.
+                                                                           Nhấn "Tiếp theo".
+                                                                           1. Nhập SĐT hợp
+                Đã qua màn hình 1       SĐT: "0987654321" (10 số, hợp                              - Xác thực thành công.- Chuyển
+15TAO_PROFILE                                                              lệ.2. Chọn Giới tính.3.
+                (Tên/Ngày sinh).        lệ)Giới tính: "Nam"                                        sang màn hình "Viết giới thiệu".
+                                                                           Nhấn "Tiếp theo".
+                                                                           1. Nhập SĐT (ít hơn
+                                                                                                   - Hiển thị lỗi "Số điện thoại phải có
+                                                                           10 số).2. Chọn Giới
+16TAO_PROFILE   (Như trên)              SĐT: "098765" (6 số)                                       10 chữ số".- Vẫn ở màn hình hiện
+                                                                           tính.3. Nhấn "Tiếp
+                                                                                                   tại.
+                                                                           theo".
+                                                                           1. Nhập SĐT (có ký
+                                                                           tự lạ).2. Chọn Giới     - Hiển thị lỗi "Số điện thoại không
+17TAO_PROFILE   (Như trên)              SĐT: "098765432a" (có chữ)
+                                                                           tính.3. Nhấn "Tiếp      hợp lệ".- Vẫn ở màn hình hiện tại.
+                                                                           theo".
+                                                                           1. Nhập SĐT hợp
+                                        SĐT: "0987654321"Giới tính:        lệ.2. Không chọn Giới - Hiển thị lỗi "Vui lòng chọn giới
+18TAO_PROFILE   (Như trên)
+                                        (Không chọn)                       tính.3. Nhấn "Tiếp      tính".- Vẫn ở màn hình hiện tại.
+                                                                           theo".
+                                                                           1. Nhập nội dung Giới
+                Đã qua màn hình 2                                                                  - Lưu thành công.- Chuyển sang
+19TAO_PROFILE                           Giới thiệu: "Xin chào, mình là..." thiệu.2. Nhấn "Tiếp
+                (SĐT/Giới tính).                                                                   màn hình "Chọn sở thích".
+                                                                           theo".
+                                                                           1. Không nhập Giới - Chuyển sang màn hình "Chọn sở
+20TAO_PROFILE   (Như trên)              Giới thiệu: (Để trống)             thiệu.2. Nhấn "Tiếp thích". (Giả định trường này không
+                                                                           theo".                  bắt buộc).
+                Đã qua màn hình 3 (Giới Sở thích: {"Đọc sách", "Du lịch", 1. Chọn 3 sở thích.2. - Lưu thành công.- Chuyển sang
+21TAO_PROFILE
+                thiệu).                 "Nấu ăn"} (3 sở thích)             Nhấn "Tiếp theo".       màn hình "Tải ảnh".
+                                                                                                    - Hiển thị lỗi "Vui lòng chọn ít nhất
+                                         Sở thích: {"Đọc sách", "Du lịch"} (2 1. Chọn 2 sở thích.2.
+22TAO_PROFILE   (Như trên)                                                                          3 sở thích".- Vẫn ở màn hình hiện
+                                         sở thích)                            Nhấn "Tiếp theo".
+                                                                                                    tại.
+                                                                              1. Không chọn sở      - Hiển thị lỗi "Vui lòng chọn ít nhất
+23TAO_PROFILE   (Như trên)               Sở thích: (Không chọn)               thích.2. Nhấn "Tiếp 3 sở thích".- Vẫn ở màn hình hiện
+                                                                              theo".                tại.
+                                                                                                    - Tải ảnh thành công.- Tạo hồ sơ
+                                                                              1. Nhấn Tải ảnh.2.
+                Đã qua màn hình 4 (Sở                                                               thành công.- Chuyển hướng vào
+24TAO_PROFILE                            Ảnh: avatar.jpg (hợp lệ)             Chọn 1 ảnh hợp lệ.3.
+                thích).                                                                             màn hình chính của ứng dụng hẹn
+                                                                              Nhấn "Hoàn tất".
+                                                                                                    hò.
+                                                                                                    - Hiển thị lỗi "Vui lòng tải lên ít nhất
+                                                                              1. Không tải ảnh.2.
+25TAO_PROFILE   (Như trên)               Ảnh: (Không tải)                                           1 ảnh". (Giả định ảnh là bắt buộc).-
+                                                                              Nhấn "Hoàn tất".
+                                                                                                    Vẫn ở màn hình hiện tại.
+                                                                                                    - Hiển thị lỗi "Định dạng file không
+                                                                              1. Nhấn Tải ảnh.2.
+26TAO_PROFILE   (Như trên)               Ảnh: document.pdf (Sai định dạng)                          hỗ trợ, vui lòng chọn ảnh (JPG,
+                                                                              Chọn 1 file PDF.
+                                                                                                    PNG)".- Vẫn ở màn hình hiện tại.
+                                                                              1. Nhấn Tải ảnh.2.    - Hiển thị lỗi "Dung lượng ảnh quá
+                                         Ảnh: large_image.jpg (Dung lượng
+27TAO_PROFILE   (Như trên)                                                    Chọn ảnh có dung      lớn (tối đa 10MB)".- Vẫn ở màn hình
+                                         > 10MB)
+                                                                              lượng lớn.            hiện tại.
+                User đã đăng nhập, ở                                                                - Hồ sơ A biến mất.- Hồ sơ tiếp
+                                                                              1. Quẹt hồ sơ A sang
+28QUET          màn hình chính (quẹt).Hồ -                                                          theo (B) hiển thị.- Hành động "Like"
+                                                                              phải (Like).
+                sơ A đang hiển thị.                                                                 được ghi lại.
+                User đã đăng nhập, ở                                                                - Hồ sơ A biến mất.- Hồ sơ tiếp
+                                                                              1. Quẹt hồ sơ A sang
+29QUET          màn hình chính (quẹt).Hồ -                                                          theo (B) hiển thị.- Hành động
+                                                                              trái (Dislike).
+                sơ A đang hiển thị.                                                                 "Dislike" được ghi lại.
+                User A đã đăng
+                nhập.User B (người khác)                                                            - Hiển thị ngay lập tức màn
+                                                                              1. User A quẹt hồ sơ
+30QUET          đã "Like" User A.Hồ sơ -                                                            hình/animation "It's a Match!" (Đã
+                                                                              User B sang phải.
+                User B đang hiển thị cho                                                            match).
+                User A.
+                                                                              1. Tap vào icon "3
+                User đã đăng nhập, ở                                                                - Menu điều hướng (như ảnh 2)
+31QUET                                   -                                    gạch" (menu) ở góc
+                màn hình chính.                                                                     trượt ra từ bên trái.
+                                                                              trên bên trái.
+                                                                              1. Tap vào icon
+                User đã đăng nhập, ở                                                                - Chuyển sang màn hình Thông
+32QUET                                   -                                    "chuông" (thông báo)
+                màn hình chính.                                                                     báo.
+                                                                              ở góc trên bên phải.
+                                                                              1. Tap vào vùng mờ
+                Menu điều hướng đang                                          bên ngoài menu        - Menu đóng lại, quay về màn hình
+33MENU                                   -
+                mở.                                                           (hoặc tap lại icon    QUET.
+                                                                              menu).
+                                                                                                    - Giao diện ứng dụng ngay lập tức
+                                                                              1. Tap vào nút gạt
+                Menu đang mở.App đang                                                               chuyển sang Chế độ Tối (Dark
+34GIAO_DIEN                              -                                    (toggle) "Chế độ
+                ở chế độ Sáng.                                                                      mode).- Nút gạt chuyển sang trạng
+                                                                              sáng/tối".
+                                                                                                    thái "Bật" (tối).
+                                                                                                    - Giao diện ứng dụng ngay lập tức
+                Menu đang mở.App đang                                         1. Tap vào nút gạt    chuyển sang Chế độ Sáng (Light
+35GIAO_DIEN                              -
+                ở chế độ Tối.                                                 "Chế độ sáng/tối".    mode).- Nút gạt chuyển sang trạng
+                                                                                                    thái "Tắt" (sáng).
+                                                                              1. Tap vào "Mã QR - Mở ra một màn hình/popup hiển
+36QR_CODE       Menu đang mở.            -
+                                                                              của bạn".             thị mã QR cá nhân của user.
+                                                                                                    - Mở camera của thiết bị.- (Nếu
+                                                                              1. Tap vào "Quét mã chưa cấp quyền) Hiển thị thông báo
+37QR_CODE       Menu đang mở.            -
+                                                                              QR".                  yêu cầu cấp quyền truy cập
+                                                                                                    Camera.
+                                                                              1. Tap vào "AI        - Chuyển sang màn hình Chatbot,
+38CHATBOT_AI    Menu đang mở.            -
+                                                                              Chatbot".             hiển thị giao diện chat.
+                                                                                                    - Màn hình hiển thị rõ ràng 2 mục:
+                                                                              1. Tap vào icon
+                User có 2 match mới và 3                                                            1. Danh sách "Match mới" (gồm 2
+39THONG_BAO                              -                                    "chuông".2. Quan sát
+                lượt thích (like) mới.                                                              user). 2. Danh sách "Đã thích bạn"
+                                                                              màn hình Thông báo.
+                                                                                                    (gồm 3 user).
+                User không có thông báo                                                             - Hiển thị thông báo "Không có
+                                                                              1. Tap vào icon
+40THONG_BAO     mới (không match, không -                                                           thông báo mới" hoặc "Bạn đã xem
+                                                                              "chuông".
+                like).                                                                              hết".
+                                                                              1. Nhấn vào icon Trái
+                User A (bạn) đang ở màn                                                             - Chuyển sang màn hình "Những ai
+41LUOT_THICH                             -                                    tim (thứ 2) ở thanh
+                hình chính.User B và                                                                đã thích bạn".- Hiển thị hồ sơ của
+                                                                              điều hướng dưới
+                User C đã "Like" User A.                                                            User B và User C dưới dạng lưới.
+                                                                              cùng.
+                User A đang ở màn hình                                        1. Nhấn vào icon trái - Hiển thị ngay lập tức màn
+                "Những ai đã thích                                            tim nhỏ ở góc dưới    hình/animation "It's a Match!" (Đã
+42LUOT_THICH                             -
+                bạn".Hồ sơ User B đang                                        bên phải của hồ sơ match).- Hồ sơ User B biến mất
+                hiển thị trong lưới.                                          User B.               khỏi lưới "Những ai đã thích bạn".
+                User A đang ở màn hình
+                                                                              1. Nhấn vào ảnh
+                "Những ai đã thích                                                                  - Chuyển sang màn hình hồ sơ chi
+43LUOT_THICH                             -                                    (hoặc vùng trung tâm)
+                bạn".Hồ sơ User C đang                                                              tiết của User C (như Ảnh 2).
+                                                                              của hồ sơ User C.
+                hiển thị trong lưới.
+                                                                                                    - Hiển thị ngay lập tức màn
+                User A đang xem hồ sơ                                         1. Kéo xuống cuối hồ hình/animation "It's a Match!" (Đã
+44LUOT_THICH    chi tiết của User C (từ  -                                    sơ.2. Nhấn nút        match).- (Khi quay lại) Hồ sơ User
+                màn hình LUOT_THICH).                                         "Match".              C biến mất khỏi lưới "Những ai đã
+                                                                                                    thích bạn".
+                                                                                                    - Chuyển sang màn hình "Những ai
+                                                                              1. Nhấn vào icon Trái
+                User A đang ở màn hình                                                              đã thích bạn".- Hiển thị thông báo
+                                                                              tim (thứ 2) ở thanh
+45LUOT_THICH    chính.Không có ai "Like" -                                                          (ví dụ: "Chưa có ai thích bạn" hoặc
+                                                                              điều hướng dưới
+                User A.                                                                             "Hãy tích cực quẹt để có thêm lượt
+                                                                              cùng.
+                                                                                                    thích").
+                                                                                                    - Màn hình "Tin nhắn" hiển thị.- Cả
+                                                                              1. Nhấn vào icon "Tin
+                                                                                                    2 danh sách "Matches" (avatar) và
+                     User đã đăng nhập, chưa                                  nhắn" (thường là tab
+46TIN_NHAN                                   -                                                      "Tin nhắn" (list) đều trống.- Hiển thị
+                     có match nào.                                            thứ 3) ở thanh điều
+                                                                                                    thông báo (ví dụ: "Bạn chưa có kết
+                                                                              hướng dưới.
+                                                                                                    đôi nào").
+                     User A đã match với User                                                       - Avatar của User B hiển thị ở danh
+                                                                              1. Nhấn vào icon "Tin
+47TIN_NHAN           B.Chưa có tin nhắn nào -                                                       sách "Matches" (phía trên).- Danh
+                                                                              nhắn".
+                     được gửi giữa 2 người.                                                         sách "Tin nhắn" (phía dưới) trống.
+                                                                                                    - Avatar của User B hiển thị ở danh
+                     User A đã match và chat                                                        sách "Matches".- Một mục hội thoại
+                                                                              1. Nhấn vào icon "Tin
+48TIN_NHAN           với User B.Tin nhắn cuối -                                                     với User B hiển thị ở danh sách "Tin
+                                                                              nhắn".
+                     cùng: "Chào bạn".                                                              nhắn", với nội dung xem trước là
+                                                                                                    "Chào bạn".
+                     Đang ở màn hình "Tin
+                                                                              1. Nhấn vào avatar
+                     nhắn".User B có trong                                                         - Mở màn hình chat chi tiết (hộp
+49TIN_NHAN                                     -                              của User B trong
+                     danh sách "Matches"                                                           chat) với User B.
+                                                                              danh sách "Matches".
+                     (phía trên).
+                     Đang ở màn hình "Tin                                 1. Nhấn vào hàng hội
+                                                                                                 - Mở màn hình chat chi tiết (hộp
+                     nhắn".Hội thoại với User                             thoại của User B
+50TIN_NHAN                                     -                                                 chat) với User B, hiển thị lịch sử
+                     B có trong danh sách "Tin                            trong danh sách "Tin
+                                                                                                 chat.
+                     nhắn" (phía dưới).                                   nhắn".
+                                                                                                 - Hội thoại với User C tự động nhảy
+                User A đang ở màn hình
+                                                                          1. (Quan sát màn       lên đầu danh sách "Tin nhắn".- Nội
+                "Tin nhắn".User C (đã
+51TIN_NHAN                                  -                             hình, không cần thao dung tin nhắn xem trước được cập
+                match) gửi 1 tin nhắn mới
+                                                                          tác).                  nhật.- Hiển thị chỉ báo "tin nhắn
+                cho User A.
+                                                                                                 chưa đọc".
+                                                                                                 - Tin nhắn "Chào bạn..." xuất hiện
+                                                                          1. Gõ nội dung tin
+                User A và User B đã                                                              ngay lập tức trong khung chat (ở
+                                            Tin nhắn: "Chào bạn, mình làm nhắn vào ô "Nhắn
+52HOP_CHAT      match, đang ở màn hình                                                           phía User A).- Ô gõ tin nhắn trở nên
+                                            quen nhé."                    tin..."2. Nhấn nút
+                chat.                                                                            trống.- (User B nhận được tin
+                                                                          "Gửi" (mũi tên).
+                                                                                                 nhắn).
+                                                                          1. Không gõ gì vào ô
+                                                                                                 - Nút "Gửi" bị vô hiệu hóa (màu
+53HOP_CHAT      Đang ở màn hình chat. Tin nhắn: (Để trống)                "Nhắn tin..."2. Quan
+                                                                                                 xám, không thể nhấn).
+                                                                          sát nút "Gửi".
+                                                                          1. Nhấn vào icon       - Một danh sách/popup "Câu hỏi
+54HOP_CHAT      Đang ở màn hình chat. -                                   "Dấu hỏi" (Gợi ý câu ngẫu nhiên" (như Ảnh 2) hiển thị
+                                                                          hỏi mở).               lên.
+                                                                          1. Nhấn vào 1 câu hỏi - Danh sách câu hỏi đóng lại.- Câu
+                Danh sách "Câu hỏi ngẫu Câu hỏi được chọn: "Bạn thích đi
+55HOP_CHAT                                                                bất kỳ trong danh      hỏi đó được tự động gửi đi (xuất
+                nhiên" đang hiển thị.       du lịch ở đâu nhất?"
+                                                                          sách.                  hiện trong khung chat).
+                                                                                                 - Một câu gợi ý (ví dụ: "Hôm nay
+                                                                          1. Nhấn vào icon       của bạn thế nào?") được tự động
+56HOP_CHAT      Đang ở màn hình chat. -                                   "Bóng đèn" (Gợi ý      điền vào ô "Nhắn tin...".- Người
+                                                                          nhắn).                 dùng vẫn phải nhấn nút "Gửi" để
+                                                                                                 gửi tin nhắn.
+                                                                          1. Thoát ra màn hình
+                                                                                                 - Lịch sử 10 tin nhắn được tải chính
+                User A và User B đã có                                    "Tin nhắn" (danh
+57HOP_CHAT                                  -                                                    xác.- Màn hình tự động cuộn xuống
+                lịch sử chat (10 tin nhắn).                               sách).2. Vào lại hộp
+                                                                                                 tin nhắn cuối cùng.
+                                                                          chat với User B.
+                                                                          1. Nhấn vào avatar
+                                                                                                 - Chuyển sang màn hình hồ sơ chi
+58HOP_CHAT      Đang ở màn hình chat. -                                   hoặc tên của User B
+                                                                                                 tiết của User B.
+                                                                          ở thanh trên cùng.
+                                                                          1. Nhấn vào nút
+                                                                          "Thông tin" (ở góc
+                                                                                                 - Hiển thị thông báo "Hủy kết đôi
+                                                                          trên bên phải).2. Mở
+                                                                                                 thành công".- User A được tự động
+                User A đang ở màn hình                                    ra màn hình thông tin
+                                                                                                 đưa trở lại màn hình "Tin nhắn"
+59UNMATCH       chat với User B (đã         -                             của User B.3. Kéo
+                                                                                                 (danh sách).- Hội thoại với User B
+                match).                                                   xuống cuối hồ sơ.4.
+                                                                                                 biến mất khỏi danh sách "Matches"
+                                                                          Nhấn nút "Chia tay".5.
+                                                                                                 và "Tin nhắn".
+                                                                          Nhấn "Xác nhận" trên
+                                                                          popup cảnh báo.
+                                                                          1. Thực hiện các       - Không hủy kết đôi.- User A vẫn ở
+                User A đang ở màn hình                                    bước 1-4 như ID 59.2. màn hình thông tin của User B
+60UNMATCH                                   -
+                chat với User B.                                          Nhấn "Hủy" (Cancel) (hoặc quay lại màn hình chat).- Hội
+                                                                          trên popup cảnh báo. thoại với User B vẫn tồn tại.
+                                                                          1. Đăng nhập bằng tài
+                                                                                                 - (Phía User B) Hội thoại với User A
+                User A đã "Chia tay" User (Đăng nhập bằng tài khoản User khoản của User B.2.
+61UNMATCH                                                                                        cũng biến mất khỏi danh sách
+                B (đã thực hiện ID 59). B).                               Mở màn hình "Tin
+                                                                                                 "Matches" và "Tin nhắn".
+                                                                          nhắn".
+                                                                                                 - Chuyển sang màn hình Hồ sơ cá
+                                                                          1. Nhấn vào icon "Hồ
+                                                                                                 nhân.- Tải và hiển thị đúng ảnh đại
+                User đã đăng nhập, ở                                      sơ" (tab cuối cùng) ở
+62HO_SO_CA_NHAN                             -                                                    diện, tên, tuổi.- Hiển thị các nút:
+                màn hình chính.                                           thanh điều hướng
+                                                                                                 "Cài đặt", "Sửa hồ sơ", "Hẹn hò
+                                                                          dưới.
+                                                                                                 thôi".
+                                                                          1. Nhấn nút "Hẹn hò
+                Đang ở màn hình Hồ sơ                                                            - Quay lại màn hình QUET
+63HO_SO_CA_NHAN                             -                             thôi" (nút dưới cùng
+                cá nhân.                                                                         (matching).
+                                                                          bên trái).
+                Đang ở màn hình Hồ sơ                                                            - Chuyển sang màn hình "Cài đặt"
+64HO_SO_CA_NHAN                             -                             1. Nhấn nút "Cài đặt".
+                cá nhân.                                                                         (như Ảnh 2).
+                Đang ở màn hình Hồ sơ                                     1. Nhấn nút "Sửa hồ - Chuyển sang màn hình "Sửa hồ
+65HO_SO_CA_NHAN                             -
+                cá nhân.                                                  sơ".                   sơ" (như Ảnh 3, 4).
+                Đang ở màn hình "Cài                                                             - Chuyển sang màn hình "Hỗ trợ"
+66CAI_DAT                                   -                             1. Nhấn vào "Hỗ trợ".
+                đặt".                                                                            (như Ảnh 5).
+                                                                          1. Nhấn vào "Đăng
+                Đang ở màn hình "Cài                                      xuất".2. Nhấn "Đồng - User đăng xuất thành công.- Quay
+67CAI_DAT                                   -
+                đặt".                                                     ý" trên popup xác      về màn hình "Đăng nhập" (Login).
+                                                                          nhận.
+                                                                          1. Nhấn vào "Đăng
+                 Đang ở màn hình "Cài                                                           - Popup đóng lại, User vẫn đăng
+68CAI_DAT                                  -                              xuất".2. Nhấn "Hủy"
+                 đặt".                                                                          nhập và ở màn hình "Cài đặt".
+                                                                          trên popup xác nhận.
+                                                                          1. Nhấn vào sửa mục
+                 Đang ở màn hình "Sửa                                     "Giới thiệu".2. Nhập - Thông tin được cập nhật thành
+69CHINH_SUA_HS   hồ sơ".Mục "Giới thiệu"   Giới thiệu: "Text mới".        "Text mới".3. Nhấn công.- (Khi xem lại) Mục "Giới
+                 đang là "Text cũ".                                       "Lưu" (hoặc nút quay thiệu" hiển thị "Text mới".
+                                                                          lại để tự động lưu).
+                                                                          1. Nhấn vào sửa mục
+                 Đang ở màn hình "Sửa
+                                                                          "Sở thích".2. Chọn    - Sở thích được cập nhật thành
+70CHINH_SUA_HS   hồ sơ".User đang có 3 sở Sở thích: Thêm "Chạy bộ".
+                                                                          thêm "Chạy bộ".3.     công (tổng cộng 4 sở thích).
+                 thích.
+                                                                          Nhấn "Lưu".
+                                                                          1. Nhấn vào sửa mục
+                 Đang ở màn hình "Sửa                                                           - Hiển thị lỗi "Vui lòng chọn ít nhất
+                                                                          "Sở thích".2. Bỏ chọn
+71CHINH_SUA_HS   hồ sơ".User đang có 3 sở Sở thích: Bỏ chọn 2 sở thích.                         3 sở thích" (Giả định quy tắc từ lúc
+                                                                          2 sở thích (chỉ còn
+                 thích.                                                                         tạo tài khoản vẫn áp dụng).
+                                                                          1).3. Nhấn "Lưu".
+                                                                          1. Nhấn vào ô dấu "+"
+                 Đang ở màn hình "Sửa                                     để thêm ảnh.2. Chọn - Ảnh mới được tải lên và hiển thị
+72CHINH_SUA_HS                             Ảnh: anh_moi.jpg
+                 hồ sơ".                                                  anh_moi.jpg từ thư    trong danh sách ảnh.
+                                                                          viện.3. Nhấn "Lưu".
+                 Đang ở màn hình "Hỗ                                      1. Nhấn vào "Câu hỏi - Mở ra danh sách các câu hỏi/câu
+73HO_TRO                                   -
+                 trợ".                                                    thường gặp".          trả lời (FAQ).
+                 Đang ở màn hình "Hỗ                                      1. Nhấn vào "Gửi      - Mở ra màn hình/form để nhập
+74HO_TRO                                   -
+                 trợ".                                                    phản hồi".            phản hồi.
+

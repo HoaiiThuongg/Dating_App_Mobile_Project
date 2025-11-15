@@ -1,0 +1,264 @@
+                                                                         A
+ID    Test Steps                     Expected results                    result Comment
+                                     Giao diện hiển thị vị trí, màu sắc,
+      Kiểm tra vị trí, màu sắc, kích kích thước các button, các input,…
+      cỡ của các input, label        cân đối như design thiết kế         Pass
+UI-
+LG-   Mở app ban đầu ra, rồi nhấn Tiêu đề hiển thị 'Đăng nhập' và phụ
+001   nút Đăng nhập               đề 'Nhập email và mật khẩu'         Pass Theo Login.kt
+UI-
+LG-                                Trường 'Email' xuất hiện và nhập
+002   Kiểm tra trường Email        được                                 Pass testTag: login:email_input
+UI-
+LG-                                Trường 'Mật khẩu' xuất hiện, nhập
+003   Kiểm tra trường Mật khẩu     được và che ký tự                 Pass testTag: login:password_input
+UI-
+LG-   Nhấn nút 'Đăng nhập' khi     Hiển thị thông báo 'Đang xác
+004   chưa nhập gì                 thực...' sau khi nhấn                Pass testTag: login:login_button
+UI-   Nhập email hợp lệ và mật
+LG-   khẩu hợp lệ rồi nhấn 'Đăng   Thông báo hiển thị ' Chúc mừng
+005   nhập'                        bạn đăng nhập thành công!'           Pass Chuỗi có khoảng trắng đầu trong code
+UI-
+LG-   Sau alert thành công của
+006   đăng nhập                    Điều hướng tới màn chính             Pass navController.navigate('main')
+UI-
+LG-   Nhấn nút 'Đăng kí' trên màn
+007   Đăng nhập                   Điều hướng tới màn Đăng kí            Pass testTag: login:register_button
+UI-
+LG-                                 Nút 'Đăng nhập' và các trường bị vô Not
+008   Khi trạng thái isLoading=true hiệu hóa                            Run enabled = !state.isLoading
+UI-
+LG-                                Alert hiển thị thông báo lỗi từ      Not
+009   Khi lỗi đăng nhập xảy ra     state.error                          Run Kiểm tra chuỗi lỗi hiển thị
+
+UI-
+RG-   Mở màn 'Tạo tài khoản'       Xuất hiện tiêu đề 'Tạo tài khoản',   Not
+010   (RegisterEntry)              phụ đề 'Nhập email của bạn'          Run RegisterEntryScreen.kt
+UI-
+RG-                                                                 Not
+011   Xem phần tiêu đề nội dung Hiển thị 'Nhập Email' (văn bản lớn) Run Text('Nhập Email', 24sp)
+UI-
+RG-                                Trường 'Email' xuất hiện và nhập     Not
+012   Xem trường 'Email'           được                                 Run UnderlineTextField(label='Email')
+UI-
+RG-                                Trường 'Mật khẩu' xuất hiện, nhập Not
+013   Xem trường 'Mật khẩu'        được và che ký tự                 Run isPassword=true
+UI-
+RG-   Nhấn nút 'Tiếp theo' trên  Hiển thị thông báo theo trạng thái: Not
+014   trong màn Đăng kí đầu tiên Loading/Success/Error               Run CustomLinearButton('Tiếp theo')
+UI-
+RG-                                Điều hướng tới màn Đăng kí tiếp      Not
+015   Đăng kí thành công           theo                                 Run LaunchedEffect(state.isSuccess)
+UI-
+RG-   Đăng kí khi email sai định                                       Not
+016   dạng                         Thông báo hiển thị 'Sai dạng email' Run alertMessage else-branch
+
+
+UI-
+RG-                                Xuất hiện tiêu đề 'Tạo tài khoản',   Not
+023   Mở màn Nhập mật khẩu         phụ đề 'Nhập mật khẩu'               Run PasswordInputScreen.kt
+UI-
+RG-   Xem văn bản đầu màn          Ô 'Nhập mật khau' hiển thị (theo     Not
+024   PasswordInput                code)                                Run Lỗi chính tả có chủ ý
+UI-
+RG-   Xem trường nhập ở            Trường hiển thị label 'Email' và     Not
+025   PasswordInput                không che ký tự                      Run Theo code hiện tại
+UI-
+RG-   Nhấn nút 'Tếp theo' ở        Thông báo Loading và sau đó          Not
+026   PasswordInput                Success/Fail                         Run CustomLinearButton('Tếp theo')
+UI-
+RG-                                Điều hướng tới màn Đăng kí tiếp      Not
+027   PasswordInput thành công     theo                                 Run navController.navigate(...)
+UI-
+RG-                                                                     Not
+028   PasswordInput lỗi            Thông báo 'Lỗi: <nội dung>' hiển thị Run state.error != null
+UI-
+HM-   Mở màn chính khi                                                   Not
+029   isLoading=true               Hiển thị vòng tải 'HeartLoading'      Run HomeScreen.kt
+UI-
+HM-   Mở màn HomeScreen khi        Hiển thị thông báo 'Hết đối tượng     Not
+030   isLoading=false              để hiển thị rồi'                      Run NothingToLoad text 1
+UI-                                Hiển thị gợi ý 'Bạn có thể điều
+HM-   Mở màn HomeScreen khi        chỉnh filter để tìm nhiều đối tượng   Not
+031   isLoading=false              hơn'                                  Run NothingToLoad text 2
+UI-   Kiểm tra xem có hiện đầy đủ
+HM-   thông tin thẻ người dùng để Hiển thị các thẻ người dùng có sẵn Not
+032   quẹt không                  trong database                     Run Vòng for từ users.size-1 downto currentIndex
+UI-
+HM-                                Thẻ biến mất, hiển thị tim like và    Not
+033   Vuốt sang phải để match      phát âm thanh                         Run AnimatedHeart + R.raw.like
+UI-
+HM-                                Thẻ biến mất, hiển thị tim dislike và Not
+034   Vuốt sang trái để unmatch    phát âm thanh                         Run AnimatedHeart + R.raw.dislike
+UI-
+HM-   Không vuốt hẳn hết thẻ sang                                        Not
+035   một bên                     Thẻ trở về vị trí ban đầu              Run animateTo(0f)
+UI-
+HM-   Cuộn dọc nội dung hồ sơ      Xem thêm thông tin người dung đã Not
+038   trong thẻ                    cung cấp                            Run verticalScroll(scrollState)
+      Trong hồ sơ khi xem thêm
+      thông tin người dùng, kiểm
+      tra
+      xem có đầy đủ ảnh, thông tin
+      người dùng cung cấp không, Hiển thị đầy đủ thông tin mà người
+      ảnh, các nút có hiển thị rõ dùng cung cấp
+      ràng, đúng với kích thước đã Ảnh, các nút hiển thị rõ ràng, đúng
+      design trước không           với kích thước đã design trước
+
+UI-
+GN-   Kiểm tra hiển thị biểu tượng Icon quay (RotatedIcon) xuất hiện ở Not
+046   xoay ở form auth             phần topContent                     Run Áp dụng cho Login/Register
+UI-
+GN-   Kiểm tra nút Linear Button ở Nút có nền gradient                   Not
+047   form auth                    redOrangeLinear, chữ trắng            Run Áp dụng cho các nút chính
+UI-
+GN-   Kiểm tra Border Button ở                                           Not
+048   Login                        Nút viền đen, nhãn 'Đăng kí'          Run CustomBorderButton
+UI-
+GN-   Kiểm tra alert message luân Loading/Success/Error hiển thị         Not
+049   chuyển đúng theo state      chính xác                              Run AuthFormContainer(alertMessage)
+UI-
+GN-   Kiểm tra điều hướng       Back stack được làm sạch theo cấu Not
+050   popUpTo ở đăng ký         hình (inclusive=true)               Run RegisterEntryScreen popUpTo
+                                Hiển thị đầy đủ ảnh người dùng đã
+UI-                             match, các nút có trong thiết kế,
+MS-   Mở MessageScreen khi đang hiển thị hộp chat với               Not
+065   tải                       những người đã match gần đây        Run state.isLoading
+UI-                             Hiển thị 'Bạn chưa kết nối với ai
+MS-   MessageScreen khi không cóhết' với gợi ý 'Hãy đi ghép đôi với Not
+066   matchedUsers              mọi người nào'                      Run stringResource no_matches_yet/go_match_now
+UI-
+MS-   Nhấn avatar trong danh sách Điều hướng tới đoạn chat với người Not
+067   matched                      dùng đã match tương ứng           Run MatchedPeople onAvatarClick
+UI-   Kiểm tra Tiêu đề, đoạn chat, Tiêu đề, các đoạn chat, avt người
+MS-   avt người dùng, các          dùng, các nút hiển thị đúng với   Not
+068   nút có trông màn             thiết kế đã có                    Run Text(stringResource(R.string.messages))
+UI-
+MS-                                                                      Not
+070   Khi có tin nhắn mới xuất hiệnHiện hộp chat đó lên đầu              Run animateScrollToItem(0)
+
+UI-
+CH-                                Hiển thị đoạn chat với người dùng Not
+051 Mở ChatScreen                  đã match, hiển thị các tin nhắn cũ Run ChatScreenHeader.kt
+UI-
+CH-
+052                                Điều hướng về màn                     Not
+    Nhấn nút quay lại ở header     MessageScreen                         Run IconButton navController.navigate('message')
+UI-
+CH- Nhấn avatar hoặc tên ở         Điều hướng tới thông tin chi tiết của Not
+053 header                         người dùng                            Run Click Column trong header
+UI-                                Tin nhắn của bạn hiển thị bên phải,
+CH-                                tin nhắn của đối phương hiển thị ở Not
+055   Quan sát danh sách chat      bên trái                            Run Phân loại theo senderId
+UI-
+CH-   Khi có tin nhắn mới hoặc bànDanh sách cuộn xuống cuối (item        Not
+056   phím mở                     cuối)                                  Run animateScrollToItem(lastIndex)
+UI-
+CH-   Nhấn nút 'Chat bot giúp đỡ   Điều hướng tới màn sử dụng            Not
+057   giao tiếp'                   Chatbot AI                            Run Button navController.navigate('chatWithAi')
+UI-
+CH-                                Hiển thị dòng chữ mờ 'Gõ tin          Not
+058   Quan sát ô nhập tin nhắn     nhắn...' khi trống                    Run BasicTextField decorationBox
+UI-
+CH-   Nhấn nút bóng đèn (AI gợi ý) Ô nhập được điền gợi ý                Not
+059   khi chưa có gợi ý            (Icebreaker)                          Run geminiViewModel.loadIcebreakers()
+UI-
+CH-   Nút bóng đèn khi đã có gợi ý Hiển thị 'Đang suy nghĩ...' đến khi   Not
+060   'Đang suy nghĩ...'           có gợi ý thực                         Run suggestionText xử lý
+UI-
+CH-                                Nút gửi (Send) bị vô hiệu hóa và      Not
+062   Ô nhập trống                 nền xám                               Run enabled = input.isNotBlank()
+UI-
+CH-                              Tin nhắn xuất hiện ở cuối bên phải, Not
+063   Nhập nội dung rồi nhấn gửi đẩy các tin nhắn cũ lên trên        Run viewModel.sendMessage(matchId)
+UI-
+CH-   Kéo danh sách chat xuống     Các item được căn đều, khoảng         Not
+064   dưới cùng                    cách 10dp                             Run LazyColumn verticalArrangement
+
+UI-
+ED-                                Hiển thị thanh điều hướng 2 tab:      Not
+071 Mở EditProfileScreen           'Hiển thị' và 'Thông tin'             Run EditProfileNavBar R.string.display/information
+UI-
+ED-                                Nội dung 'PublicInformation' được     Not
+072 Nhấn tab 'Hiển thị'            hiển thị                              Run openPublicInformation=true
+UI-
+ED-                                                                     Not
+073 Nhấn tab 'Thông tin'           Nội dung 'Information' được hiển thị Run openPublicInformation=false
+
+UI-
+ED-   Trong PublicInformation:     Mở trình chọn ảnh, chọn xong hiển Not
+074   nhấn 'Upload Image'          thị preview trong khung tròn      Run UploadAvatar rememberLauncherForActivityResult
+UI-
+ED-   Trong PublicInformation:                                           Not
+075   nhấn vào khung ảnh tròn      Mở picker chọn ảnh                    Run clickable launcher
+UI-
+ED-   Trong EditProfileImage: nhấn                                       Not
+076   thêm ảnh                     Ảnh mới được thêm vào lưới ảnh        Run ImageUploadField onAddClick
+UI-
+ED-   Trong EditProfileImage: xóa                                        Not
+077   một ảnh                     Ảnh bị loại khỏi lưới                  Run onRemoveClick
+UI-
+ED-   Trong Selections: mở 'Sở     Danh sách tag hiển thị, có thể        Not
+078   thích'                       thêm/xóa                              Run SelectionBox(labelDB='interests')
+UI-
+ED-   Trong Selections: mở 'Kiểu   Có thể thêm/xóa lựa chọn mong         Not
+079   ưa thích'                    muốn đối tượng                        Run SelectionBox(labelDB='partnerPreferences')
+UI-
+ED-   Trong Selections: mở 'Tôn                                          Not
+080   giáo'                        Có thể thêm/xóa tôn giáo              Run SelectionBox(labelDB='religions')
+UI-
+ED-                                                                      Not
+081   Trong Selections: chỉnh 'Bio' Nhập và lưu mô tả bản thân           Run WriteBox(labelDB='bio')
+UI-
+ED-   Trong Selections: chỉnh 'Life                                      Not
+082   style'                        Nhập và lưu phong cách sống          Run WriteBox(labelDB='lifestyle')
+
+UI-
+ED-                               Giá trị mới hiển thị trong ô; không Not
+083 Trong Information: sửa 'Tên' crash                                Run     EditableInfoField('name')
+UI-
+ED- Trong Information: chọn 'Giới Mở dropdown chọn giới tính và hiển Not      EditableDropdownField('gender',
+084 tính'                         thị giá trị chọn                    Run     AppConstants.gender)
+UI-
+ED- Trong Information: chọn       Mở Date picker, ngày chọn hiển thị Not
+085 'Ngày sinh'                   đúng định dạng yyyy-MM-dd           Run     DateInfoField('dob')
+UI-
+ED-   Trong Information: chọn 'Địa Mở dropdown các tỉnh thành VN và Not EditableDropdownField('location',
+086   điểm'                        hiển thị giá trị chọn            Run AppConstants.vietnamProvinces)
+UI-
+ED-   Trong Information: nhập 'Số                                      Not
+087   điện thoại'                 Ô hiển thị giá trị nhập; không crash Run EditableInfoField('phone')
+UI-
+ED-   Trong Information: xem                                            Not
+088   'Email'                     Email hiện tại hiển thị trong ô       Run EditableInfoField('email')
+
+UI-
+ST-                               Hiển thị 'Settings' và mục 'Theme' + Not
+089   Mở SettingsScreen           'Language'                           Run SettingScreen.kt
+UI-
+ST-   Chuyển nút Theme sang On Màu nền và icon chuyển tương ứng Not
+090   (Dark)                   chế độ tối                       Run AnimatedSwitch ThemeSingleton.toggle()
+UI-
+ST-   Chuyển nút Language sang App đổi ngôn ngữ và Activity             Not LanguageSingleton.toggle()/updateLocale +
+091   On (English)             recreate                                 Run recreate()
+
+UI-
+MP-                               Hiển thị nền cong gradient và nội     Not
+092 Mở MyProfileScreen            dung hồ sơ                            Run MyProfileContent()
+UI-
+MP-                               Nút hiển thị bên dưới nội dung hồ     Not
+093 Quan sát nút DatingButton     sơ                                    Run DatingButton()
+
+UI-
+DP-                               Hiển thị header, ảnh, thông tin chi   Not
+094   Mở DetailedProfileScreen    tiết                                  Run DetailedProfileHeader/Image/DetailInfo
+UI-
+DP-   Nhấn Like trong                                                   Not
+095   DetailedProfile             Gửi swipe RIGHT qua ViewModel         Run viewModel.swipe(SwipeService.SwipeType.RIGHT)
+UI-
+DP-                                                                     Not
+096   Khi match thành công        Hiển thị MatchSuccessfullyCard        Run alertViewModel.isMatchSuccessfullyCard
+UI-
+DP-   Đóng                                                              Not
+097   MatchSuccessfullyCard       Điều hướng tới 'likeYou'              Run navController.navigate('likeYou')
+

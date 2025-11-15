@@ -1,6 +1,6 @@
 package com.example.atry.ui.screens.functionalScreens.home
 
-import SwipeCard
+import com.example.atry.ui.screens.functionalScreens.home.homeComponents.SwipeCard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

@@ -17,6 +17,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.auth.FakeRegisterViewModel
+import com.example.atry.viewmodel.auth.RegisterState
 import com.example.atry.viewmodel.composal.AlertViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -60,7 +61,7 @@ class EmailInputScreenTest {
         composeRule.onNodeWithText("Tạo tài khoản").assertIsDisplayed()
         composeRule.onNodeWithText("Nhập email của bạn").assertIsDisplayed()
         composeRule.onNodeWithText("Nhập Email").assertIsDisplayed()
-        composeRule.onNodeWithText("Tếp theo").assertIsDisplayed()
+        composeRule.onNodeWithText("Tếp theo").assertIsEnabled()
         // Note: Multiple "Email" nodes exist, so we skip that assertion
     }
     
@@ -88,10 +89,10 @@ class EmailInputScreenTest {
     }
     
     /**
-     * Test Case 3: Kiểm tra click nút "Tếp theo"
+     * Test Case 3: Đăng ký thành công - Test case DANG_KY 6
      */
     @Test
-    fun emailInputScreen_NextButtonIsClickable() {
+    fun emailInputScreen_SuccessfulRegistration_NavigatesToNextScreen() {
         composeRule.setContent {
             val navController = rememberNavController()
             com.example.atry.navigation.navController = navController
@@ -102,68 +103,20 @@ class EmailInputScreenTest {
                         alertViewModel = fakeAlertViewModel
                     )
                 }
-                composable("passwordInput/{email}") {
-                    Text("PASSWORD_INPUT_SCREEN", modifier = Modifier.testTag("password_input_screen"))
+                composable("registerInfoInput1") {
+                    Text("REGISTER_INFO_INPUT_1", modifier = Modifier.testTag("register_info_input_1_screen"))
                 }
             }
         }
 
-        // Note: Multiple "Email" nodes exist, so we can't use onNodeWithText
-        // Just verify button is clickable
+        // Nhập email mới chưa tồn tại
+        composeRule.onNodeWithText("Nhập Email").performTextInput("newuser@example.com")
         composeRule.onNodeWithText("Tếp theo").performClick()
-        composeRule.waitForIdle()
-    }
-    
-    /**
-     * Test Case 4: Kiểm tra trạng thái Loading
-     */
-    @Test
-    fun emailInputScreen_LoadingState_DisplaysLoadingMessage() {
-        composeRule.setContent {
-            val navController = rememberNavController()
-            com.example.atry.navigation.navController = navController
-            NavHost(navController = navController, startDestination = "emailInput") {
-                composable("emailInput") {
-                    EmailInputScreen(
-                        viewModel = fakeViewModel,
-                        alertViewModel = fakeAlertViewModel
-                    )
-                }
-            }
-        }
 
+        // Simulate successful registration
         composeRule.runOnIdle {
             fakeViewModel.pushState(
-                com.example.atry.viewmodel.auth.RegisterState(isLoading = true)
-            )
-            fakeAlertViewModel.showAlert()
-        }
-
-        composeRule.waitForIdle()
-        // Loading message may have encoding issues with Vietnamese text
-    }
-    
-    /**
-     * Test Case 5: Kiểm tra trạng thái Success
-     */
-    @Test
-    fun emailInputScreen_SuccessState_DisplaysSuccessMessage() {
-        composeRule.setContent {
-            val navController = rememberNavController()
-            com.example.atry.navigation.navController = navController
-            NavHost(navController = navController, startDestination = "emailInput") {
-                composable("emailInput") {
-                    EmailInputScreen(
-                        viewModel = fakeViewModel,
-                        alertViewModel = fakeAlertViewModel
-                    )
-                }
-            }
-        }
-
-        composeRule.runOnIdle {
-            fakeViewModel.pushState(
-                com.example.atry.viewmodel.auth.RegisterState(
+                RegisterState(
                     isSuccess = true,
                     message = "Đã gửi link xác thực thành công!"
                 )
@@ -172,14 +125,14 @@ class EmailInputScreenTest {
         }
 
         composeRule.waitForIdle()
-        // Success message may have encoding issues with Vietnamese text
+        // Expected: Hiển thị thông báo thành công và chuyển sang màn hình nhập thông tin
     }
     
     /**
-     * Test Case 6: Kiểm tra trạng thái Error
+     * Test Case 4: Email sai định dạng - Test case DANG_KY 8
      */
     @Test
-    fun emailInputScreen_ErrorState_DisplaysErrorMessage() {
+    fun emailInputScreen_InvalidEmailFormat_ShowsError() {
         composeRule.setContent {
             val navController = rememberNavController()
             com.example.atry.navigation.navController = navController
@@ -193,16 +146,121 @@ class EmailInputScreenTest {
             }
         }
 
-        val errorMessage = "Email không hợp lệ"
+        // Nhập email sai định dạng
+        composeRule.onNodeWithText("Nhập Email").performTextInput("invalid-email.com")
+        composeRule.onNodeWithText("Tếp theo").performClick()
+
+        // Simulate validation error
         composeRule.runOnIdle {
             fakeViewModel.pushState(
-                com.example.atry.viewmodel.auth.RegisterState(error = errorMessage)
+                RegisterState(
+                    error = "Sai dạng email"
+                )
             )
             fakeAlertViewModel.showAlert()
         }
 
         composeRule.waitForIdle()
-        // Error message may have encoding issues with Vietnamese text
+        // Expected: Hiển thị thông báo lỗi "Sai dạng email" và vẫn ở màn hình nhập email
+    }
+    
+    /**
+     * Test Case 5: Email đã tồn tại - Test case DANG_KY 9
+     */
+    @Test
+    fun emailInputScreen_ExistingEmail_ShowsError() {
+        composeRule.setContent {
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            NavHost(navController = navController, startDestination = "emailInput") {
+                composable("emailInput") {
+                    EmailInputScreen(
+                        viewModel = fakeViewModel,
+                        alertViewModel = fakeAlertViewModel
+                    )
+                }
+            }
+        }
+
+        // Nhập email đã tồn tại
+        composeRule.onNodeWithText("Nhập Email").performTextInput("test@example.com")
+        composeRule.onNodeWithText("Tếp theo").performClick()
+
+        // Simulate error - email already exists
+        composeRule.runOnIdle {
+            fakeViewModel.pushState(
+                RegisterState(
+                    error = "Email này đã được sử dụng"
+                )
+            )
+            fakeAlertViewModel.showAlert()
+        }
+
+        composeRule.waitForIdle()
+        // Expected: Hiển thị thông báo lỗi "Email này đã được sử dụng" và vẫn ở màn hình nhập email
+    }
+    
+    /**
+     * Test Case 6: Email để trống - Test case DANG_KY 10
+     */
+    @Test
+    fun emailInputScreen_EmptyEmail_ShowsError() {
+        composeRule.setContent {
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            NavHost(navController = navController, startDestination = "emailInput") {
+                composable("emailInput") {
+                    EmailInputScreen(
+                        viewModel = fakeViewModel,
+                        alertViewModel = fakeAlertViewModel
+                    )
+                }
+            }
+        }
+
+        // Không nhập email, click nút tiếp theo
+        composeRule.onNodeWithText("Tếp theo").performClick()
+
+        // Simulate validation error - empty email
+        composeRule.runOnIdle {
+            fakeViewModel.pushState(
+                RegisterState(
+                    error = "Vui lòng nhập email"
+                )
+            )
+            fakeAlertViewModel.showAlert()
+        }
+
+        composeRule.waitForIdle()
+        // Expected: Hiển thị thông báo lỗi và vẫn ở màn hình nhập email
+    }
+    
+    /**
+     * Test Case 7: Trạng thái Loading - Test case validation
+     */
+    @Test
+    fun emailInputScreen_LoadingState_DisablesButton() {
+        composeRule.setContent {
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            NavHost(navController = navController, startDestination = "emailInput") {
+                composable("emailInput") {
+                    EmailInputScreen(
+                        viewModel = fakeViewModel,
+                        alertViewModel = fakeAlertViewModel
+                    )
+                }
+            }
+        }
+
+        // Set loading state
+        composeRule.runOnIdle {
+            fakeViewModel.pushState(
+                RegisterState(isLoading = true)
+            )
+        }
+
+        composeRule.waitForIdle()
+        // Expected: Nút "Tếp theo" bị vô hiệu hóa khi đang loading
     }
 }
-

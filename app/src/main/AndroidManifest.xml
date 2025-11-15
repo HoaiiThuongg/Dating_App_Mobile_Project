@@ -44,6 +44,13 @@
                     />
             </intent-filter>
         </activity>
+
+        <!-- Cấu hình androidx.startup.InitializationProvider -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge" />
     </application>
 
 </manifest>

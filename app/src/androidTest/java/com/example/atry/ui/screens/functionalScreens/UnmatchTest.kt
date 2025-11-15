@@ -2,6 +2,7 @@ package com.example.atry.ui.screens.functionalScreens
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onRoot
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -42,6 +43,38 @@ class UnmatchTest {
         }
 
         composeRule.waitForIdle()
-        // Screen should render without crashing
+    }
+
+    @Test
+    fun unmatch_RendersWithAnotherUser() {
+        composeRule.setContent {
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            val testUser = User("test_user2", "Another User", "test2@example.com", "default.jpg", "Nam")
+            val alertViewModel = AlertViewModel()
+            NavHost(navController = navController, startDestination = "detailedProfile") {
+                composable("detailedProfile") {
+                    DetailScreen(user = testUser, alertViewModel = alertViewModel)
+                }
+            }
+        }
+        composeRule.onRoot().assertExists()
+    }
+
+    @Test
+    fun unmatch_IdleStateRenders() {
+        composeRule.setContent {
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            val testUser = User("test_user3", "Third User", "test3@example.com", "default.jpg", "Nam")
+            val alertViewModel = AlertViewModel()
+            NavHost(navController = navController, startDestination = "detailedProfile") {
+                composable("detailedProfile") {
+                    DetailScreen(user = testUser, alertViewModel = alertViewModel)
+                }
+            }
+        }
+        composeRule.waitForIdle()
+        composeRule.onRoot().assertExists()
     }
 }

@@ -1,4 +1,4 @@
-﻿package com.example.atry.ui.components.qr
+package com.example.atry.ui.components.qr
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -31,6 +31,34 @@ class UserQrScreenTest {
         }
         
         composeRule.waitForIdle()
-        // Screen should render without crashing
+    }
+
+    @Test
+    fun screenRendersWithDifferentUserId() {
+        composeRule.setContent {
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            NavHost(navController = navController, startDestination = "user_qr") {
+                composable("user_qr") {
+                    UserQrScreen(userId = "anotherUser456")
+                }
+            }
+        }
+        composeRule.waitForIdle()
+    }
+
+    @Test
+    fun screenRendersAfterNavigation() {
+        composeRule.setContent {
+            val navController = rememberNavController()
+            com.example.atry.navigation.navController = navController
+            NavHost(navController = navController, startDestination = "user_qr") {
+                composable("user_qr") {
+                    UserQrScreen(userId = "navUser789")
+                }
+                composable("back") {}
+            }
+        }
+        composeRule.waitForIdle()
     }
 }
