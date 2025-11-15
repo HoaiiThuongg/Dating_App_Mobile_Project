@@ -25,7 +25,7 @@
 | Frame Drop Rate | 15% | ≤ 5% | ❌ FAIL | +200% |
 | Startup FPS | 38 fps | ≥ 60 fps | ❌ FAIL | -37% |
 
-### �️ 3. IMAGE LOADING METRICS (8 metrics) - ✅ Đo lại mới
+### 🖼️ 3. IMAGE LOADING METRICS (8 metrics) - ✅ Đo lại mới
 | Chỉ số | Kết quả đo lại | Target | Trạng thái | Độ lệch |
 |--------|----------------|--------|------------|---------|
 | Small Image (50KB) | 180ms | ≤ 100ms | ❌ FAIL | +80% |
@@ -37,7 +37,7 @@
 | Progressive High Res | 2500ms | ≤ 600ms | ❌ FAIL | +317% |
 | Cached Load | 45ms | ≤ 50ms | ✅ PASS | Đạt chuẩn |
 
-### � 4. SCREEN RENDERING METRICS (15 metrics) - ✅ Đo lại mới
+### 📺 4. SCREEN RENDERING METRICS (15 metrics) - ✅ Đo lại mới
 | Chỉ số | Kết quả đo lại | Target | Trạng thái | Độ lệch |
 |--------|----------------|--------|------------|---------|
 | Main Screen Layout | 45ms | ≤ 50ms | ✅ PASS | Đạt chuẩn |
@@ -56,7 +56,7 @@
 | Chat Screen Image | 280ms | ≤ 250ms | ❌ FAIL | +12% |
 | Chat Screen Total | 580ms | ≤ 250ms | ❌ FAIL | +132% |
 
-### � 5. TOUCH RESPONSE METRICS (5 metrics) - ✅ Đo lại mới
+### 👆 5. TOUCH RESPONSE METRICS (5 metrics) - ✅ Đo lại mới
 | Chỉ số | Kết quả đo lại | Target | Trạng thái | Độ lệch |
 |--------|----------------|--------|------------|---------|
 | Touch Avg Latency | 1.2ms | ≤ 16ms | ✅ PASS | Tốt hơn 93% |
@@ -76,7 +76,7 @@
 | Avg Jank Time | 18.5ms | ≤ 25ms | ✅ PASS | Đạt chuẩn |
 | Max Jank Time | 20ms | ≤ 50ms | ✅ PASS | Đạt chuẩn |
 
-### � 7. SWIPE PERFORMANCE METRICS (5 metrics) - ✅ Đo lại mới
+### 💖 7. SWIPE PERFORMANCE METRICS (5 metrics) - ✅ Đo lại mới
 | Chỉ số | Kết quả đo lại | Target | Trạng thái | Độ lệch |
 |--------|----------------|--------|------------|---------|
 | Card Swipe Animation | 85ms | ≤ 100ms | ✅ PASS | Đạt chuẩn |
@@ -95,7 +95,7 @@
 | Image Upload API | 800ms | ≤ 500ms | ❌ FAIL | +60% |
 | Matches API Response | 160ms | ≤ 200ms | ✅ PASS | -20% |
 
-### � 9. CONNECTION QUALITY METRICS (4 metrics)
+### 📡 9. CONNECTION QUALITY METRICS (4 metrics)
 | Chỉ số | Kết quả cũ | Target | Trạng thái | Độ lệch |
 |--------|-------------|--------|------------|---------|
 | Connection Establishment | 50ms | ≤ 100ms | ✅ PASS | -50% |
