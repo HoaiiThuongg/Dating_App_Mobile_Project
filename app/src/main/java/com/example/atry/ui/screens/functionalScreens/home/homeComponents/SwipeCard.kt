@@ -1,3 +1,5 @@
+package com.example.atry.ui.screens.functionalScreens.home.homeComponents
+
 import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -24,6 +26,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -77,6 +80,7 @@ fun SwipeCard(
                     .offset { IntOffset(offsetX.value.toInt(), offsetY.value.toInt()) }
                     .rotate(offsetX.value / 30)
                     .clip(RoundedCornerShape(20.dp))
+                    .testTag("swipe_card:${user.userId}")
                     .pointerInput(Unit) {
                         detectDragGestures(
                             onDragEnd = {
@@ -140,7 +144,9 @@ fun SwipeCard(
 
                         ProfileImage(user)
                         ProfileInfo(
-                            modifier = Modifier.align(Alignment.BottomStart),
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .testTag("profile_info:${user.userId}"),
                             user,
                             profile
                         )

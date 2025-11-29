@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -82,14 +83,18 @@ fun Header(screenName: String,
             Image(
                 painter = painterResource(id = iconRes),
                 contentDescription = null,
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier
+                    .size(32.dp)
+                    .testTag("notification_icon"),
                 contentScale = ContentScale.Crop
             )
         }
 
 
         // noti icon
-        Box(modifier = Modifier.size(32.dp)) {
+        Box(modifier = Modifier
+            .size(32.dp)
+            .testTag("notification_icon")) {
             IconButton(
                 onClick = { onOpenNotification() },
                 modifier = Modifier.size(32.dp)
@@ -115,7 +120,8 @@ fun Header(screenName: String,
                         text = if (unreadCount > 99) "99+" else unreadCount.toString(),
                         color = Color.White,
                         fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.testTag("notification_badge_text")
                     )
                 }
             }

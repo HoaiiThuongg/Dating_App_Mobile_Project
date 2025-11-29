@@ -74,7 +74,7 @@ fun MainScaffold(
                     startDestination = selected
                 ) {
                     composable("home") { HomeScreen() }
-                    composable ("likeYou" ){ LikeYouScreen(alertViewModel=alertViewModel) }
+                    composable ("likeYou" ){ LikeYouScreen(alertViewModel =alertViewModel) }
                     composable("message") { MessageScreen() }
                     composable("profile") { MyProfileScreen() }
                 }

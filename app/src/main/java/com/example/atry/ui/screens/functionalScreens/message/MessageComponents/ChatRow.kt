@@ -25,16 +25,18 @@ import com.example.atry.backend.Message
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.functional.ChatItem
 import com.example.atry.viewmodel.functional.MessageViewModel
+import com.example.atry.ui.screens.functionalScreens.message.IMessageViewModel
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.atry.viewmodel.functional.MessageItem
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun ChatRow(
     chatItem: MessageItem, // Thay vì truyền matchedUser + lastMessage riêng lẻ
-    viewModel: MessageViewModel = viewModel()
+    viewModel: IMessageViewModel = viewModel<MessageViewModel>()
 ) {
     val fontWeight = if (chatItem.isRead) FontWeight.Normal else FontWeight.Bold
     val textColor = if (chatItem.isRead) Color(0xFFC4C4C4) else Color.Red

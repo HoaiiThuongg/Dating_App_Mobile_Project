@@ -24,13 +24,14 @@ import com.example.atry.ui.components.textfield.UnderlineTextField
 import com.example.atry.ui.screens.auth.AuthFormContainer
 import com.example.atry.ui.theme.redOrangeLinear
 import com.example.atry.viewmodel.composal.AlertViewModel
+import com.example.atry.ui.screens.auth.register.IRegisterViewModel
 import com.example.atry.viewmodel.auth.RegisterViewModel
 
 @Preview
 @Composable
 fun EmailInputScreen(
-    viewModel: RegisterViewModel =  viewModel(),
-    alertViewModel: AlertViewModel=viewModel()
+    viewModel: IRegisterViewModel = viewModel<RegisterViewModel>(),
+    alertViewModel: AlertViewModel = viewModel()
 ) {
         val state by viewModel.state.collectAsState()
 

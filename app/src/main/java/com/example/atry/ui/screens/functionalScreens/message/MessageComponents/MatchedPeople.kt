@@ -20,6 +20,7 @@ import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.functional.ChatItem
 import com.example.atry.viewmodel.functional.MessageItem
 import com.example.atry.viewmodel.functional.MessageViewModel
+import com.example.atry.ui.screens.functionalScreens.message.IMessageViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.StateFlow
 
@@ -27,7 +28,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun MatchedPeople(
     matchedUsers: List<MatchedUser>,
     chatList: List<MessageItem>,
-    messageViewModel: MessageViewModel,
+    messageViewModel: IMessageViewModel,
     onAvatarClick: (MatchedUser, MessageItem?) -> Unit
 ) {
 

@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
 
-class HomeViewModel : ViewModel() {
+open class HomeViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val mAuth = FirebaseAuth.getInstance()
     private val swipeService = SwipeService()
@@ -33,6 +33,10 @@ class HomeViewModel : ViewModel() {
 
     var isLoading: Boolean = false
         private set
+
+    protected fun setLoading(loading: Boolean) {
+        isLoading = loading
+    }
 
     init {
         loadMoreUsers()
@@ -55,7 +59,7 @@ class HomeViewModel : ViewModel() {
 
     var hasMore: Boolean = true
 
-    fun loadMoreUsers(limit: Int = 20) {
+    open fun loadMoreUsers(limit: Int = 20) {
         if (isLoading) return
 
         isLoading = true

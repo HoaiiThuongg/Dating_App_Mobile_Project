@@ -45,25 +45,31 @@ fun UnderlineTextField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
+    // THAY ĐỔI 1: Thêm 'modifier' để nhận testTag và các thuộc tính khác
+    modifier: Modifier = Modifier,
+    // THAY ĐỔI 2: Thêm 'enabled' để có thể vô hiệu hóa
+    enabled: Boolean = true,
     imeAction: ImeAction = ImeAction.Next,
     isPassword: Boolean = false
 ) {
-    var text by remember { mutableStateOf(value) }
+    // THAY ĐỔI 3: Loại bỏ 'var text' bên trong.
+    // Component này sẽ được kiểm soát hoàn toàn bởi 'value' được truyền vào.
     var passwordVisible by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(modifier = Modifier.fillMaxWidth()) {
 
         TextField(
-            value = text,
-            onValueChange = {
-                text = it
-                onValueChange(it)
-            },
+            // THAY ĐỔI 4: Sử dụng trực tiếp 'value' và 'onValueChange'
+            value = value,
+            onValueChange = onValueChange,
+            // THAY ĐỔI 5: Truyền 'enabled'
+            enabled = enabled,
             label = {
                 Text(
                     label,
-                    color = if (text.isNotEmpty()) Color(0xFFFF0468) else Color(0xFF3D3D3D),
+                    // THAY ĐỔI 6: Dùng 'value.isNotEmpty()'
+                    color = if (value.isNotEmpty()) Color(0xFFFF0468) else Color(0xFF3D3D3D),
                     modifier = Modifier.offset(x = (-15).dp)
                 )
             },
@@ -71,13 +77,17 @@ fun UnderlineTextField(
                 color = Color.Black,
                 fontSize = 16.sp
             ),
-            modifier = Modifier
+            // THAY ĐỔI 7: Áp dụng 'modifier' được truyền vào
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color(0xFFFF0468),
                 unfocusedIndicatorColor = Color(0xFFFF4081),
+                // Cập nhật màu khi bị vô hiệu hóa
                 disabledIndicatorColor = Color.Transparent,
+                disabledTextColor = Color.Gray,
+                disabledLabelColor = Color.Gray,
                 errorIndicatorColor = Color.Red,
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,

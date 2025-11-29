@@ -3,7 +3,6 @@ package com.example.atry.ui.screens.functionalScreens
 import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -20,10 +19,13 @@ import com.example.atry.ui.screens.functionalScreens.message.MessageComponents.C
 import com.example.atry.ui.screens.functionalScreens.message.MessageComponents.MatchedPeople
 import com.example.atry.ui.theme.primaryPurple
 import com.example.atry.viewmodel.functional.MessageViewModel
+import com.example.atry.ui.screens.functionalScreens.message.IMessageViewModel
+import androidx.compose.foundation.lazy.items
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.gson.Gson
 
 @Composable
-fun MessageScreen(viewModel: MessageViewModel = viewModel()) {
+fun MessageScreen(viewModel: IMessageViewModel = viewModel<MessageViewModel>()) {
     val state by viewModel.state.collectAsState()
     val chatList by viewModel.chatList.collectAsState()
 
@@ -69,8 +71,7 @@ fun MessageScreen(viewModel: MessageViewModel = viewModel()) {
                     modifier = Modifier
                         .fillMaxWidth() ,verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(chatList.size) { index ->
-                        val chatItem = chatList[index]
+                    items(chatList) { chatItem ->
                         ChatRow(chatItem = chatItem, viewModel = viewModel)
                     }
                 }

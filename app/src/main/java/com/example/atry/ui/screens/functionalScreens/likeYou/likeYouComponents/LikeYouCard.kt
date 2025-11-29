@@ -30,13 +30,14 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.atry.backend.User
 import com.example.atry.navigation.navController
 import com.example.atry.viewmodel.functional.LikeYouViewModel
+import com.example.atry.ui.screens.functionalScreens.likeYou.ILikeYouViewModel
 import com.google.gson.Gson
 
 @Composable
 fun LikeYouCard(
     user: User,
     onMatching: () -> Unit,
-    viewModel: LikeYouViewModel = viewModel()
+    viewModel: ILikeYouViewModel = viewModel<LikeYouViewModel>()
 ) {
 
     viewModel.getUserProfileById(user.userId)

@@ -82,9 +82,14 @@ public class UserProfile {
     // Tuổi tính từ dob
     public int getAge() {
         if (dob == null) return 0;
-        Date now = new Date();
-        int age = now.getYear() - dob.getYear();
-        if (now.getMonth() < dob.getMonth() || (now.getMonth() == dob.getMonth() && now.getDate() < dob.getDate())) {
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        java.util.Calendar birthDate = java.util.Calendar.getInstance();
+        birthDate.setTime(dob);
+        
+        int age = now.get(java.util.Calendar.YEAR) - birthDate.get(java.util.Calendar.YEAR);
+        if (now.get(java.util.Calendar.MONTH) < birthDate.get(java.util.Calendar.MONTH) || 
+            (now.get(java.util.Calendar.MONTH) == birthDate.get(java.util.Calendar.MONTH) && 
+             now.get(java.util.Calendar.DAY_OF_MONTH) < birthDate.get(java.util.Calendar.DAY_OF_MONTH))) {
             age--;
         }
         return age;
@@ -101,8 +106,10 @@ public class UserProfile {
     // Tính cung hoàng đạo từ dob
     public String getZodiacSign() {
         if (dob == null) return "";
-        int day = dob.getDate();
-        int month = dob.getMonth() + 1; // Month từ 0
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(dob);
+        int day = cal.get(java.util.Calendar.DAY_OF_MONTH);
+        int month = cal.get(java.util.Calendar.MONTH) + 1; // Month từ 0
         switch(month) {
             case 1: return day <= 19 ? "Ma Kết" : "Bảo Bình";
             case 2: return day <= 18 ? "Bảo Bình" : "Song Ngư";

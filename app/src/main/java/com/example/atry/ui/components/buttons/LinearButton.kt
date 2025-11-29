@@ -29,36 +29,55 @@ import com.example.atry.ui.theme.redGradientBrush
 fun CustomLinearButton(
     text: String,
     onClick: () -> Unit,
-    bgrColors: List<Color>,
-    textColor: Color
+    // THAY ĐỔI 1: Đổi tên 'bgrColors' thành 'gradient' để khớp với lời gọi
+    gradient: List<Color>,
+    textColor: Color,
+    // THAY ĐỔI 2: Thêm 'modifier' và 'enabled'
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
+    // THAY ĐỔI 3: Thêm logic alpha cho trạng thái disabled/pressed
+    val disabledAlpha = 0.3f
+    val currentAlpha = if (enabled) 1f else disabledAlpha
+    val pressedAlpha = if (enabled) 0.7f else disabledAlpha
+
     val brush = if (isPressed) {
         Brush.linearGradient(
-            colors = bgrColors.map { it.copy(alpha = 0.7f) }
+            // Áp dụng alpha khi nhấn
+            colors = gradient.map { it.copy(alpha = pressedAlpha) }
         )
     } else {
         Brush.linearGradient(
-            colors = bgrColors
+            // Áp dụng alpha khi enabled/disabled
+            colors = gradient.map { it.copy(alpha = currentAlpha) }
         )
     }
 
     Box(
-        modifier = Modifier
+        // THAY ĐỔI 4: Áp dụng 'modifier'
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .height(50.dp)
             .clip(RoundedCornerShape(50))
-            .background(brush) // 🩵 gradient background nè
-            .clickable { onClick() },
+            .background(brush)
+            // THAY ĐỔI 5: Áp dụng 'enabled' cho 'clickable'
+            .clickable(
+                enabled = enabled,
+                interactionSource = interactionSource,
+                indication = null, // Vô hiệu hóa hiệu ứng ripple
+                onClick = onClick
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
             style = TextStyle(
-                color = textColor,
+                // THAY ĐỔI 6: Áp dụng alpha cho text khi disabled
+                color = textColor.copy(alpha = currentAlpha),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )

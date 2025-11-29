@@ -54,7 +54,7 @@ fun ChatScreen(
 
     val listState = rememberLazyListState()
     val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
-
+    
     val uiState by viewModel.uiState.collectAsState()
     val matchedUser = uiState.matchedUser
     val context = LocalContext.current
